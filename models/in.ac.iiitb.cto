@@ -76,6 +76,7 @@ abstract asset AuctionItem identified by auctionItemId {
    o Double totalQuantity
    o Double quantitySold   
    o DateTime lastBidTimestamp optional   
+   o DateTime auctionStartTime optional
    o AUCTION_ITEM_STATUS status
    --> Item item
    --> Seller seller
@@ -86,16 +87,16 @@ abstract asset Auction identified by auctionId {
   o AUCTION_STATUS status
   o String description optional
   --> Buyer[] buyers
-  --> Seller[] sellers
+  --> Seller seller
   //--> Auctioneer auctioneer
 }
-
+/*
 abstract asset auctionContract identified by contractId {
   o String contractId
   o DateTime auctionStartTime
   --> Seller seller
 }
-
+*/
  asset Item identified by itemId {
    o String itemId
    o String name
@@ -108,38 +109,24 @@ abstract asset auctionContract identified by contractId {
  */
 
 asset EnglishAuction extends Auction {
-  --> EnglishAuctionItem[] auctionItems
-}
-
-
-asset EnglishAuctionBid extends Bid {
-  /**
-  o String bidId
-  o String bidValue
-  --> Buyer buyer
-  */
   --> EnglishAuctionItem auctionItem
 }
 
-asset EnglishAuctionItem extends AuctionItem {
-   /**
-   o String auctionItemId
-   o Double basePrice
-   o Double totalQuantity
-   o Double quantitySold   
-   o AUCTION_ITEM_STATUS status
-   --> Item item
-   --> Seller seller
-   */
+asset EnglishAuctionBid extends Bid {
   --> EnglishAuction auction
+  //--> EnglishAuctionItem auctionItem
+}
+
+asset EnglishAuctionItem extends AuctionItem {
+  //--> EnglishAuction auction
   --> EnglishAuctionBid currentMaxBid optional
   --> EnglishAuctionBid[] bids   
  }
-
+/*
 asset EnglishAuctionContract extends auctionContract {
   --> EnglishAuctionItem[] auctionItems
 }
-
+*/
 /**
   Concepts
  */
