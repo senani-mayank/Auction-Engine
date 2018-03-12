@@ -157,6 +157,6 @@ transaction EnglishAuctionItemSold extends ItemSold {
   --> EnglishAuctionBid winningBid
 }
 
-transaction StopEnglishAuction {
-  --> EnglishAuction auction
+transaction StopAuction {
+  --> Auction auction
 }
