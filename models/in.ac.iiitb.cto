@@ -88,7 +88,7 @@ abstract asset Auction identified by auctionId {
   o String description optional
   o DateTime lastBidTimestamp optional   
   o DateTime auctionStartTime optional
-  o DateTime auctionEndTime
+  o DateTime auctionEndTime optional
   --> Buyer[] buyers
   --> Seller seller
   //--> Auctioneer auctioneer
