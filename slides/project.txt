@@ -1,0 +1,33 @@
+Here are the possible projects, for the 5 blockchain teams.  I ask all these teams to go over this first, before meeting me tomorrow to finalize their topics.
+
+Some students have expressed interest in particular topics and this will be respected to the extent possible, but each blockchain team must work on a separate project, with no code shared. 
+
+Project #2 will be jointly supervised by Prof. Srinath Srinivasa and Gooru Labs, and Projects #5(a) and #5(b) will involve interaction with IDRBT, Hyderabad.
+
+(1) Fake news and spam: use a blockchain-based distributed ledger that can source e-mail or news accurately.
+
+(2) Preventing the dissemination of private data: use the Many Worlds Framework in conjunction with blockchain, to address the problem of uncontrolled dissemination of private data.
+
+(3) Preventing misuse of online credentials: currently, online credentials (including UID/Aadhaar) can be misused.  Create a blockchain implementation that is secure against such.
+
+(4) Distributed auction engine: currently, auctions are centralized and conducted by auctioneers.  Create a distributed implementation where buyers, sellers, and auctioneer are all distributed and use the blockchain.
+
+(5) ML using blockchain: (two projects)
+
+(a) To uncover money laundering and fraud:
+
+Money laundering consists of the conversion of proceeds of illegal or criminal activities to "clean" funds that appear to have come from legitimate sources.  This happens to the extent of 2-5% of global GDP, or $1-2 trillion annually, but only about 1% of illicit finances worldwide are trapped by regulatory authorities.
+
+Money laundering is done in many different ways, but the general idea seems to be that the "dirty" money, which is usually in the form of cash, is first inserted into the system at some suitable location (e.g., a compromised bank), then moved around (e.g., using shell companies or other means), changed in form (e.g., by purchase of high-value assets like real estate, jewelry, etc.), or broken up into smaller parts.
+
+After this, the money is no longer in the form of a hoard of suspect cash, and appears clean.  It can then be used in the regular banking system.
+
+The tell-tale sign here is that a money launderer or owner of the ill-gotten wealth is often willing to incur significant (above market rate) losses, for the benefit of laundering the money.  (This is just as a thief is usually willing to sell a stolen item for far less than its market value.)
+
+This can be discovered, using blockchain along with AI and ML.  The use of blockchain would create a persistent, tamper-proof record of the transactions, which can then be mined (in near real-time, as well as later) using fairly standard ML tools and algorithms to identify suspect transactions.  In many cases, the use of ML can also help flag transactions that can later be further scrutinized by human experts.
+
+(b) Automatic assessment of borrower performance for syndication/participation:
+
+The work here is to use smart contracts (rather than the conventional legal contracts) for real-time clearing and settlement of syndicated deals. Additionally, ML algorithms are to be used for evaluating probability of default, with results published over blockchain to all participants.
+
+For more details, see document blockchain_ML.docx.
