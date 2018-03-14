@@ -1,5 +1,5 @@
 /**
- * Sample business network definition.
+ * Contains basic Elements
  */
 namespace IN.AC.IIITB
 
@@ -40,15 +40,6 @@ participant User identified by userId {
   o String firstName
   o String lastName
 }
-
-
-/**
-  participant Auctioneer identified by auctioneerId {
-    o String auctioneerId
-    --> User user
-  }
- */
-
 
 participant Seller identified by sellerId {
   o String sellerId
@@ -93,13 +84,7 @@ abstract asset Auction identified by auctionId {
   --> Seller seller
   //--> Auctioneer auctioneer
 }
-/*
-abstract asset auctionContract identified by contractId {
-  o String contractId
-  o DateTime auctionStartTime
-  --> Seller seller
-}
-*/
+
  asset Item identified by itemId {
    o String itemId
    o String name
@@ -107,31 +92,6 @@ abstract asset auctionContract identified by contractId {
    o String description optional
  }
 
-/**
-  English Auction Assets
- */
-
-asset EnglishAuction extends Auction {
-  --> EnglishAuctionItem auctionItem
-  --> EnglishAuctionBid[] bids
-  --> EnglishAuctionBid currentMaxBid optional
-}
-
-asset EnglishAuctionBid extends Bid {
-  --> EnglishAuction auction
-  //--> EnglishAuctionItem auctionItem
-}
-
-asset EnglishAuctionItem extends AuctionItem {
-  //--> EnglishAuction auction
-  //--> EnglishAuctionBid currentMaxBid optional
-  //--> EnglishAuctionBid[] bids   
- }
-/*
-asset EnglishAuctionContract extends auctionContract {
-  --> EnglishAuctionItem[] auctionItems
-}
-*/
 /**
   Concepts
  */
@@ -142,19 +102,6 @@ asset EnglishAuctionContract extends auctionContract {
  */
 abstract transaction ItemSold {
   --> Buyer soldToBuyer
-}
-
-transaction StartEnglishAuction {
-  --> EnglishAuction auction
-}
-
-transaction PlaceEnglishAuctionBid {
-  --> EnglishAuctionBid bid
-}
-
-transaction EnglishAuctionItemSold extends ItemSold {
-  --> EnglishAuction auction
-  --> EnglishAuctionBid winningBid
 }
 
 transaction StopAuction {

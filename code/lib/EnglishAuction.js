@@ -1,15 +1,18 @@
+/**
+ * Business Logic For English Auction
+ */
 'use strict';
 
 var EnglishAuctiontimeoutInterval = 1000;
 
 
 /**Invkkoked when an english auction bid is places
- * @param {IN.AC.IIITB.PlaceEnglishAuctionBid} placeBidTransaction
+ * @param {IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid} placeBidTransaction
  * @transaction
  */
 function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     console.log("onEnglishAuctionBidPlaced", placeBidTransaction);
-    var NS = "IN.AC.IIITB";
+    var NS = "IN.AC.IIITB.EnglishAuction";
     var bid = placeBidTransaction.bid;
     var buyer = bid.buyer;
     var auction = bid.auction;
@@ -37,10 +40,16 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         return;
     }
     else {
+
+        if( !auction.lastBidTimestamp ){
+            auction.lastBidTimestamp =  placeBidTransaction.timestamp;
+        }
+
 		console.log("andar aaya..!");
         timeoutTime =  new Date( auction.lastBidTimestamp );
         timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
-		console.log("bas andar hi aaya..!");
+        console.log("bas andar hi aaya..!");
+
         if( auction.lastBidTimestamp && ( now >= timeoutTime ) ){//if last bid was placed 2 minutes before
             console.log("Time Out Has Occured, item is sold");
             console.log(timeoutTime.getTime() , now);
@@ -89,12 +98,12 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 }
 
 /**Invoked start the auction
- * @param {IN.AC.IIITB.StartEnglishAuction} startAuction
+ * @param {IN.AC.IIITB.EnglishAuction.StartEnglishAuction} startAuction
  * @transaction
  */
 function onEnglishAuctionStart( startAuction ) {
   
-    var NS = "IN.AC.IIITB";
+    var NS = "IN.AC.IIITB.EnglishAuction";
     var auction = startAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -127,12 +136,12 @@ function onEnglishAuctionStart( startAuction ) {
 }//end startEnglishAuction
 
 /**Invoked start the auction, assume auction status is set to finished
- * @param {IN.AC.IIITB.EnglishAuctionItemSold} itemSold
+ * @param {IN.AC.IIITB.EnglishAuction.EnglishAuctionItemSold} itemSold
  * @transaction
  */
 function onItemSold( itemSold ) {
   
-    var NS = "IN.AC.IIITB";
+    var NS = "IN.AC.IIITB.EnglishAuction";
     var winningBid = itemSold.winningBid;
     var winner = itemSold.soldToBuyer;
     var auction = itemSold.auction;
@@ -171,12 +180,12 @@ function onItemSold( itemSold ) {
 }//end startEnglishAuction
 
 /**Invoked start the auction
- * @param {IN.AC.IIITB.StopAuction} stopAuction
+ * @param {IN.AC.IIITB.EnglishAuction.StopEnglishAuction} stopAuction
  * @transaction
  */
-function stopAuctionF( stopAuction ) {
+function stopEnglishAuction( stopAuction ) {
   
-    var NS = "IN.AC.IIITB";
+    var NS = "IN.AC.IIITB.EnglishAuction";
     var auction = stopAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -189,13 +198,13 @@ function stopAuctionF( stopAuction ) {
     }
 
     auction.status = "FINISHED";
-    auction.auctionStopTime = stopAuction.timestamp;
+    auction.auctionEndTime = stopAuction.timestamp;
 
     return  getAssetRegistry( NS + '.EnglishAuction' )//update auctionItem status
             .then(function ( englishAuctionRegistry ) {
                 console.log("Auction Updated Successfully.!");
                 return englishAuctionRegistry.update( auction );
-            })
+            });
 
 
 }//end startEnglishAuction

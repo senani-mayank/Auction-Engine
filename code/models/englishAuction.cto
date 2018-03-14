@@ -1,0 +1,55 @@
+
+/**
+ * Contains English Auction Elements
+ */
+namespace IN.AC.IIITB.EnglishAuction
+
+import IN.AC.IIITB.*
+
+/**
+  English Auction Assets
+ */
+
+asset EnglishAuction extends Auction {
+  --> EnglishAuctionItem auctionItem
+  --> EnglishAuctionBid[] bids
+  --> EnglishAuctionBid currentMaxBid optional
+}
+
+asset EnglishAuctionBid extends Bid {
+  --> EnglishAuction auction
+  //--> EnglishAuctionItem auctionItem
+}
+
+asset EnglishAuctionItem extends AuctionItem {
+  //--> EnglishAuction auction
+  //--> EnglishAuctionBid currentMaxBid optional
+  //--> EnglishAuctionBid[] bids   
+ }
+
+
+/**
+  Concepts
+ */
+
+
+/**
+  Transactions
+ */
+
+transaction StartEnglishAuction {
+  --> EnglishAuction auction
+}
+
+transaction PlaceEnglishAuctionBid {
+  --> EnglishAuctionBid bid
+}
+
+transaction EnglishAuctionItemSold extends ItemSold {
+  --> EnglishAuction auction
+  --> EnglishAuctionBid winningBid
+}
+
+transaction StopEnglishAuction {
+  --> EnglishAuction auction
+}
