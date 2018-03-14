@@ -66,8 +66,8 @@ abstract asset AuctionItem identified by auctionItemId {
    o Double basePrice
    o Double totalQuantity
    o Double quantitySold   
-   o DateTime lastBidTimestamp optional   
-   o DateTime auctionStartTime optional
+   //o DateTime lastBidTimestamp optional   
+   //o DateTime auctionStartTime optional
    o AUCTION_ITEM_STATUS status
    --> Item item
    --> Seller seller
