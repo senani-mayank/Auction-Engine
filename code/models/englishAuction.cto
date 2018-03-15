@@ -14,6 +14,7 @@ asset EnglishAuction extends Auction {
   --> EnglishAuctionItem auctionItem
   --> EnglishAuctionBid[] bids
   --> EnglishAuctionBid currentMaxBid optional
+  --> EnglishAuctionBid winnerBid //bid contains bidder name also
 }
 
 asset EnglishAuctionBid extends Bid {
@@ -44,7 +45,7 @@ transaction PlaceEnglishAuctionBid {
 
 transaction EnglishAuctionItemSold extends ItemSold {
   --> EnglishAuction auction
-  --> EnglishAuctionBid winningBid
+  --> EnglishAuctionBid winnerBid
 }
 
 transaction StopEnglishAuction extends StopAuction {

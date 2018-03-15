@@ -175,39 +175,33 @@ function stopEnglishAuction( stopAuction ) {
 function onItemSold( itemSold ) {
   
     var NS = "IN.AC.IIITB.EnglishAuction";
-    var winningBid = itemSold.winningBid;
-    var winner = itemSold.soldToBidder;
+    var winnerBid = itemSold.winnerBid;
     var auction = itemSold.auction;
     var auctionItem = auction.auctionItem;
 
-    auctionItem.status = "SOLD";
-    auctionItem.purchaser = winner;//set who won this auction;
-    auctionItem.sellPrice = winningBid.bidValue;//set winning bid amount
-
-    if( auction.status == "FINISHED" ){
-        console.log("Auction is ALready Over");
-        return "Auction is ALready Over...!";
+    if( auction.status == "CREATED" ){
+        console.log("Auction is not started yet..!");
+        return "Auction is not started yet..!";
     }
     else if( auction.status == "IN_PROGRESS" ){
-        console.log("Auction is ALready Running");
-        return "Auction is Already Running...!";
+        console.log("Auction is IN_PROGRESS");
+        return "Auction is IN_PROGRESS";
     }
 
    // auction.status = "CLOSED";
    // auction.auctionItem.auctionEndTime = itemSold.timestamp;
-    auction.auctionItem.status = "SOLD";
-
+    auctionItem.status = "SOLD";
+    auction.winnerBid = winnerBid;
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistery ) {
                 console.log("1");
                 return englishAuctionItemRegistery.update( auctionItem );
-            });
-  /*            .then(function(){
+            })
+            .then(function(){
                 return getAssetRegistry( NS + '.EnglishAuction' );
             })
-          .then(function( englishAuctionRegistry ){
+           .then(function( englishAuctionRegistry ){
                 console.log("2");
                 return englishAuctionRegistry.update( auction );
             });
-*/
 }//end startEnglishAuction
