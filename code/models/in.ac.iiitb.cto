@@ -64,8 +64,8 @@ abstract asset Bid identified by bidId {
 abstract asset AuctionItem identified by auctionItemId {
    o String auctionItemId
    o Double basePrice
-   o Double totalQuantity
-   o Double quantitySold   
+  // o Double totalQuantity
+  // o Double quantitySold   
    //o DateTime lastBidTimestamp optional   
    //o DateTime auctionStartTime optional
    o AUCTION_ITEM_STATUS status
