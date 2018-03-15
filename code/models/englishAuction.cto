@@ -18,13 +18,10 @@ asset EnglishAuction extends Auction {
 
 asset EnglishAuctionBid extends Bid {
   --> EnglishAuction auction
-  //--> EnglishAuctionItem auctionItem
 }
 
 asset EnglishAuctionItem extends AuctionItem {
-  //--> EnglishAuction auction
-  //--> EnglishAuctionBid currentMaxBid optional
-  //--> EnglishAuctionBid[] bids   
+
  }
 
 
@@ -50,6 +47,6 @@ transaction EnglishAuctionItemSold extends ItemSold {
   --> EnglishAuctionBid winningBid
 }
 
-transaction StopEnglishAuction {
+transaction StopEnglishAuction extends StopAuction {
   --> EnglishAuction auction
 }

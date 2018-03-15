@@ -8,6 +8,8 @@ namespace IN.AC.IIITB
  */
 enum AUCTION_TYPE {
   o ENGLISH
+  o REVERSE
+  o KTH_PRICE
 }
 
 enum AUCTION_STATUS {
@@ -23,13 +25,13 @@ enum AUCTION_ITEM_STATUS {
   o UNSOLD
 }
 
-
+/*
 enum ITEM_UNIT {
   o Gallons
   o Meter
   o Units
 }
-
+*/
 /**
   All Participants of our Network
  */
@@ -41,13 +43,13 @@ participant User identified by userId {
   o String lastName
 }
 
-participant Seller identified by sellerId {
-  o String sellerId
+participant Auctioneer identified by auctioneerId {
+  o String auctioneerId
   --> User user
 }
 
-participant Buyer identified by buyerId {
-  o String buyerId
+participant Bidder identified by bidderId {
+  o String bidderId
   --> User user
 }
 
@@ -58,19 +60,19 @@ participant Buyer identified by buyerId {
 abstract asset Bid identified by bidId {
   o String bidId
   o String bidValue
-  --> Buyer buyer
+  --> Bidder bidder
 }
 
 abstract asset AuctionItem identified by auctionItemId {
    o String auctionItemId
-   o Double basePrice
+   o Double basePrice //controversial in case of reverse
   // o Double totalQuantity
   // o Double quantitySold   
    //o DateTime lastBidTimestamp optional   
    //o DateTime auctionStartTime optional
    o AUCTION_ITEM_STATUS status
    --> Item item
-   --> Seller seller
+   //--> Auctioneer auctioneer //owner in our case
  }
 
 abstract asset Auction identified by auctionId {
@@ -80,16 +82,16 @@ abstract asset Auction identified by auctionId {
   o DateTime lastBidTimestamp optional   
   o DateTime auctionStartTime optional
   o DateTime auctionEndTime optional
-  --> Buyer[] buyers
-  --> Seller seller
-  //--> Auctioneer auctioneer
+  //--> Bidder[] bidders
+  --> Auctioneer auctioneer
+  //--> AuctionItem auctionItem
 }
 
  asset Item identified by itemId {
    o String itemId
    o String name
-   o ITEM_UNIT unit   
-   o String description optional
+  // o ITEM_UNIT unit   
+   o String description
  }
 
 /**
@@ -101,9 +103,9 @@ abstract asset Auction identified by auctionId {
   Transactions
  */
 abstract transaction ItemSold {
-  --> Buyer soldToBuyer
+  --> Bidder soldToBidder
 }
 
-transaction StopAuction {
-  --> Auction auction
+abstract transaction StopAuction {
+  
 }

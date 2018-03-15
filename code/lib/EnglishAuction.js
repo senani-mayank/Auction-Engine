@@ -14,7 +14,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     console.log("onEnglishAuctionBidPlaced", placeBidTransaction);
     var NS = "IN.AC.IIITB.EnglishAuction";
     var bid = placeBidTransaction.bid;
-    var buyer = bid.buyer;
+    var bidder = bid.bidder;
     var auction = bid.auction;
     var auctionItem = auction.auctionItem;
     var bidValue = bid.bidValue;
@@ -135,6 +135,39 @@ function onEnglishAuctionStart( startAuction ) {
 
 }//end startEnglishAuction
 
+
+/**Invoked stop the auction
+ * @param {IN.AC.IIITB.EnglishAuction.StopEnglishAuction} stopAuction
+ * @transaction
+ */
+function stopEnglishAuction( stopAuction ) {
+  
+    var NS = "IN.AC.IIITB.EnglishAuction";
+    var auction = stopAuction.auction;
+
+    if( auction.status == "FINISHED" ){
+        console.log("Auction is ALready Over");
+        return "Auction is ALready Over...!";
+    }
+    else if( auction.status == "CREATED" ){
+        console.log("Auction is Not Started Yet");
+        return "Auction is Not Started Yet...!";
+    }
+
+    auction.status = "FINISHED";
+    auction.auctionEndTime = stopAuction.timestamp;
+
+    return  getAssetRegistry( NS + '.EnglishAuction' )//update auctionItem status
+            .then(function ( englishAuctionRegistry ) {
+                console.log("Auction Updated Successfully.!");
+                return englishAuctionRegistry.update( auction );
+            });
+
+
+}//end startEnglishAuction
+
+
+
 /**Invoked start the auction, assume auction status is set to finished
  * @param {IN.AC.IIITB.EnglishAuction.EnglishAuctionItemSold} itemSold
  * @transaction
@@ -143,7 +176,7 @@ function onItemSold( itemSold ) {
   
     var NS = "IN.AC.IIITB.EnglishAuction";
     var winningBid = itemSold.winningBid;
-    var winner = itemSold.soldToBuyer;
+    var winner = itemSold.soldToBidder;
     var auction = itemSold.auction;
     var auctionItem = auction.auctionItem;
 
@@ -177,34 +210,4 @@ function onItemSold( itemSold ) {
                 return englishAuctionRegistry.update( auction );
             });
 */
-}//end startEnglishAuction
-
-/**Invoked start the auction
- * @param {IN.AC.IIITB.EnglishAuction.StopEnglishAuction} stopAuction
- * @transaction
- */
-function stopEnglishAuction( stopAuction ) {
-  
-    var NS = "IN.AC.IIITB.EnglishAuction";
-    var auction = stopAuction.auction;
-
-    if( auction.status == "FINISHED" ){
-        console.log("Auction is ALready Over");
-        return "Auction is ALready Over...!";
-    }
-    else if( auction.status == "CREATED" ){
-        console.log("Auction is Not Started Yet");
-        return "Auction is Not Started Yet...!";
-    }
-
-    auction.status = "FINISHED";
-    auction.auctionEndTime = stopAuction.timestamp;
-
-    return  getAssetRegistry( NS + '.EnglishAuction' )//update auctionItem status
-            .then(function ( englishAuctionRegistry ) {
-                console.log("Auction Updated Successfully.!");
-                return englishAuctionRegistry.update( auction );
-            });
-
-
 }//end startEnglishAuction
