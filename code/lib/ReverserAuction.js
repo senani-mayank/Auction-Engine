@@ -145,8 +145,6 @@ function stopReverseAuction( stopAuction ) {
     var NS = "IN.AC.IIITB.ReverseAuction";
     var auction = stopAuction.auction;
 
-    if(auctionItem.status =)
-
     if( auction.status == "FINISHED" ){
         console.log("Auction is ALready Over");
         return "Auction is ALready Over...!";

@@ -6,8 +6,6 @@
  import  IN.AC.IIITB.*
 
 
-
-
 /**
   Reverse Auction Assets
  */
@@ -16,6 +14,8 @@ asset ReverseAuction extends Auction {
   --> ReverseAuctionItem auctionItem
   --> ReverseAuctionBid[] bids
   --> ReverseAuctionBid currentMINBid optional
+
+        // currentMINBid = baseprice; //discuss to mayank
 }
 
 asset ReverseAuctionBid extends Bid {

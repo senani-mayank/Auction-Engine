@@ -78,8 +78,9 @@ abstract asset AuctionItem identified by auctionItemId {
 abstract asset Auction identified by auctionId {
   o String auctionId
   o AUCTION_STATUS status
-  o String description optional
-  o DateTime lastBidTimestamp optional   
+  o AUCTION_TYPE type
+  o String description 
+  o DateTime lastBidTimestamp optional   //what use
   o DateTime auctionStartTime optional
   o DateTime auctionEndTime optional
   //--> Bidder[] bidders
