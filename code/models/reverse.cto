@@ -1,0 +1,54 @@
+
+/**
+ * Contains Reverse Auction Elements
+ */
+ namespace IN.AC.IIITB.ReverseAuction
+ import  IN.AC.IIITB.*
+
+
+
+
+/**
+  Reverse Auction Assets
+ */
+
+asset ReverseAuction extends Auction {
+  --> ReverseAuctionItem auctionItem
+  --> ReverseAuctionBid[] bids
+  --> ReverseAuctionBid currentMINBid optional
+}
+
+asset ReverseAuctionBid extends Bid {
+  --> ReverseAuction auction
+}
+
+asset ReverseAuctionItem extends AuctionItem {
+
+ }
+
+
+/**
+  Concepts
+ */
+
+
+/**
+  Transactions
+ */
+
+transaction StartReverseAuction {
+  --> ReverseAuction auction
+}
+
+transaction PlaceReverseAuctionBid {
+  --> ReverseAuctionBid bid
+}
+
+transaction ReverseAuctionItemSold extends ItemSold {
+  --> ReverseAuction auction
+  --> ReverseAuctionBid winningBid
+}
+
+transaction StopReverseAuction extends StopAuction {
+  --> ReverseAuction auction
+}
