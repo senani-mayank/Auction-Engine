@@ -11,12 +11,10 @@
         </div>
     
         <div class='collapse navbar-collapse'>
-        <ul class='nav navbar-nav navbar-right'>
-            <li><a href=''>Link</a></li>
-            <li><a href=''>Link</a></li>
-            <li><a href=''>Link</a></li>
-            <li><a href=''>Link</a></li>
-        </ul>
+            <ul class='nav navbar-nav navbar-right'>
+                <li ng-repeat = "obj in navbarOptions"><a href="" ng-click=changeState(obj.state)>{{obj.name}}</a></li>
+            </ul>
         </div>
+        
     </div>
 </nav>

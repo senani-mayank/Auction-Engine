@@ -1,5 +1,5 @@
 var app = angular.module('AuctionApp');
-app.controller('indexCtrl', function($scope) {
+app.controller('indexCtrl', function($scope, $state) {
     $(function(){
         //to apply affix to topnavbar
         $('.navbar').affix({
@@ -7,5 +7,20 @@ app.controller('indexCtrl', function($scope) {
             /* Affix the navbar after scroll below header */
             top: $("header").outerHeight(true)}
         });
+
+        var navbarOptions = [];
+        navbarOptions.push( { "name" : "View Auctions", "state" : "home" } );
+        navbarOptions.push( { "name" : "Create Auction", "state" : "createAuction" } );
+        navbarOptions.push( { "name" : "Join Auction", "state" : "joinAuction" } );
+        
+        
+        function changeState( state ){
+            $state.go(state);
+        }
+        
+        $scope.navbarOptions = navbarOptions;
+        $scope.changeState = changeState;
+
+
     });
 });

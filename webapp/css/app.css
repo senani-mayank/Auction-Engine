@@ -4,6 +4,8 @@
 .login-form {
     width: 340px;
     margin: 50px auto;
+    margin-top: 130px;
+    
 }
 .login-form form {
     margin-bottom: 15px;
@@ -49,4 +51,8 @@
 /* Padding for a smoth affix */
 .affix + .container-fluid {
   padding-top: 72px;
+}
+
+.maindiv {
+    margin-top: 60px;
 }

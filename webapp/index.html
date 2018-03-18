@@ -22,12 +22,14 @@
         <script type="text/javascript" src="/controller/LoadingCtrl.js"></script>
         <script type="text/javascript" src="/controller/LoginCtrl.js"></script>        
         <script type="text/javascript" src="/controller/HomeCtrl.js"></script>   
+        <script type="text/javascript" src="/controller/JoinAuctionCtrl.js"></script>
+        <script type="text/javascript" src="/controller/CreateAuctionCtrl.js"></script>
 
     </head>
 
     <body ng-app="AuctionApp" ng-controller="indexCtrl">
         <div  ng-include="'views/TopNavbar.html'"></div>
-        <div ui-view></div>
+        <div ui-view class="maindiv" ></div>
         <div ng-include="'views/Footer.html'">
     </body>
 

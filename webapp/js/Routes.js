@@ -34,6 +34,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
         url: "/home",
         templateUrl: "/views/Home.html",
         controller: 'homeCtrl'
+      })
+      .state('createAuction', {
+        url: "/createAuction",
+        templateUrl: "/views/CreateAuction.html",
+        controller: 'createAuctionCtrl'
+      })
+      .state('joinAuction', {
+        url: "/joinAuction",
+        templateUrl: "/views/JoinAuction.html",
+        controller: 'joinAuctionCtrl'
       });
       $urlRouterProvider.otherwise("/");
   });
