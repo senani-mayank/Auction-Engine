@@ -13,7 +13,7 @@
 asset ReverseAuction extends Auction {
   --> ReverseAuctionItem auctionItem
   --> ReverseAuctionBid[] bids
-  --> ReverseAuctionBid currentMINBid optional
+  --> ReverseAuctionBid currentMinBid optional
 
         // currentMINBid = baseprice; //discuss to mayank
 }

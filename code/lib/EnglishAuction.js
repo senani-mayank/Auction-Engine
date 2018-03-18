@@ -23,7 +23,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         console.log("Auction Has Not Started Yet..!");
         return "Auction Has Not Started Yet..!";
     }
-    else if( auction.status == "CLOSED" ){
+    else if( auction.status == "FINISHED" ){
         console.log("This Auction is Over..!");
         return "This Auction is Over..!";
     }
@@ -58,8 +58,8 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         else{
             //if current bid is > maxbid till now
           	console.log("lo jee else mai bhi aaya");
-            if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid > bidValue ) ){
-                auction.currentMaxBid = bid;
+            if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid.bidValue < bidValue ) ){
+                auction.currentMaxBid.bidValue = bidValue;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
                 auction.bids.push( bid );
                 return updateAssets( auction );
@@ -121,9 +121,9 @@ function onEnglishAuctionStart( startAuction ) {
     auction.auctionItem.status = "AUCTIONING";
 
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
-            .then(function ( englishAuctionItemRegistery ) {
+            .then(function ( englishAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
-                return englishAuctionItemRegistery.update( auction.auctionItem );
+                return englishAuctionItemRegistry.update( auction.auctionItem );
             })
             .then(function(){
                 return getAssetRegistry( NS + '.EnglishAuction' );
@@ -193,9 +193,9 @@ function onItemSold( itemSold ) {
     auctionItem.status = "SOLD";
     auction.winnerBid = winnerBid;
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
-            .then(function ( englishAuctionItemRegistery ) {
+            .then(function ( englishAuctionItemRegistry ) {
                 console.log("1");
-                return englishAuctionItemRegistery.update( auctionItem );
+                return englishAuctionItemRegistry.update( auctionItem );
             })
             .then(function(){
                 return getAssetRegistry( NS + '.EnglishAuction' );

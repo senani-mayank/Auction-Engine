@@ -23,7 +23,7 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
         console.log("Auction Has Not Started Yet..!");
         return "Auction Has Not Started Yet..!";
     }
-    else if( auction.status == "CLOSED" ){
+    else if( auction.status == "FINISHED" ){
         console.log("This Auction is Over..!");
         return "This Auction is Over..!";
     }
@@ -58,8 +58,8 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
         else{
             //if current bid is > maxbid till now
           	console.log("lo jee else mai bhi aaya");
-            if(  ( !auction.currentMinBid ) ||  ( auction.currentMinBid > bidValue ) ){
-                auction.currentMinBid = bidvalue;
+            if(  ( !auction.currentMinBid ) ||  ( auction.currentMinBid.bidValue > bidValue ) ){
+                auction.currentMinBid.bidValue = bidValue;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
                 auction.bids.push( bid );
                 return updateAssets( auction );
@@ -76,10 +76,10 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
     function updateAssets( auction, auctionItem ){
 
         return getAssetRegistry( NS + '.ReverseAuction' )
-        .then(function ( ReverseAuctionRegistery ) {
+        .then(function ( ReverseAuctionRegistry ) {
             // add the temp reading to the shipment
             console.log("Auction Updated Successfully.!");
-            return ReverseAuctionRegistery.update( auction );
+            return ReverseAuctionRegistry.update( auction );
         });
         /*
         .then(function() {
@@ -121,9 +121,9 @@ function onReverseAuctionStart( startAuction ) {
     auction.auctionItem.status = "AUCTIONING";
 
     return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
-            .then(function ( ReverseAuctionItemRegistery ) {
+            .then(function ( ReverseAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
-                return ReverseAuctionItemRegistery.update( auction.auctionItem );
+                return ReverseAuctionItemRegistry.update( auction.auctionItem );
             })
             .then(function(){
                 return getAssetRegistry( NS + '.ReverseAuction' );
@@ -198,9 +198,9 @@ function onItemSold( itemSold ) {
     auction.auctionItem.status = "SOLD";
 
     return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
-            .then(function ( ReverseAuctionItemRegistery ) {
+            .then(function ( ReverseAuctionItemRegistry ) {
                 console.log("1");
-                return ReverseAuctionItemRegistery.update( auctionItem );
+                return ReverseAuctionItemRegistry.update( auctionItem );
             });
   /*            .then(function(){
                 return getAssetRegistry( NS + '.ReverseAuction' );
