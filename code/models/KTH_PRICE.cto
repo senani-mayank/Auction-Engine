@@ -1,0 +1,54 @@
+
+/* *
+ * Contains Kth Price Elements
+ */
+ 
+namespace IN.AC.IIITB.KthPriceAuction
+
+import IN.AC.IIITB.*
+
+/**
+  Kth price Auction Assets
+ */
+
+asset KTH_PRICE extends Auction {
+  --> KTH_PRICEItem auctionItem
+  --> KTH_PRICEBid[] bids
+  --> KTH_PRICEBid currentMaxBid optional
+  --> KTH_PRICEBid winnerBid //bid contains bidder name also
+}
+
+asset KTH_PRICEBid extends Bid {
+  --> KTH_PRICE auction
+}
+
+asset KTH_PRICEItem extends AuctionItem {
+
+ }
+
+
+/**
+  Concepts
+ */
+
+
+/**
+  Transactions
+ */
+
+transaction StartKTH_PRICE {
+  --> KTH_PRICE auction
+}
+
+transaction PlaceKTH_PRICEAuctionBid {
+  --> KTH_PRICEBid bid
+}
+
+transaction KTH_PRICEItemSold extends ItemSold {
+  --> KTH_PRICE auction
+  --> KTH_PRICEBid winnerBid
+}
+
+transaction StopKTH_PRICE extends StopAuction {
+  --> KTH_PRICE auction
+}
