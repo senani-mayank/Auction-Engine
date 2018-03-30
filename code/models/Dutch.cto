@@ -1,0 +1,54 @@
+
+/**
+ * Contains Dutch Auction Elements
+ */
+ namespace IN.AC.IIITB.DutchAuction
+ import  IN.AC.IIITB.*
+
+
+/**
+  Dutch Auction Assets
+ */
+
+asset DutchAuction extends Auction {
+  --> DutchAuctionItem auctionItem
+  --> DutchAuctionBid[] bids
+  --> DutchAuctionBid currentMinBid optional
+
+        // currentMINBid = baseprice; //discuss to mayank
+}
+
+asset DutchAuctionBid extends Bid {
+  --> DutchAuction auction
+}
+
+asset DutchAuctionItem extends AuctionItem {
+
+ }
+
+
+/**
+  Concepts
+ */
+
+
+/**
+  Transactions
+ */
+
+transaction StartDutchAuction {
+  --> DutchAuction auction
+}
+
+transaction AcceptDutchAuctionBid {
+  --> DutchAuctionBid bid
+}
+
+transaction DutchAuctionItemSold extends ItemSold {
+  --> DutchAuction auction
+  --> DutchAuctionBid winningBid
+}
+
+transaction StopDutchAuction extends StopAuction {
+  --> DutchAuction auction
+}

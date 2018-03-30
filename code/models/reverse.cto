@@ -19,6 +19,7 @@ asset ReverseAuction extends Auction {
 }
 
 asset ReverseAuctionBid extends Bid {
+  o String bidValue
   --> ReverseAuction auction
 }
 
