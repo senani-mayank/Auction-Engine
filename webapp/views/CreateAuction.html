@@ -1,0 +1,25 @@
+<div class="login-form">
+        <form ng-submit="onAuctionSubmit(  )" >
+            <h4 class="text-left">Select Auction Type</h4>       
+            <div class="form-group">
+                <select class="form-control" ng-options="auction as auction.name for auction in auctionTypes track by auction.auctionId" ng-model="selectdAuction"></select>                
+            </div>
+            <h4 class="text-left">Auction Name</h4>   
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="name" ng-model="auctionName" required="required">
+            </div>
+            <h4 class="text-left">Auction Description</h4>   
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="write description" ng-model="auctionDescription" required="required">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block mt">Create Auction</button>
+            </div>
+            <!--
+            <div class="clearfix">
+                <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+            </div>
+        -->        
+        </form>
+</div>
+<!-- https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=simple-login-form -->

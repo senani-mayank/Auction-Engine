@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
-  
-<div class="container">
-  <h1>My First Bootstrap Page</h1>
-  <p>This part is inside a .container class.</p> 
-  <p>The .container class provides a responsive fixed width container.</p>           
-</div>
 
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Auction Engine</title>
+        <!--  vendor css and js files -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>         
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+        
+        <!-- App CSS Files  -->
+        <link rel="stylesheet" href="css/app.css">        
+
+        <!--  App Controllers and other JS files  -->
+        <script type="text/javascript" src="/js/Routes.js"></script>
+        <script type="text/javascript" src="/controller/IndexCtrl.js"></script>
+        <script type="text/javascript" src="/controller/LoadingCtrl.js"></script>
+        <script type="text/javascript" src="/controller/LoginCtrl.js"></script>        
+        <script type="text/javascript" src="/controller/HomeCtrl.js"></script>   
+        <script type="text/javascript" src="/controller/JoinAuctionCtrl.js"></script>
+        <script type="text/javascript" src="/controller/CreateAuctionCtrl.js"></script>
+
+    </head>
+
+    <body ng-app="AuctionApp" ng-controller="indexCtrl">
+        <div  ng-include="'views/TopNavbar.html'"></div>
+        <div ui-view class="maindiv" ></div>
+        <div ng-include="'views/Footer.html'">
+    </body>
+
 </html>
-
