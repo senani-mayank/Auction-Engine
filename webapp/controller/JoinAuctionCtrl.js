@@ -1,12 +1,17 @@
 var app = angular.module('AuctionApp');
-app.controller('joinAuctionCtrl', function( $scope, $state) {
-    var auctions = [ { "name" : "auction1", "auctionId" : "1" }, { "name" : "auction2", "auctionId" : "2" }, { "name" : "auction3", "auctionId" : "3" } ];
-    
+
+app.controller('joinAuctionCtrl', ['$scope', '$state', 'dataFactory', 
+function ($scope, $state, dataFactory) {
+
+    var loggedInUser = dataFactory.getLoggedInUser();
+
     function onBidSubmit( auction, bidValue ){
         alert( JSON.stringify(auction) + "----->" + bidValue );
     }
     
-    $scope.auctions = auctions;
+    $scope.currentMaxBid = 34343.344;
+
+    $scope.auctions = dummtAuctions;
     $scope.onBidSubmit = onBidSubmit;
     
-});
+}]);

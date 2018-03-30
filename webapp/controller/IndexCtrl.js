@@ -1,6 +1,7 @@
 var app = angular.module('AuctionApp');
 app.controller('indexCtrl', function($scope, $state) {
     $(function(){
+
         //to apply affix to topnavbar
         $('.navbar').affix({
           offset: {
