@@ -10,6 +10,7 @@ enum AUCTION_TYPE {
   o ENGLISH
   o REVERSE
   o KTH_PRICE
+  o DUTCH
 }
 
 enum AUCTION_STATUS {
@@ -59,7 +60,6 @@ participant Bidder identified by bidderId {
 
 abstract asset Bid identified by bidId {
   o String bidId
-  o String bidValue
   --> Bidder bidder
 }
 

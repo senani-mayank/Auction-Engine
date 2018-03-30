@@ -1,22 +1,22 @@
 /**
- * Business Logic For Kth Price Auction
+ * Business Logic For Reverse Auction
  */
 'use strict';
 
-var KTH_PRICEtimeoutInterval = 1000;
+var ReverseAuctiontimeoutInterval = 1000;
 
 
-/**Invkkoked when an english auction bid is places
- * @param {IN.AC.IIITB.KTH_PRICE.PlaceKTH_PRICEAuctionBid} placeBidTransaction
+/**Invkkoked when an Reverse auction bid is places
+ * @param {IN.AC.IIITB.ReverseAuction.PlaceReverseAuctionBid} placeBidTransaction
  * @transaction
  */
-function onKTH_PRICEBidPlaced( placeBidTransaction ) {
-    console.log("onKTH_PRICEBidPlaced", placeBidTransaction);
-    var NS = "IN.AC.IIITB.KTH_PRICE";
+function onReverseAuctionBidPlaced( placeBidTransaction ) {
+    console.log("onReverseAuctionBidPlaced", placeBidTransaction);
+    var NS = "IN.AC.IIITB.ReverseAuction";
     var bid = placeBidTransaction.bid;
     var bidder = bid.bidder;
     var auction = bid.auction;
-    var auctionItem = auction.auctionItem ;
+    var auctionItem = auction.auctionItem;
     var bidValue = bid.bidValue;
 
     if( auction.status == "CREATED" ){
@@ -75,20 +75,20 @@ function onKTH_PRICEBidPlaced( placeBidTransaction ) {
 
     function updateAssets( auction, auctionItem ){
 
-        return getAssetRegistry( NS + '.KTH_PRICE' )
-        .then(function ( KTH_PRICEAuctionRegistery ) {
+        return getAssetRegistry( NS + '.ReverseAuction' )
+        .then(function ( ReverseAuctionRegistery ) {
             // add the temp reading to the shipment
             console.log("Auction Updated Successfully.!");
-            return KTH_PRICEAuctionRegistery.update( auction );
+            return ReverseAuctionRegistery.update( auction );
         });
         /*
         .then(function() {
-            return getAssetRegistry( NS + '.EnglishAuctionItem' );
+            return getAssetRegistry( NS + '.ReverseAuctionItem' );
         })
-        .then(function( englishAuctionItemRegistery ) {
+        .then(function( ReverseAuctionItemRegistery ) {
             // add the temp reading to the shipment
             console.log("Bid Placed Successfully.!");
-            return englishAuctionItemRegistery.update(auctionItem);
+            return ReverseAuctionItemRegistery.update(auctionItem);
         });
         */
         
@@ -98,12 +98,12 @@ function onKTH_PRICEBidPlaced( placeBidTransaction ) {
 }
 
 /**Invoked start the auction
- * @param {IN.AC.IIITB.KTH_PRICE.StartKTH_PRICE} startAuction
+ * @param {IN.AC.IIITB.ReverseAuction.StartReverseAuction} startAuction
  * @transaction
  */
-function onKTH_PRICEStart( startAuction ) {
+function onReverseAuctionStart( startAuction ) {
   
-    var NS = "IN.AC.IIITB.KTH_PRICE";
+    var NS = "IN.AC.IIITB.ReverseAuction";
     var auction = startAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -120,29 +120,29 @@ function onKTH_PRICEStart( startAuction ) {
     //auction.auctionItem.auctionStartTime = startAuction.timestamp;//remove it later
     auction.auctionItem.status = "AUCTIONING";
 
-    return  getAssetRegistry( NS + '.KTH_PRICEItem' )//update auctionItem status
-            .then(function ( KTH_PRICEAuctionItemRegistry ) {
+    return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
+            .then(function ( ReverseAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
-                return KTH_PRICEAuctionItemRegistry.update( auction.auctionItem );
+                return ReverseAuctionItemRegistry.update( auction.auctionItem );
             })
             .then(function(){
-                return getAssetRegistry( NS + '.KTH_PRICE' );
+                return getAssetRegistry( NS + '.ReverseAuction' );
             })
-            .then(function( KTH_PRICEAuctionRegistry ){
+            .then(function( ReverseAuctionRegistry ){
                 console.log("Auction Updated Successfully.!");
-                return KTH_PRICEAuctionRegistry.update( auction );
+                return ReverseAuctionRegistry.update( auction );
             });
 
-}//end startEnglishAuction
+}//end startReverseAuction
 
 
 /**Invoked stop the auction
- * @param {IN.AC.IIITB.KTH_PRICE.StopKTH_PRICE} stopAuction
+ * @param {IN.AC.IIITB.ReverseAuction.StopReverseAuction} stopAuction
  * @transaction
  */
-function stopKTH_PRICE( stopAuction ) {
+function stopReverseAuction( stopAuction ) {
   
-    var NS = "IN.AC.IIITB.KTH_PRICE";
+    var NS = "IN.AC.IIITB.ReverseAuction";
     var auction = stopAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -157,24 +157,24 @@ function stopKTH_PRICE( stopAuction ) {
     auction.status = "FINISHED";
     auction.auctionEndTime = stopAuction.timestamp;
 
-    return  getAssetRegistry( NS + '.KTH_PRICE' )//update auctionItem status
-            .then(function ( KTH_PRICEAuctionRegistry ) {
+    return  getAssetRegistry( NS + '.ReverseAuction' )//update auctionItem status
+            .then(function ( ReverseAuctionRegistry ) {
                 console.log("Auction Updated Successfully.!");
-                return KTH_PRICEAuctionRegistry.update( auction );
+                return ReverseAuctionRegistry.update( auction );
             });
 
 
-}//end startEnglishAuction
+}//end startReverseAuction
 
 
 
 /**Invoked start the auction, assume auction status is set to finished
- * @param {IN.AC.IIITB.KTH_PRICE.KTH_PRICEItemSold} itemSold
+ * @param {IN.AC.IIITB.ReverseAuction.ReverseAuctionItemSold} itemSold
  * @transaction
  */
 function onItemSold( itemSold ) {
   
-    var NS = "IN.AC.IIITB.KTH_PRICE";
+    var NS = "IN.AC.IIITB.ReverseAuction";
     var winnerBid = itemSold.winnerBid;
     var auction = itemSold.auction;
     var auctionItem = auction.auctionItem;
@@ -192,16 +192,16 @@ function onItemSold( itemSold ) {
    // auction.auctionItem.auctionEndTime = itemSold.timestamp;
     auctionItem.status = "SOLD";
     auction.winnerBid = winnerBid;
-    return  getAssetRegistry( NS + '.KTH_PRICEItem' )//update auctionItem status
-            .then(function ( KTH_PRICEAuctionItemRegistry ) {
+    return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
+            .then(function ( ReverseAuctionItemRegistry ) {
                 console.log("1");
-                return KTH_PRICEAuctionItemRegistry.update( auctionItem );
+                return ReverseAuctionItemRegistry.update( auctionItem );
             })
             .then(function(){
-                return getAssetRegistry( NS + '.KTH_PRICE' );
+                return getAssetRegistry( NS + '.ReverseAuction' );
             })
-           .then(function( KTH_PRICEAuctionRegistry ){
+           .then(function( ReverseAuctionRegistry ){
                 console.log("2");
-                return KTH_PRICEAuctionRegistry.update( auction );
+                return ReverseAuctionRegistry.update( auction );
             });
-}//end startKTH_PRICE
+}//end startReverseAuction
