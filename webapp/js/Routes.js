@@ -35,6 +35,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         templateUrl: "/views/Home.html",
         controller: 'homeCtrl'
       })
+      .state('createItem', {
+        url: "/createItem",
+        templateUrl: "/views/CreateItem.html",
+        controller: 'createItemCtrl'
+      })      
       .state('createAuction', {
         url: "/createAuction",
         templateUrl: "/views/CreateAuction.html",
