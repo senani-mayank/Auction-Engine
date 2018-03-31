@@ -3,8 +3,7 @@
  * Contains Kth Price Elements
  */
  
-namespace IN.AC.IIITB.KthPriceAuction
-
+namespace IN.AC.IIITB.KTH_PRICE
 import IN.AC.IIITB.*
 
 /**
