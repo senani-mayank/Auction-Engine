@@ -7,33 +7,49 @@ function ($scope, $state, dataFactory) {
     $scope.auctionTypes = dataFactory.getAuctionTypes();
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
-    $scope.selectdAuction = undefined;
+    $scope.selectedAuction = undefined;
     $scope.selectedAuctionType = $scope.auctionTypes[0];
 
     function onBidSubmit( auction, bidValue ){
 
-        var bidType = $scope.selectedAuctionType.name + "Bid";
-        var bidder = loggedInUser.userId;
-        var bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
-        var data = dataFactory.getBidObject( auction, bidId, bidValue, bidder );
+        var auction = $scope.selectedAuction;
+        var bidType = $scope.selectedAuctionType.name;
+        var bidder = {};
+        var bidId = {};
+        var data = JSON.parse(JSON.stringify(englishAuctionBidTemplate));
+        
+        if( $scope.selectedAuctionType.name == "EnglishAuction" ){
+            bidType = bidType + "Bid";
+            data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
+            data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
+            data.bidValue = bidValue;
+            data.auction = "resource:" + $scope.selectedAuction["$class"] + "#" + $scope.selectedAuction.auctionId;
+        }
+
 
         var createBidRes = dataFactory.postResource( bidType, data );//create bid
         createBidRes.then(function successCallback(response) {
+          //  aleret("bid created successsfully");
+            console.log("bid place successfully..", response);
             submitBid( auction, response.data );
         }, function errorCallback(response) {
             console.log("Error Create Bids", response );
 
-        }); 
+    }); 
         
-        function submitBid( auction, bid ){
+        function submitBid( auction, bid ){//submit bid after it is created
 
-            var transactionId = bid.bidId + "t";
-            var data = dataFactory.getPlaceBidObj(auction, bid, transactionId);
+            //var transactionId = bid.bidId + "t";
+            var placeBidType = "Place" + bidType;//create full name of url
+            var data = JSON.parse(JSON.stringify(englishAuctionPlaceBidTemplate));
+            data.bid = "resource:" + bid["$class"] + "#" + bid.bidId;
 
-            var placeBidRes = dataFactory.postResource( bidType, data );//place bid after creating
+            var placeBidRes = dataFactory.postResource( placeBidType, data );//place bid after creating
                 placeBidRes.then(function successCallback(response) {
+                    alert("bid created successsfully");
                     console.log("bid placed sucessfully", response);
                 }, function errorCallback(response) {
+                    alert("bid place failed");
                     console.log("Error Place Bids", response );
         
                 });             

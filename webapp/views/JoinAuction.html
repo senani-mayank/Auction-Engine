@@ -1,12 +1,12 @@
 <div class="login-form">
-        <form ng-submit="onBidSubmit( selectdAuction, bidValue )" >
+        <form ng-submit="onBidSubmit( selectedAuction, bidValue )" >
             <h4 class="text-left">Select Auction Type</h4>       
             <div class="form-group">
                 <select class="form-control" ng-model="selectedAuctionType" ng-change="onAuctionTypeChange( selectedAuctionType )"  ng-options="auctionT as auctionT.name for auctionT in auctionTypes track by auctionT.name" ></select>                
             </div>            
             <h4 class="text-left">Select Auction</h4>       
             <div class="form-group">
-                <select class="form-control" ng-options="auction as auction.auctionId for auction in auctions track by auction.auctionId" ng-model="selectdAuction"></select>                
+                <select class="form-control" ng-options="auction as auction.auctionId for auction in auctions track by auction.auctionId" ng-model="selectedAuction"></select>                
             </div>
             <h4 class="text-left">Insert Bid</h4>   
             <div class="form-group">
