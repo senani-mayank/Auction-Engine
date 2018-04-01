@@ -1,4 +1,6 @@
-var baseUrl = "http://34.212.20.227:3000/api";
+var baseUrl = "http://54.213.119.102:3000/api";
+var NS = "IN.AC.IIITB";
+
 var auctionTypes = [ 
                     { name : "<-- Select Auction Type -->", auctionTypeId : "at0" },
                     { name : "EnglishAuction", auctionTypeId : "at1" },
@@ -6,13 +8,6 @@ var auctionTypes = [
                     { name : "DutchAuction", auctionTypeId : "at3" }, 
                     { name : "KthPriceAuction", auctionTypeId : "at4" }                   
                 ];
-
- var placeEngAuctionBidTemplate =  {
-        "$class": "IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid",
-        "bid": {},
-        "transactionId": ""//,
-       // "timestamp": "2018-03-30T21:06:18.555Z"
-        };
 
 var userPostTemplate = {
     "$class": "IN.AC.IIITB.User",
@@ -52,9 +47,9 @@ var englishItemPostTemplate = {
 var englishAuctionPostTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuction",
   "auctionItem": {},
-  "bids": [
-    {}
-  ],
+  //"bids": [
+  //  {}
+  //],
   //"currentMaxBid": {},
   //"winnerBid": {},
   "auctionId": "string",
@@ -65,6 +60,22 @@ var englishAuctionPostTemplate = {
   //"auctionStartTime": "2018-03-31T12:25:07.176Z",
   //"auctionEndTime": "2018-03-31T12:25:07.176Z",
   "auctioneer": {}
+};
+
+var englishAuctionBidTemplate = {
+  "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuctionBid",
+  "bidValue": "string",
+  "auction": {},
+  "bidId": "string",
+  "bidder": {}
+};
+
+
+var englishAuctionPlaceBidTemplate = {
+  "$class": "IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid",
+  "bid": {},
+  //"transactionId": "string",
+  //"timestamp": "2018-04-01T05:54:25.687Z"
 };
 
 dummyUser = {  userId : 34, biddingId : 343, auctioneerId : 234   };

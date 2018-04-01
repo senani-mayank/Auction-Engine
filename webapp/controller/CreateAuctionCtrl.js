@@ -16,7 +16,7 @@ function ($scope, $state, dataFactory) {
             data.auctionItem = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.auctionItemId;
             data.description = $scope.auctionDescription;
             data.auctionId = $scope.auctionId;
-            data.auctioneer = "resource:" + loggedInUser["$class"] + "#" + loggedInUser.userId;
+            data.auctioneer = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
         }
 
 

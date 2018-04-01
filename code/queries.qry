@@ -1,0 +1,6 @@
+query getEnglishAuctionByAuctioneerId {
+  description: "Get English Auctions By Auctioneer Id"
+  statement: 
+    SELECT IN.AC.IIITB.EnglishAuction.EnglishAuction
+      WHERE ( auctioneer == _$auctioneer )
+}
