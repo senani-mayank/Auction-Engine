@@ -16,7 +16,7 @@ function onKTH_PRICEBidPlaced( placeBidTransaction ) {
     var bid = placeBidTransaction.bid;
     var bidder = bid.bidder;
     var auction = bid.auction;
-    var auctionItem = auction.auctionItem;
+    var auctionItem = auction.auctionItem ;
     var bidValue = bid.bidValue;
 
     if( auction.status == "CREATED" ){

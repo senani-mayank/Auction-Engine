@@ -13,9 +13,9 @@ import IN.AC.IIITB.*
 
 asset EnglishAuction extends Auction {
   --> EnglishAuctionItem auctionItem
-  --> EnglishAuctionBid[] bids
+  --> EnglishAuctionBid[] bids optional
   --> EnglishAuctionBid currentMaxBid optional
-  --> EnglishAuctionBid winnerBid //bid contains bidder name also
+  --> EnglishAuctionBid winnerBid optional //bid contains bidder name also
 }
 
 asset EnglishAuctionBid extends Bid {

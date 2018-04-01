@@ -2,11 +2,15 @@
         <form ng-submit="onAuctionSubmit(  )" >
             <h4 class="text-left">Select Auction Type</h4>       
             <div class="form-group">
-                <select class="form-control" ng-options="auction as auction.name for auction in auctionTypes track by auction.auctionId" ng-model="selectdAuction"></select>                
+                <select class="form-control" ng-model="selectedAuctionType" ng-change="onAuctionTypeChange( selectedAuctionType )"  ng-options="auctionT as auctionT.name for auctionT in auctionTypes track by auctionT.name" ></select>                
             </div>
-            <h4 class="text-left">Auction Name</h4>   
+            <h4 class="text-left">Select Auction Item</h4>       
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="name" ng-model="auctionName" required="required">
+                <select class="form-control" ng-model="selectedItem"  ng-options="si as si.auctionItemId for si in items track by si.itemId" ></select>                
+            </div>           
+            <h4 class="text-left">Auction Id</h4>   
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="auctionId" ng-model="auctionId" required="required">
             </div>
             <h4 class="text-left">Auction Description</h4>   
             <div class="form-group">

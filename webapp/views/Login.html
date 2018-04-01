@@ -1,20 +1,29 @@
 <div class="login-form">
-        <form action="onLoginClick()" >
-            <h2 class="text-center">Log in</h2>       
+        <form ng-submit="onLoginClick()" >
+            <h2 class="text-center">Log in/Register</h2>       
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Username" required="required">
+                <input type="text" ng-model="user.userId" class="form-control" placeholder="UserId" required="required">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" required="required">
+                <input type="password" ng-model="user.password" class="form-control" placeholder="Password" required="required">
             </div>
+            <div ng-show = "user.register ">               
+                <div class="form-group">
+                    <input type="text" ng-model="user.firstName" class="form-control" placeholder="First Name">
+                </div>      
+                <div class="form-group">
+                    <input type="text" ng-model="user.lastName" class="form-control" placeholder="Last Name">
+                </div>    
+                <div class="form-group">
+                    <input type="text" ng-model="user.email" class="form-control" placeholder="Email">
+                </div>  
+            </div>                           
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                <button type="submit" class="btn btn-primary btn-block">{{ user.register ? "Register" : "Login" }}</button>
             </div>
             <div class="clearfix">
-                <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
-                <a href="#" class="pull-right">Forgot Password?</a>
+                <label class="pull-left checkbox-inline"><input ng-model="user.register" type="checkbox"> Register</label>
             </div>        
         </form>
-        <p class="text-center"><a href="#">Create an Account</a></p>    
 </div>
 <!-- https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=simple-login-form -->

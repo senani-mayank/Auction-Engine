@@ -21,11 +21,11 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
     if( auction.status == "CREATED" ){
         console.log("Auction Has Not Started Yet..!");
-        return "Auction Has Not Started Yet..!";
+        throw new Error("Auction Has Not Started Yet..!");
     }
     else if( auction.status == "FINISHED" ){
         console.log("This Auction is Over..!");
-        return "This Auction is Over..!";
+        throw new Error("This Auction is Over..!");
     }
 
     //check if auction should be closed
@@ -34,10 +34,9 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
 
     if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
-        console.log("no bid placed and auction time is up, item unsold");
+        throw new Error("no bid placed and auction time is up, item unsold");
       	console.log(now," -> ",timeoutTime );
       	console.log("auction",auction);
-        return;
     }
     else {
 
@@ -45,15 +44,12 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             auction.lastBidTimestamp =  placeBidTransaction.timestamp;
         }
 
-		console.log("andar aaya..!");
         timeoutTime =  new Date( auction.lastBidTimestamp );
         timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
-        console.log("bas andar hi aaya..!");
 
         if( auction.lastBidTimestamp && ( now >= timeoutTime ) ){//if last bid was placed 2 minutes before
-            console.log("Time Out Has Occured, item is sold");
+            throw new Error("Time Out Has Occured, item is sold");
             console.log(timeoutTime.getTime() , now);
-            return;
         }
         else{
             //if current bid is > maxbid till now
@@ -66,7 +62,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             }
             else{
                 console.log("Your Bid Should Be Grater than Current Max Bid.!");
-                return "Your Bid Should Be Grater than Current Max Bid.";
+                throw new Error ("Your Bid Should Be Grater than Current Max Bid.");
             }
            
         }    
