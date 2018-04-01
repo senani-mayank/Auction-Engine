@@ -13,9 +13,6 @@
 asset DutchAuction extends Auction {
   --> DutchAuctionItem auctionItem
   --> DutchAuctionBid[] bids
-  --> DutchAuctionBid currentMinBid optional
-
-        // currentMINBid = baseprice; //discuss to mayank
 }
 
 asset DutchAuctionBid extends Bid {

@@ -1,19 +1,19 @@
 /**
- * Business Logic For Reverse Auction
+ * Business Logic For Dutch Auction
  */
 'use strict';
 
-var ReverseAuctiontimeoutInterval = 1000;
+var DutchAuctiontimeoutInterval = 1000;
 
 
-/**Invkkoked when an Reverse auction bid is places
- * @param {IN.AC.IIITB.ReverseAuction.PlaceReverseAuctionBid} placeBidTransaction
+/**Invkkoked when an Dutch auction bid is accepts
+ * @param {IN.AC.IIITB.DutchAuction.AcceptDutchAuctionBid} closeBidTransaction
  * @transaction
  */
-function onReverseAuctionBidPlaced( placeBidTransaction ) {
-    console.log("onReverseAuctionBidPlaced", placeBidTransaction);
-    var NS = "IN.AC.IIITB.ReverseAuction";
-    var bid = placeBidTransaction.bid;
+function onDutchAuctionAccept( closeBidTransaction ) {
+    console.log("onDutchAuctionBidacceptd", closeBidTransaction);
+    var NS = "IN.AC.IIITB.DutchAuction"; 
+    var bid = closeBidTransaction.bid;
     var bidder = bid.bidder;
     var auction = bid.auction;
     var auctionItem = auction.auctionItem;
@@ -28,13 +28,12 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
         return "This Auction is Over..!";
     }
 
-    //check if auction should be closed
-    var now = placeBidTransaction.timestamp;
+    var now = acceptBidTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
-    timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
+    timeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );
 
-    if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
-        console.log("no bid placed and auction time is up, item unsold");
+    if( ( auction.lastBidTimestamp ) || ( now >= timeoutTime ) ){//no bid & times up
+        console.log("no bid acceptd and auction time is up, item unsold");
       	console.log(now," -> ",timeoutTime );
       	console.log("auction",auction);
         return;
@@ -42,68 +41,44 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
     else {
 
         if( !auction.lastBidTimestamp ){
-            auction.lastBidTimestamp =  placeBidTransaction.timestamp;
+            auction.lastBidTimestamp =  acceptBidTransaction.timestamp;
         }
 
-		console.log("andar aaya..!");
-        timeoutTime =  new Date( auction.lastBidTimestamp );
-        timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
-        console.log("bas andar hi aaya..!");
+        console.log("bid recieved !! no further bids accepted");
 
-        if( auction.lastBidTimestamp && ( now >= timeoutTime ) ){//if last bid was placed 2 minutes before
-            console.log("Time Out Has Occured, item is sold");
-            console.log(timeoutTime.getTime() , now);
-            return;
-        }
-        else{
-            //if current bid is > maxbid till now
-          	console.log("lo jee else mai bhi aaya");
-            if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid.bidValue < bidValue ) ){
-                auction.currentMaxBid.bidValue = bidValue;
-                auction.lastBidTimestamp = placeBidTransaction.timestamp;
-                auction.bids.push( bid );
-                return updateAssets( auction );
-            }
-            else{
-                console.log("Your Bid Should Be Grater than Current Max Bid.!");
-                return "Your Bid Should Be Grater than Current Max Bid.";
-            }
-           
-        }    
 
-    }
+       /* my logic for dutch decrement (if needed) 
 
-    function updateAssets( auction, auctionItem ){
 
-        return getAssetRegistry( NS + '.ReverseAuction' )
-        .then(function ( ReverseAuctionRegistery ) {
-            // add the temp reading to the shipment
-            console.log("Auction Updated Successfully.!");
-            return ReverseAuctionRegistery.update( auction );
-        });
-        /*
-        .then(function() {
-            return getAssetRegistry( NS + '.ReverseAuctionItem' );
-        })
-        .then(function( ReverseAuctionItemRegistery ) {
-            // add the temp reading to the shipment
-            console.log("Bid Placed Successfully.!");
-            return ReverseAuctionItemRegistery.update(auctionItem);
-        });
+        var bidtimediff = Double( now - auction.auctionStartTime);
+        var bidactualprice=  ((20 - bidtimediff)%2) * auctionItem.basePrice;
+        auction.bid.bidValue= bidactualprice;
+
+
         */
         
+                auction.currentMaxBid.bidValue = bidValue;
+                auction.bids.push( bid );
+                return getAssetRegistry( NS + '.DutchAuction' )
+                .then(function ( DutchAuctionRegistry ) {
+                    console.log("Auction Updated Successfully.!");
+                    return DutchAuctionRegistry.update( auction );
+                });  
+        }
     }
+    
 
 
-}
+
+
 
 /**Invoked start the auction
- * @param {IN.AC.IIITB.ReverseAuction.StartReverseAuction} startAuction
+ * @param {IN.AC.IIITB.DutchAuction.StartDutchAuction} startAuction
  * @transaction
  */
-function onReverseAuctionStart( startAuction ) {
+function onDutchAuctionStart( startAuction ) {
   
-    var NS = "IN.AC.IIITB.ReverseAuction";
+    var NS = "IN.AC.IIITB.DutchAuction";
     var auction = startAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -119,30 +94,32 @@ function onReverseAuctionStart( startAuction ) {
     auction.auctionStartTime = startAuction.timestamp;
     //auction.auctionItem.auctionStartTime = startAuction.timestamp;//remove it later
     auction.auctionItem.status = "AUCTIONING";
-
-    return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
-            .then(function ( ReverseAuctionItemRegistry ) {
+    
+   return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
+            .then(function ( DutchAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
-                return ReverseAuctionItemRegistry.update( auction.auctionItem );
+                return DutchAuctionItemRegistry.update( auction.auctionItem );
             })
             .then(function(){
-                return getAssetRegistry( NS + '.ReverseAuction' );
+                return getAssetRegistry( NS + '.DutchAuction' );
             })
-            .then(function( ReverseAuctionRegistry ){
+            .then(function( DutchAuctionRegistry ){
                 console.log("Auction Updated Successfully.!");
-                return ReverseAuctionRegistry.update( auction );
+                return DutchAuctionRegistry.update( auction );
             });
+    
+            
 
-}//end startReverseAuction
+}//end startDutchAuction
 
 
 /**Invoked stop the auction
- * @param {IN.AC.IIITB.ReverseAuction.StopReverseAuction} stopAuction
+ * @param {IN.AC.IIITB.DutchAuction.StopDutchAuction} stopAuction
  * @transaction
  */
-function stopReverseAuction( stopAuction ) {
+function stopDutchAuction( stopAuction ) {
   
-    var NS = "IN.AC.IIITB.ReverseAuction";
+    var NS = "IN.AC.IIITB.DutchAuction";
     var auction = stopAuction.auction;
 
     if( auction.status == "FINISHED" ){
@@ -157,24 +134,24 @@ function stopReverseAuction( stopAuction ) {
     auction.status = "FINISHED";
     auction.auctionEndTime = stopAuction.timestamp;
 
-    return  getAssetRegistry( NS + '.ReverseAuction' )//update auctionItem status
-            .then(function ( ReverseAuctionRegistry ) {
+    return  getAssetRegistry( NS + '.DutchAuction' )//update auctionItem status
+            .then(function ( DutchAuctionRegistry ) {
                 console.log("Auction Updated Successfully.!");
-                return ReverseAuctionRegistry.update( auction );
+                return DutchAuctionRegistry.update( auction );
             });
 
 
-}//end startReverseAuction
+}//end stopDutchAuction
 
 
 
 /**Invoked start the auction, assume auction status is set to finished
- * @param {IN.AC.IIITB.ReverseAuction.ReverseAuctionItemSold} itemSold
+ * @param {IN.AC.IIITB.DutchAuction.DutchAuctionItemSold} itemSold
  * @transaction
  */
 function onItemSold( itemSold ) {
   
-    var NS = "IN.AC.IIITB.ReverseAuction";
+    var NS = "IN.AC.IIITB.DutchAuction";
     var winnerBid = itemSold.winnerBid;
     var auction = itemSold.auction;
     var auctionItem = auction.auctionItem;
@@ -192,16 +169,16 @@ function onItemSold( itemSold ) {
    // auction.auctionItem.auctionEndTime = itemSold.timestamp;
     auctionItem.status = "SOLD";
     auction.winnerBid = winnerBid;
-    return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
-            .then(function ( ReverseAuctionItemRegistry ) {
+    return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
+            .then(function ( DutchAuctionItemRegistry ) {
                 console.log("1");
-                return ReverseAuctionItemRegistry.update( auctionItem );
+                return DutchAuctionItemRegistry.update( auctionItem );
             })
             .then(function(){
-                return getAssetRegistry( NS + '.ReverseAuction' );
+                return getAssetRegistry( NS + '.DutchAuction' );
             })
-           .then(function( ReverseAuctionRegistry ){
+           .then(function( DutchAuctionRegistry ){
                 console.log("2");
-                return ReverseAuctionRegistry.update( auction );
+                return DutchAuctionRegistry.update( auction );
             });
-}//end startReverseAuction
+}//end itemsold
