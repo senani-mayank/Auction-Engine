@@ -52,7 +52,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
                 auction.currentMaxBid = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
-                if( !auction.bids ){ // iif bids array is not initialized
+                if( !auction.bids ){ // if bids array is not initialized
                     auction.bids = [];
                 }
                 auction.bids.push( bid );
@@ -72,7 +72,14 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         .then(function ( englishAuctionRegistery ) {
             // add the temp reading to the shipment
             return englishAuctionRegistery.update( auction );
-        });
+        })
+        .then(function ( ) {//emt event about update asset
+
+            var factory = getFactory();
+            var bidPlaceEvent = factory.newEvent( NS , 'EnglishAuctionBidUpdate');
+            bidPlaceEvent.bid = auction.currentMaxBid;
+            return emit( bidPlaceEvent );
+        });        
 
     }
 

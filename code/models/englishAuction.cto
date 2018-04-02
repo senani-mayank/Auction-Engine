@@ -53,3 +53,7 @@ transaction EnglishAuctionItemSold extends ItemSold {
 transaction StopEnglishAuction extends StopAuction {
   --> EnglishAuction auction
 }
+
+event EnglishAuctionBidUpdate {
+  --> EnglishAuctionBid bid
+}
