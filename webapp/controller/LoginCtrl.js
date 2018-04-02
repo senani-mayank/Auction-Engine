@@ -1,7 +1,7 @@
 var app = angular.module('AuctionApp');
 
-app.controller('loginCtrl', ['$scope', '$state', 'dataFactory', 
-function ($scope, $state, dataFactory) {
+app.controller('loginCtrl', ['$scope', '$state', 'dataFactory', "$rootScope",
+function ($scope, $state, dataFactory, $rootScope ) {
     console.log("inside login..");
     //var loggedInUser = dataFactory.getLoggedInUser(); 
     $scope.user = { "userId" : "", "password" : "" };

@@ -49,7 +49,8 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         else{
             //if current bid is > maxbid till now
             if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid.bidValue < bidValue ) ){
-                auction.currentMaxBid.bidValue = bidValue;
+
+                auction.currentMaxBid = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
                 auction.bids.push( bid );
                 return updateAssets( auction );

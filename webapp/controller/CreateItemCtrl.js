@@ -1,7 +1,7 @@
 var app = angular.module('AuctionApp');
 
-app.controller('createItemCtrl', ['$scope', '$state', 'dataFactory', 
-function ($scope, $state, dataFactory) {
+app.controller('createItemCtrl', ['$scope', '$state', 'dataFactory', "$rootScope",
+function ($scope, $state, dataFactory, $rootScope ) {
     console.log("inside createItemCtrl..");
     //var loggedInUser = dataFactory.getLoggedInUser(); 
     $scope.item = { "itemId" : "", "description" : "", "name" : "" };
@@ -31,10 +31,7 @@ function ($scope, $state, dataFactory) {
                 alert( "item created successfully" );
                 console.log("item created", response);
             }, function errorCallback(response) {
-
-                alert("Error : " + JSON.stringify(response.data) );
-                console.log("Error Creating Item", response );
-
+                $rootScope.showError(response);
             });
 
         }
@@ -57,10 +54,7 @@ function ($scope, $state, dataFactory) {
                 alert( "auction item created successfully" );
                 console.log("item created", response);
             }, function errorCallback(response) {
-
-                alert("Error : " + JSON.stringify(response.data) );
-                console.log("Error Creating Item", response );
-
+                $rootScope.showError(response);
             });
 
         }
@@ -74,10 +68,7 @@ function ($scope, $state, dataFactory) {
             $scope.items = response.data;
             console.log("item created", response);
         }, function errorCallback(response) {
-
-            alert("Error fetching items : " + JSON.stringify(response.data) );
-            console.log("Error Creating Item", response );
-
+            $rootScope.showError(response);
         });
 
     }    

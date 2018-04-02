@@ -1,6 +1,6 @@
 var app = angular.module('AuctionApp');
-app.controller('createAuctionCtrl', ['$scope', '$state', 'dataFactory', 
-function ($scope, $state, dataFactory) {
+app.controller('createAuctionCtrl', ['$scope', '$state', 'dataFactory',  "$rootScope",
+function ($scope, $state, dataFactory, $rootScope ) {
     
     var loggedInUser = dataFactory.getLoggedInUser();
     var auctionTypes = dataFactory.getAuctionTypes();
@@ -25,10 +25,7 @@ function ($scope, $state, dataFactory) {
                 
                 alert( "created success " + JSON.stringify( response.data ) );
             }, function errorCallback(response) {
-
-                alert("Error creating auction : " + JSON.stringify(response.data) );
-                console.log("Error Creating auction", response );
-
+                $rootScope.showError(response);
             });                
     }
 
@@ -41,10 +38,7 @@ function ($scope, $state, dataFactory) {
             $scope.selectedItem = $scope.items[0];
             console.log("item created", response);
         }, function errorCallback(response) {
-
-            alert("Error fetching items : " + JSON.stringify(response.data) );
-            console.log("Error Creating Item", response );
-
+            $rootScope.showError(response);
         });
 
     }    

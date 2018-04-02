@@ -1,5 +1,5 @@
 var app = angular.module('AuctionApp');
-app.controller('indexCtrl', function($scope, $state) {
+app.controller('indexCtrl', ["$scope", "$state", "$rootScope", function( $scope, $state, $rootScope) {
     $(function(){
 
         //to apply affix to topnavbar
@@ -23,6 +23,9 @@ app.controller('indexCtrl', function($scope, $state) {
         $scope.navbarOptions = navbarOptions;
         $scope.changeState = changeState;
 
+        $rootScope.showError = function ( response ){
+            alert( "Error : " + JSON.stringify(response.data.error.message) );
+        }
 
     });
-});
+}]);

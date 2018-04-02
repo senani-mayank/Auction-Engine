@@ -1,7 +1,7 @@
 var app = angular.module('AuctionApp');
 
-app.controller('joinAuctionCtrl', ['$scope', '$state', 'dataFactory', 
-function ($scope, $state, dataFactory) {
+app.controller('joinAuctionCtrl', ['$scope', '$state', 'dataFactory', "$rootScope",
+function ($scope, $state, dataFactory, $rootScope ) {
 
     var loggedInUser = dataFactory.getLoggedInUser();
     $scope.auctionTypes = dataFactory.getAuctionTypes();
@@ -35,12 +35,11 @@ function ($scope, $state, dataFactory) {
 
         var createBidRes = dataFactory.postResource( bidType, data );//create bid
         createBidRes.then(function successCallback(response) {
-        
+            
             console.log("bid place successfully..", response);
             submitBid( auction, response.data );
         }, function errorCallback(response) {
-            console.log("Error Create Bids", response );
-
+            $rootScope.showError(response);
         }); 
         
         function submitBid( auction, bid ){//submit bid after it is created
@@ -53,11 +52,8 @@ function ($scope, $state, dataFactory) {
             var placeBidRes = dataFactory.postResource( placeBidType, data );//place bid after creating
                 placeBidRes.then(function successCallback(response) {
                     alert("bid placed successsfully");
-                    console.log("bid placed sucessfully", response);
                 }, function errorCallback(response) {
-                    alert("bid place failed");
-                    console.log("Error Place Bids", response );
-        
+                    $rootScope.showError(response);        
                 });             
         }
 
@@ -72,8 +68,7 @@ function ($scope, $state, dataFactory) {
         res.then(function successCallback(response) {
             $scope.auctions = response.data;
         }, function errorCallback(response) {
-            console.log("Error Get Auctions", response );
-
+            $rootScope.showError(response);
         });
         
     }
@@ -88,8 +83,7 @@ function ($scope, $state, dataFactory) {
         res.then(function successCallback(response) {
             $scope.auctioneerAuctions = response.data;
         }, function errorCallback(response) {
-            console.log("Error Get auctioneerAuctions", response );
-
+            $rootScope.showError(response);
         });
         
     }    
@@ -116,9 +110,7 @@ function ($scope, $state, dataFactory) {
             alert("engish auction started");
             console.log("started auction", response);
         }, function errorCallback(response) {
-            alert("error starting " + JSON.stringify(response.data) );            
-            console.log("Error starting auction", response );
-
+            $rootScope.showError(response);            
         });
 
     }   
@@ -134,9 +126,7 @@ function ($scope, $state, dataFactory) {
             alert("engish auction stopped");
             console.log("stopped auction", response);
         }, function errorCallback(response) {
-            alert("error stopping " + JSON.stringify(response.data) );            
-            console.log("Error stopping auction", response );
-
+            $rootScope.showError(response);            
         });
 
     }      
