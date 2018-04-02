@@ -91,14 +91,15 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
  * @transaction
  */
 function onEnglishAuctionStart( startAuction ) {
-  
+
+    var NS = "IN.AC.IIITB.EnglishAuction";
     var factory = getFactory();
     var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
     emit(bidPlaceEvent);
 
     bidPlaceEvent.bid = auction.currentMaxBid;
 
-    var NS = "IN.AC.IIITB.EnglishAuction";
+   
     var auction = startAuction.auction;
 
     if( auction.status == "FINISHED" ){
