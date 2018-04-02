@@ -1,24 +1,47 @@
 <div class="login-form">
         <form ng-submit="onBidSubmit( selectedAuction, bidValue )" >
-            <h4 class="text-left">Select Auction Type</h4>       
             <div class="form-group">
-                <select class="form-control" ng-model="selectedAuctionType" ng-change="onAuctionTypeChange( selectedAuctionType )"  ng-options="auctionT as auctionT.name for auctionT in auctionTypes track by auctionT.name" ></select>                
-            </div>            
-            <h4 class="text-left">Select Auction</h4>       
-            <div class="form-group">
-                <select class="form-control" ng-options="auction as auction.auctionId for auction in auctions track by auction.auctionId" ng-model="selectedAuction"></select>                
+                <div  class="btn btn-info  mt pull-left" ng-click=changeRole("auctioneer")>Auctioneer</div>
+                <div  class="btn btn-success  mt pull-right" ng-click=changeRole("bidder")>Bidder</div>
+            </div>   
+            <div class="row"></div>
+            <!-- auctioneer part   -->
+            <div ng-show="currentRole == 'auctioneer'">     
+                <h4 class="text-left">Select Auction Type</h4>       
+                <div class="form-group">
+                    <select class="form-control" ng-model="selectedAuctionTypeA" ng-change="onAuctioneerAuctionTypeChange( selectedAuctionTypeA )"  ng-options="auctionT as auctionT.name for auctionT in auctionTypes track by auctionT.name" ></select>                
+                </div>            
+                <h4 class="text-left">Select Auction</h4>       
+                <div class="form-group">
+                    <select class="form-control" ng-options="auction as auction.auctionId for auction in auctioneerAuctions track by auction.auctionId" ng-model="selectedAuctionA"></select>                
+                </div>
+                <div class="form-group">
+                    <div  class="btn btn-success  mt pull-left" ng-click=startAuction(selectedAuctionA)>start</div>
+                    <div  class="btn btn-danger  mt pull-right" ng-click=stopAuction(selectedAuctionA)>stop</div>
+                </div>         
             </div>
-            <h4 class="text-left">Insert Bid</h4>   
+            <!-- bidder part   -->
+            <div ng-show="currentRole == 'bidder'">
+                <h4 class="text-left">Select Auction Type</h4>       
+                <div class="form-group">
+                    <select class="form-control" ng-model="selectedAuctionType" ng-change="onAuctionTypeChange( selectedAuctionType )"  ng-options="auctionT as auctionT.name for auctionT in auctionTypes track by auctionT.name" ></select>                
+                </div>            
+                <h4 class="text-left">Select Auction</h4>       
+                <div class="form-group">
+                    <select class="form-control" ng-options="auction as auction.auctionId for auction in auctions track by auction.auctionId" ng-model="selectedAuction"></select>                
+                </div>                
+                <h4 class="text-left">Insert Bid</h4>   
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="bidvalue" ng-model="bidValue" required="required">
+                </div>
+                <h4 class="text-left">Current Max Bid</h4>   
+                <div class="form-group">
+                    <p class="form-control" ng-bind="currentMaxBid" ></p>
+                </div> 
+            </div>      
             <div class="form-group">
-                <input type="number" class="form-control" placeholder="bidvalue" ng-model="bidValue" required="required">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block mt">Submit Bid</button>
-            </div>
-            <h4 class="text-left">Current Max Bid</h4>   
-            <div class="form-group">
-                <p class="form-control" ng-bind="currentMaxBid" ></p>
-            </div>            
+                    <button type="submit" class="btn btn-primary btn-block mt">Submit Bid</button>
+            </div>                 
             <!--
             <div class="clearfix">
                 <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>

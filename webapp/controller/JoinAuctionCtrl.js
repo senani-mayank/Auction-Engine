@@ -7,8 +7,14 @@ function ($scope, $state, dataFactory) {
     $scope.auctionTypes = dataFactory.getAuctionTypes();
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
+    //bidder part
     $scope.selectedAuction = undefined;
     $scope.selectedAuctionType = $scope.auctionTypes[0];
+
+    //auctioneer part
+    $scope.selectedAuctionA = undefined;
+    $scope.selectedAuctionTypeA = $scope.auctionTypes[0];    
+    
 
     function onBidSubmit( auction, bidValue ){
 
@@ -29,13 +35,13 @@ function ($scope, $state, dataFactory) {
 
         var createBidRes = dataFactory.postResource( bidType, data );//create bid
         createBidRes.then(function successCallback(response) {
-          //  aleret("bid created successsfully");
+        
             console.log("bid place successfully..", response);
             submitBid( auction, response.data );
         }, function errorCallback(response) {
             console.log("Error Create Bids", response );
 
-    }); 
+        }); 
         
         function submitBid( auction, bid ){//submit bid after it is created
 
@@ -46,7 +52,7 @@ function ($scope, $state, dataFactory) {
 
             var placeBidRes = dataFactory.postResource( placeBidType, data );//place bid after creating
                 placeBidRes.then(function successCallback(response) {
-                    alert("bid created successsfully");
+                    alert("bid placed successsfully");
                     console.log("bid placed sucessfully", response);
                 }, function errorCallback(response) {
                     alert("bid place failed");
@@ -72,11 +78,79 @@ function ($scope, $state, dataFactory) {
         
     }
 
+    
+    function onAuctioneerAuctionTypeChange( selectedAuctionType ){
+
+        var auctionType = $scope.selectedAuctionTypeA.name;
+        var auctioneerUri = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
+        var url = "queries/get" + auctionType + "ByAuctioneerId" + "?auctioneer=" + auctioneerUri;
+        var res = dataFactory.getAllResource( url );//get auctions list
+        res.then(function successCallback(response) {
+            $scope.auctioneerAuctions = response.data;
+        }, function errorCallback(response) {
+            console.log("Error Get auctioneerAuctions", response );
+
+        });
+        
+    }    
+
+    function changeRole( role ){
+
+        if( role == "bidder" ){
+            $scope.currentRole = "bidder";
+        }
+        else{
+            $scope.currentRole = "auctioneer";
+        }
+
+    }
+
+    function startAuction( auction ){
+
+        var data = JSON.parse(JSON.stringify(startEnglishAuctionTemplate));
+        var url = "start" + $scope.selectedAuctionTypeA.name;
+        data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;
+
+        var res = dataFactory.postResource( url, data );//get auctions list
+        res.then(function successCallback(response) {
+            alert("engish auction started");
+            console.log("started auction", response);
+        }, function errorCallback(response) {
+            alert("error starting " + JSON.stringify(response.data) );            
+            console.log("Error starting auction", response );
+
+        });
+
+    }   
+    
+    function stopAuction( auction ){
+
+        var data = JSON.parse(JSON.stringify(stopEnglishAuctionTemplate));
+        var url = "stop" + $scope.selectedAuctionTypeA.name;
+        data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;
+
+        var res = dataFactory.postResource( url, data );//get auctions list
+        res.then(function successCallback(response) {
+            alert("engish auction stopped");
+            console.log("stopped auction", response);
+        }, function errorCallback(response) {
+            alert("error stopping " + JSON.stringify(response.data) );            
+            console.log("Error stopping auction", response );
+
+        });
+
+    }      
 
     $scope.currentMaxBid = 34343.344;
 
     $scope.auctions = dummyAuctions;
     $scope.onBidSubmit = onBidSubmit;
     $scope.onAuctionTypeChange = onAuctionTypeChange;
+    $scope.changeRole = changeRole;
+    $scope.onAuctioneerAuctionTypeChange = onAuctioneerAuctionTypeChange;
+    $scope.startAuction = startAuction;
+    $scope.stopAuction = stopAuction;
+
+    changeRole("bidder");
     
 }]);
