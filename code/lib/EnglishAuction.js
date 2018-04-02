@@ -11,7 +11,7 @@ var EnglishAuctiontimeoutInterval = 1000;
  * @transaction
  */
 function onEnglishAuctionBidPlaced( placeBidTransaction ) {
-    console.log("onEnglishAuctionBidPlaced", placeBidTransaction);
+    
     var NS = "IN.AC.IIITB.EnglishAuction";
     var bid = placeBidTransaction.bid;
     var bidder = bid.bidder;
@@ -20,11 +20,9 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     var bidValue = bid.bidValue;
 
     if( auction.status == "CREATED" ){
-        console.log("Auction Has Not Started Yet..!");
         throw new Error("Auction Has Not Started Yet..!");
     }
     else if( auction.status == "FINISHED" ){
-        console.log("This Auction is Over..!");
         throw new Error("This Auction is Over..!");
     }
 
@@ -35,8 +33,6 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
     if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
         throw new Error("no bid placed and auction time is up, item unsold");
-      	console.log(now," -> ",timeoutTime );
-      	console.log("auction",auction);
     }
     else {
 
@@ -49,11 +45,9 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
         if( auction.lastBidTimestamp && ( now >= timeoutTime ) ){//if last bid was placed 2 minutes before
             throw new Error("Time Out Has Occured, item is sold");
-            console.log(timeoutTime.getTime() , now);
         }
         else{
             //if current bid is > maxbid till now
-          	console.log("lo jee else mai bhi aaya");
             if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid.bidValue < bidValue ) ){
                 auction.currentMaxBid.bidValue = bidValue;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
@@ -61,7 +55,6 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
                 return updateAssets( auction );
             }
             else{
-                console.log("Your Bid Should Be Grater than Current Max Bid.!");
                 throw new Error ("Your Bid Should Be Grater than Current Max Bid.");
             }
            
@@ -74,22 +67,10 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
         return getAssetRegistry( NS + '.EnglishAuction' )
         .then(function ( englishAuctionRegistery ) {
             // add the temp reading to the shipment
-            console.log("Auction Updated Successfully.!");
             return englishAuctionRegistery.update( auction );
         });
-        /*
-        .then(function() {
-            return getAssetRegistry( NS + '.EnglishAuctionItem' );
-        })
-        .then(function( englishAuctionItemRegistery ) {
-            // add the temp reading to the shipment
-            console.log("Bid Placed Successfully.!");
-            return englishAuctionItemRegistery.update(auctionItem);
-        });
-        */
-        
-    }
 
+    }
 
 }
 
@@ -103,29 +84,24 @@ function onEnglishAuctionStart( startAuction ) {
     var auction = startAuction.auction;
 
     if( auction.status == "FINISHED" ){
-        console.log("Auction is ALready Over");
-        return "Auction is ALready Over...!";
+        throw new Error ( "Auction is ALready Over...!" );
     }
     else if( auction.status == "IN_PROGRESS" ){
-        console.log("Auction is ALready Running");
-        return "Auction is Already Running...!";
+        throw new Error ( "Auction is Already Running...!" );
     }
 
     auction.status = "IN_PROGRESS";
     auction.auctionStartTime = startAuction.timestamp;
-    //auction.auctionItem.auctionStartTime = startAuction.timestamp;//remove it later
     auction.auctionItem.status = "AUCTIONING";
 
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistry ) {
-                console.log("Auction Item Updated Successfully.!");
                 return englishAuctionItemRegistry.update( auction.auctionItem );
             })
             .then(function(){
                 return getAssetRegistry( NS + '.EnglishAuction' );
             })
             .then(function( englishAuctionRegistry ){
-                console.log("Auction Updated Successfully.!");
                 return englishAuctionRegistry.update( auction );
             });
 
@@ -142,12 +118,10 @@ function stopEnglishAuction( stopAuction ) {
     var auction = stopAuction.auction;
 
     if( auction.status == "FINISHED" ){
-        console.log("Auction is ALready Over");
-        return "Auction is ALready Over...!";
+        throw new Error ( "Auction is ALready Over...!");
     }
     else if( auction.status == "CREATED" ){
-        console.log("Auction is Not Started Yet");
-        return "Auction is Not Started Yet...!";
+        throw new Error ( "Auction is Not Started Yet...!" );
     }
 
     auction.status = "FINISHED";
@@ -155,7 +129,6 @@ function stopEnglishAuction( stopAuction ) {
 
     return  getAssetRegistry( NS + '.EnglishAuction' )//update auctionItem status
             .then(function ( englishAuctionRegistry ) {
-                console.log("Auction Updated Successfully.!");
                 return englishAuctionRegistry.update( auction );
             });
 
@@ -176,28 +149,23 @@ function onItemSold( itemSold ) {
     var auctionItem = auction.auctionItem;
 
     if( auction.status == "CREATED" ){
-        console.log("Auction is not started yet..!");
-        return "Auction is not started yet..!";
+        throw new Error ( "Auction is not started yet..!" );
     }
     else if( auction.status == "IN_PROGRESS" ){
-        console.log("Auction is IN_PROGRESS");
-        return "Auction is IN_PROGRESS";
+        throw new Error ( "Auction is IN_PROGRESS" );
     }
 
-   // auction.status = "CLOSED";
-   // auction.auctionItem.auctionEndTime = itemSold.timestamp;
     auctionItem.status = "SOLD";
     auction.winnerBid = winnerBid;
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistry ) {
-                console.log("1");
                 return englishAuctionItemRegistry.update( auctionItem );
             })
             .then(function(){
                 return getAssetRegistry( NS + '.EnglishAuction' );
             })
            .then(function( englishAuctionRegistry ){
-                console.log("2");
                 return englishAuctionRegistry.update( auction );
             });
+            
 }//end startEnglishAuction
