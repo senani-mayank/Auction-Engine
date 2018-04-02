@@ -46,7 +46,7 @@ app.controller('indexCtrl', ["$scope", "$state", "$rootScope", function( $scope,
               ws.onmessage = function (evt) 
               { 
                  var received_msg = evt.data;
-                 alert("Message is received...");
+               //  alert("Message is received...");
                  $rootScope.onEventReceived(evt.data);
                  console.log(evt);
               };

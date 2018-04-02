@@ -57,7 +57,6 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 });             
         }
 
-        alert( JSON.stringify(auction) + "----->" + bidValue );
     }
     
     function onAuctionTypeChange( selectedAuctionType ){
@@ -134,16 +133,16 @@ function ($scope, $state, dataFactory, $rootScope ) {
     
     function onEventReceived( data ){
         data = JSON.parse(data);
-        if( data["$class"] == (  $scope.selectedAuction["$class"] + "." + $scope.selectedAuctionType.name + "BidUpdate") ){
+        if( data["$class"] == (  $scope.selectedAuction["$class"]  + "BidUpdate") ){
             if( $scope.selectedAuctionType.name == "EnglishAuction" ){
-                $scope.currentMaxBid = data.bid.bidValue;
+                $scope.currentMaxBid = data.bidValue;
             }
         }
     }
 
     $rootScope.onEventReceived = onEventReceived;
 
-    $scope.currentMaxBid = 34343.344;
+    $scope.currentMaxBid = "NA";
 
     $scope.auctions = dummyAuctions;
     $scope.onBidSubmit = onBidSubmit;
