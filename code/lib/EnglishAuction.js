@@ -79,6 +79,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             var bidPlaceEvent = factory.newEvent( NS , 'EnglishAuctionBidUpdate');
             bidPlaceEvent.bid = auction.currentMaxBid;
             return emit( bidPlaceEvent );
+
         });        
 
     }
@@ -91,6 +92,12 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
  */
 function onEnglishAuctionStart( startAuction ) {
   
+    var factory = getFactory();
+    var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
+    emit(bidPlaceEvent);
+
+    bidPlaceEvent.bid = auction.currentMaxBid;
+
     var NS = "IN.AC.IIITB.EnglishAuction";
     var auction = startAuction.auction;
 
