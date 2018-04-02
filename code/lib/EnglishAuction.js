@@ -52,6 +52,9 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
                 auction.currentMaxBid = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
+                if( !auction.bids ){ // iif bids array is not initialized
+                    auction.bids = [];
+                }
                 auction.bids.push( bid );
                 return updateAssets( auction );
             }
