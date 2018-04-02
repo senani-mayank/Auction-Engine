@@ -61,3 +61,7 @@ event EnglishAuctionBidUpdate {
 event testEvent {
   
 }
+
+transaction testEventTransaction {
+  
+}

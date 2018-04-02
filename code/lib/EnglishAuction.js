@@ -188,3 +188,16 @@ function onItemSold( itemSold ) {
             });
             
 }//end startEnglishAuction
+
+/**Invoked start the auction, assume auction status is set to finished
+ * @param {IN.AC.IIITB.EnglishAuction.testEventTransaction} farzee
+ * @transaction
+ */
+function farzeee( farzee ) {
+  
+    var NS = "IN.AC.IIITB.EnglishAuction";
+    var factory = getFactory();
+    var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
+    return emit(bidPlaceEvent);    
+ 
+}//end startEnglishAuction
