@@ -1,4 +1,7 @@
-var baseUrl = "http://54.213.119.102:3000/api";
+var ip = "54.213.119.102";
+var port = 3000;
+var baseUrl = "http://" + ip + ":" + port + "/api";
+var webSocketUrl = "ws:" + ip + ":" + port;
 var NS = "IN.AC.IIITB";
 
 var auctionTypes = [ 

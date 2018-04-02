@@ -57,11 +57,3 @@ transaction StopEnglishAuction extends StopAuction {
 event EnglishAuctionBidUpdate {
   --> EnglishAuctionBid bid
 }
-
-event testEvent {
-  
-}
-
-transaction testEventTransaction {
-  
-}

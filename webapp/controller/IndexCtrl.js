@@ -27,5 +27,52 @@ app.controller('indexCtrl', ["$scope", "$state", "$rootScope", function( $scope,
             alert( "Error : " + JSON.stringify(response.data.error.message) );
         }
 
+
+
+    function openWebSocket()
+        {
+           if ("WebSocket" in window)
+           {  
+              // Let us open a web socket
+              var ws = new WebSocket( webSocketUrl );
+               
+              ws.onopen = function()
+              {
+                 // Web Socket is connected, send data using send()
+                 //ws.send("Message to send");
+                 //alert("Message is sent...");
+              };
+               
+              ws.onmessage = function (evt) 
+              { 
+                 var received_msg = evt.data;
+                 alert("Message is received...");
+                 $rootScope.onEventReceived(evt.data);
+                 console.log(evt);
+              };
+               
+              ws.onclose = function()
+              { 
+                 // websocket is closed.
+                 alert("Connection is closed..."); 
+              };
+                   
+              window.onbeforeunload = function(event) {
+                 socket.close();
+              };
+           }
+           else
+           {
+              // The browser doesn't support WebSocket
+              alert("WebSocket NOT supported by your Browser!");
+           }
+        }        
+        openWebSocket();
+
+
+
+
+
+
     });
 }]);

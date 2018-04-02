@@ -129,7 +129,18 @@ function ($scope, $state, dataFactory, $rootScope ) {
             $rootScope.showError(response);            
         });
 
-    }      
+    }    
+    
+    
+    function onEventReceived( data ){
+        if( data["$class"] == (  $scope.selectedAuction["$class"] + "." + $scope.selectedAuctionType.name + "BidUpdate") ){
+            if( $scope.selectedAuctionType.name == "EnglishAuction" ){
+                $scope.currentMaxBid = data.bid.bidValue;
+            }
+        }
+    }
+
+    $rootScope.onEventReceived = onEventReceived;
 
     $scope.currentMaxBid = 34343.344;
 

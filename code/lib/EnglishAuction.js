@@ -50,7 +50,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             //if current bid is > maxbid till now
             if(  ( !auction.currentMaxBid ) ||  ( auction.currentMaxBid.bidValue < bidValue ) ){
 
-                auction.currentMaxBid = bid;
+                auction["currentMaxBid"] = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
                 if( !auction.bids ){ // if bids array is not initialized
                     auction.bids = [];
@@ -93,12 +93,9 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 function onEnglishAuctionStart( startAuction ) {
 
     var NS = "IN.AC.IIITB.EnglishAuction";
-    var factory = getFactory();
-    var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
-    emit(bidPlaceEvent);
-
-    bidPlaceEvent.bid = auction.currentMaxBid;
-
+    //var factory = getFactory();
+    //var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
+   // emit(bidPlaceEvent);
    
     var auction = startAuction.auction;
 
@@ -187,17 +184,4 @@ function onItemSold( itemSold ) {
                 return englishAuctionRegistry.update( auction );
             });
             
-}//end startEnglishAuction
-
-/**Invoked start the auction, assume auction status is set to finished
- * @param {IN.AC.IIITB.EnglishAuction.testEventTransaction} farzee
- * @transaction
- */
-function farzeee( farzee ) {
-  
-    var NS = "IN.AC.IIITB.EnglishAuction";
-    var factory = getFactory();
-    var bidPlaceEvent = factory.newEvent( NS , 'testEvent');
-    return emit(bidPlaceEvent);    
- 
 }//end startEnglishAuction
