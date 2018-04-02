@@ -56,4 +56,5 @@ transaction StopEnglishAuction extends StopAuction {
 
 event EnglishAuctionBidUpdate {
   --> EnglishAuctionBid bid
+  o bidValue
 }

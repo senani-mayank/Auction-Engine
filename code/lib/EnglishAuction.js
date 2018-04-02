@@ -77,6 +77,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
             var factory = getFactory();
             var bidPlaceEvent = factory.newEvent( NS , 'EnglishAuctionBidUpdate');
+            bidPlaceEvent.bidValue = auction.currentMaxBid.bidValue;
             bidPlaceEvent.bid = auction.currentMaxBid;
             return emit( bidPlaceEvent );
 
