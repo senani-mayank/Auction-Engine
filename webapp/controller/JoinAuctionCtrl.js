@@ -132,12 +132,15 @@ function ($scope, $state, dataFactory, $rootScope ) {
     
     
     function onEventReceived( data ){
+
         data = JSON.parse(data);
         if( data["$class"] == (  $scope.selectedAuction["$class"]  + "BidUpdate") ){
             if( $scope.selectedAuctionType.name == "EnglishAuction" ){
                 $scope.currentMaxBid = data.bidValue;
             }
         }
+        $scope.$apply();
+        
     }
 
     $rootScope.onEventReceived = onEventReceived;

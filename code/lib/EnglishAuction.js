@@ -79,6 +79,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             var bidPlaceEvent = factory.newEvent( NS , 'EnglishAuctionBidUpdate');
             bidPlaceEvent.bidValue = auction.currentMaxBid.bidValue;
             bidPlaceEvent.bid = auction.currentMaxBid;
+            bidPlaceEvent.bids = auction.bids;            
             return emit( bidPlaceEvent );
 
         });        
@@ -120,7 +121,7 @@ function onEnglishAuctionStart( startAuction ) {
             })
             .then(function( englishAuctionRegistry ){
                 return englishAuctionRegistry.update( auction );
-            });
+            });             ;
 
 }//end startEnglishAuction
 
@@ -133,6 +134,7 @@ function stopEnglishAuction( stopAuction ) {
   
     var NS = "IN.AC.IIITB.EnglishAuction";
     var auction = stopAuction.auction;
+    var auctionItem = auction.auctionItem;    
 
     if( auction.status == "FINISHED" ){
         throw new Error ( "Auction is ALready Over...!");
@@ -141,12 +143,35 @@ function stopEnglishAuction( stopAuction ) {
         throw new Error ( "Auction is Not Started Yet...!" );
     }
 
-    auction.status = "FINISHED";
-    auction.auctionEndTime = stopAuction.timestamp;
+    if( !auction.currentMaxBid ){
+        auctionItem.status = "UNSOLD"; 
+    }
+    else{
+        auctionItem.status = "SOLD"; 
+    }
 
-    return  getAssetRegistry( NS + '.EnglishAuction' )//update auctionItem status
-            .then(function ( englishAuctionRegistry ) {
+    auction.status = "FINISHED";   
+    auction.auctionEndTime = stopAuction.timestamp;
+    auction.winnerBid = auction.currentMaxBid;
+
+    return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
+            .then(function ( englishAuctionItemRegistry ) {
+                return englishAuctionItemRegistry.update( auctionItem );
+            })
+            .then(function(){
+                return getAssetRegistry( NS + '.EnglishAuction' );
+            })
+           .then(function( englishAuctionRegistry ){
                 return englishAuctionRegistry.update( auction );
+            })
+            .then(function ( ) {//emt event about update asset
+
+                var factory = getFactory();
+                var stopAuctionEvent = factory.newEvent( NS , 'EnglishAucionStopEvent');
+                stopAuctionEvent.auction = auction;
+                stopAuctionEvent.winnerBid = auction.winnerBid;
+                return emit( stopAuctionEvent );
+    
             });
 
 
