@@ -61,7 +61,7 @@ event EnglishAuctionBidUpdate {
   --> EnglishAuction auction
 }
 
-event EnglishAucionStopEvent {
+event EnglishAuctionStopEvent {
   --> EnglishAuction auction
   --> EnglishAuctionBid winnerBid
 }

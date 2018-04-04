@@ -168,7 +168,7 @@ function stopEnglishAuction( stopAuction ) {
             .then(function ( ) {//emt event about update asset
 
                 var factory = getFactory();
-                var stopAuctionEvent = factory.newEvent( NS , 'EnglishAucionStopEvent');
+                var stopAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
                 stopAuctionEvent.winnerBid = auction.currentMaxBid;
                 return emit( stopAuctionEvent );

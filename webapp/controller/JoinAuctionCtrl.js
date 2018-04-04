@@ -6,6 +6,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
     var loggedInUser = dataFactory.getLoggedInUser();
     $scope.auctionTypes = dataFactory.getAuctionTypes();
     $scope.bids = [];
+    $scope.winnerBid = "NA";
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
     //bidder part
@@ -142,6 +143,12 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 $scope.bids = data.bids;
             }
         }
+        else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
+            if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "EnglishAuction" ) ){
+                $scope.winnerBid = data.winnerBid;
+            }
+        }
+
         $scope.$apply();
         
     }
