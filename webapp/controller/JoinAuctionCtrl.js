@@ -5,6 +5,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
     var loggedInUser = dataFactory.getLoggedInUser();
     $scope.auctionTypes = dataFactory.getAuctionTypes();
+    $scope.bids = [];
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
     //bidder part
@@ -134,9 +135,11 @@ function ($scope, $state, dataFactory, $rootScope ) {
     function onEventReceived( data ){
 
         data = JSON.parse(data);
+        var currentAuctionUri = "resource:" +  $scope.selectedAuction["$class"] + "#" + $scope.selectedAuction.auctionId;
         if( data["$class"] == (  $scope.selectedAuction["$class"]  + "BidUpdate") ){
-            if( $scope.selectedAuctionType.name == "EnglishAuction" ){
+            if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "EnglishAuction" ) ){
                 $scope.currentMaxBid = data.bidValue;
+                $scope.bids = data.bids;
             }
         }
         $scope.$apply();
