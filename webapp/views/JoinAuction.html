@@ -41,7 +41,7 @@
                         <p class="form-control" ng-bind="currentMaxBid" ></p>
                     </div> 
                 </div>      
-                <div class="form-group">
+                <div class="form-group" ng-show="currentRole == 'bidder'">
                         <button type="submit" class="btn btn-primary btn-block mt">Submit Bid</button>
                 </div>                 
                 <!--
@@ -58,7 +58,7 @@
         <ul>
             <li ng-repeat="bid in bids" >{{bid}}</li>
         </ul>     
-        <h3>Winner Bid = {{$scope.winnerBid}}</h3>
+        <h3>Winner Bid = {{winnerBid}}</h3>
 
     </div>
 </div>
