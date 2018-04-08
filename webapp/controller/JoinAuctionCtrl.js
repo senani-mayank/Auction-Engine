@@ -64,8 +64,12 @@ function ($scope, $state, dataFactory, $rootScope ) {
     function onAuctionTypeChange( selectedAuctionType ){
 
         var auctionType = $scope.selectedAuctionType.name;
+        var auctioneerUri = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
+        var query = { "where" : { "auctioneer" : { "neq" : auctioneerUri } } };
 
-        var res = dataFactory.getAllResource( auctionType );//get auctions list
+        var url = auctionType  + "?filter=" + JSON.stringify(query);
+
+        var res = dataFactory.getAllResource( url );//get auctions list
         res.then(function successCallback(response) {
             $scope.auctions = response.data;
         }, function errorCallback(response) {
@@ -79,7 +83,8 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
         var auctionType = $scope.selectedAuctionTypeA.name;
         var auctioneerUri = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
-        var url = "queries/get" + auctionType + "ByAuctioneerId" + "?auctioneer=" + auctioneerUri;
+        var query = { "where" : { "auctioneer" :  auctioneerUri  } };
+        var url = auctionType  + "?filter=" + JSON.stringify(query);
         var res = dataFactory.getAllResource( url );//get auctions list
         res.then(function successCallback(response) {
             $scope.auctioneerAuctions = response.data;
