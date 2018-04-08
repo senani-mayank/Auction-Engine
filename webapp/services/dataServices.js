@@ -31,11 +31,17 @@ app.factory('dataFactory', ['$http', function ($http) {
     }    
 
     function getLoggedInUser(){
-        return CurrentlyloggedInUser;
+
+        var user = localStorage.getItem( "loggedInUser" );
+        if( user ){
+            return JSON.parse(user);
+        }
+        return undefined;
+
     }
 
     function setLoggedInUser( user ){
-        CurrentlyloggedInUser = user;
+        localStorage.setItem( "loggedInUser", JSON.stringify(user) );
      }    
 
     function getAuctionTypes(){

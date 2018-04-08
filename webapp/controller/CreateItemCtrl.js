@@ -46,6 +46,12 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 data.basePrice = $scope.item.basePrice;
                 data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;
             }
+            else if( $scope.selectedAuctionType.name == "ReverseAuction" ){
+                data = JSON.parse( JSON.stringify( reverseItemPostTemplate ) );
+                data.auctionItemId = $scope.item.itemId;
+                data.basePrice = $scope.item.basePrice;
+                data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;                
+            }
 
 
 

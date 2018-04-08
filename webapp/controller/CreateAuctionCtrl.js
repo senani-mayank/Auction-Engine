@@ -18,6 +18,13 @@ function ($scope, $state, dataFactory, $rootScope ) {
             data.auctionId = $scope.auctionId;
             data.auctioneer = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
         }
+        else if( $scope.selectedAuctionType.name == "ReverseAuction" ){
+            data = JSON.parse(JSON.stringify(reverseAuctionPostTemplate));
+            data.auctionItem = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.auctionItemId;
+            data.description = $scope.auctionDescription;
+            data.auctionId = $scope.auctionId;
+            data.auctioneer = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
+        }
 
 
         var res = dataFactory.postResource( $scope.selectedAuctionType.name, data );

@@ -1,10 +1,11 @@
 
-/**
+/* *
  * Contains Reverse Auction Elements
  */
- namespace IN.AC.IIITB.ReverseAuction
- import  IN.AC.IIITB.*
+ 
+namespace IN.AC.IIITB.ReverseAuction
 
+import IN.AC.IIITB.*
 
 /**
   Reverse Auction Assets
@@ -12,10 +13,9 @@
 
 asset ReverseAuction extends Auction {
   --> ReverseAuctionItem auctionItem
-  --> ReverseAuctionBid[] bids
+  --> ReverseAuctionBid[] bids optional
   --> ReverseAuctionBid currentMinBid optional
-
-        // currentMINBid = baseprice; //discuss to mayank
+  --> ReverseAuctionBid winnerBid optional //bid contains bidder name also
 }
 
 asset ReverseAuctionBid extends Bid {
@@ -47,9 +47,21 @@ transaction PlaceReverseAuctionBid {
 
 transaction ReverseAuctionItemSold extends ItemSold {
   --> ReverseAuction auction
-  --> ReverseAuctionBid winningBid
+  --> ReverseAuctionBid winnerBid
 }
 
 transaction StopReverseAuction extends StopAuction {
   --> ReverseAuction auction
+}
+
+event ReverseAuctionBidUpdate {
+  --> ReverseAuctionBid bid
+  o String bidValue
+  --> ReverseAuctionBid[] bids
+  --> ReverseAuction auction
+}
+
+event ReverseAuctionStopEvent {
+  --> ReverseAuction auction
+  --> ReverseAuctionBid winnerBid
 }

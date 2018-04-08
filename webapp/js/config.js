@@ -47,6 +47,14 @@ var englishItemPostTemplate = {
   "item": {}
 };
 
+var reverseItemPostTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.ReverseAuctionItem",
+  "auctionItemId": "string",
+  "basePrice": 0,
+  "status": "CREATED",
+  "item": {}
+};
+
 var englishAuctionPostTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuction",
   "auctionItem": {},
@@ -58,6 +66,24 @@ var englishAuctionPostTemplate = {
   "auctionId": "string",
   "status": "CREATED",
   "type": "ENGLISH",
+  "description": "string",
+  //"lastBidTimestamp": "2018-03-31T12:25:07.176Z",
+  //"auctionStartTime": "2018-03-31T12:25:07.176Z",
+  //"auctionEndTime": "2018-03-31T12:25:07.176Z",
+  "auctioneer": {}
+};
+
+var reverseAuctionPostTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.ReverseAuction",
+  "auctionItem": {},
+  //"bids": [
+  //  {}
+  //],
+  //"currentMaxBid": {},
+  //"winnerBid": {},
+  "auctionId": "string",
+  "status": "CREATED",
+  "type": "REVERSE",
   "description": "string",
   //"lastBidTimestamp": "2018-03-31T12:25:07.176Z",
   //"auctionStartTime": "2018-03-31T12:25:07.176Z",
