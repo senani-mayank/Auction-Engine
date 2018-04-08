@@ -66,16 +66,13 @@ abstract asset Bid identified by bidId {
 abstract asset AuctionItem identified by auctionItemId {
    o String auctionItemId
    o Double basePrice //controversial in case of reverse
-  // o Double totalQuantity
-  // o Double quantitySold   
-   //o DateTime lastBidTimestamp optional   
-   //o DateTime auctionStartTime optional
    o AUCTION_ITEM_STATUS status
    --> Item item
-   //--> Auctioneer auctioneer //owner in our case
+   --> Auctioneer owner //owner in our case
  }
 
 abstract asset Auction identified by auctionId {
+
   o String auctionId
   o AUCTION_STATUS status
   o AUCTION_TYPE type
@@ -83,9 +80,8 @@ abstract asset Auction identified by auctionId {
   o DateTime lastBidTimestamp optional   //what use
   o DateTime auctionStartTime optional
   o DateTime auctionEndTime optional
-  //--> Bidder[] bidders
   --> Auctioneer auctioneer
-  //--> AuctionItem auctionItem
+
 }
 
  asset Item identified by itemId {

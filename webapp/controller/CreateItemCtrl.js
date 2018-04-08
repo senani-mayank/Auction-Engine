@@ -3,7 +3,7 @@ var app = angular.module('AuctionApp');
 app.controller('createItemCtrl', ['$scope', '$state', 'dataFactory', "$rootScope",
 function ($scope, $state, dataFactory, $rootScope ) {
     console.log("inside createItemCtrl..");
-    //var loggedInUser = dataFactory.getLoggedInUser(); 
+    var loggedInUser = dataFactory.getLoggedInUser(); 
     $scope.item = { "itemId" : "", "description" : "", "name" : "" };
     $scope.auctionTypes = dataFactory.getAuctionTypes();
     $scope.selectedAuctionType = auctionTypes[0];
@@ -38,22 +38,19 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
         function createAuctionItem(){
 
-            var data = undefined;
+            var data = {};
 
             if( $scope.selectedAuctionType.name == "EnglishAuction" ){
                 data = JSON.parse( JSON.stringify( englishItemPostTemplate ) );
-                data.auctionItemId = $scope.item.itemId;
-                data.basePrice = $scope.item.basePrice;
-                data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;
             }
             else if( $scope.selectedAuctionType.name == "ReverseAuction" ){
-                data = JSON.parse( JSON.stringify( reverseItemPostTemplate ) );
-                data.auctionItemId = $scope.item.itemId;
-                data.basePrice = $scope.item.basePrice;
-                data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;                
+                data = JSON.parse( JSON.stringify( reverseItemPostTemplate ) );              
             }
-
-
+            
+            data.auctionItemId = $scope.item.itemId;
+            data.basePrice = $scope.item.basePrice;
+            data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;
+            data.owner = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;            
 
             var res = dataFactory.postResource( $scope.selectedAuctionType.name + "Item", data );
             res.then(function successCallback(response) {

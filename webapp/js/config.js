@@ -44,7 +44,8 @@ var englishItemPostTemplate = {
   "auctionItemId": "string",
   "basePrice": 0,
   "status": "CREATED",
-  "item": {}
+  "item": {},
+  "owner" : ""
 };
 
 var reverseItemPostTemplate = {
@@ -52,7 +53,8 @@ var reverseItemPostTemplate = {
   "auctionItemId": "string",
   "basePrice": 0,
   "status": "CREATED",
-  "item": {}
+  "item": {},
+  "owner" : ""  
 };
 
 var englishAuctionPostTemplate = {
