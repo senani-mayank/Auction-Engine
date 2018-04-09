@@ -43,8 +43,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
     //var auctionTypes = [ { "name" : "auction1", "auctionTypeId" : "1"}, { "name" : "auction2", "auctionTypeId" : "2" } ];
     function fetchItems(){
 
-        var owner = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
-        var url = $scope.selectedAuctionType.name + "Item" + "?filter = { 'where' : { 'owner' : " + owner + " } }";
+        var owner = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
+        var query = {"where" : {"owner":owner}};
+        var url = $scope.selectedAuctionType.name + "Item" + "?filter=" + JSON.stringify(query);
 
         var res = dataFactory.getAllResource( url  );
         res.then(function successCallback(response) {
