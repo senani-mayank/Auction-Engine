@@ -12,16 +12,20 @@
 
 asset DutchAuction extends Auction {
   --> DutchAuctionItem auctionItem
+    //   o Double itemquantity
+    o Double currentprice
   --> DutchAuctionBid[] bids
 }
 
 asset DutchAuctionBid extends Bid {
+      o Double bidValue
   --> DutchAuction auction
+    //  o Double itemcount
 }
 
 asset DutchAuctionItem extends AuctionItem {
 
- }
+}
 
 
 /**
@@ -37,15 +41,30 @@ transaction StartDutchAuction {
   --> DutchAuction auction
 }
 
-transaction AcceptDutchAuctionBid {
-  --> DutchAuctionBid bid
+transaction GetCurrentStatusDutch{
+  -->DutchAuction auction
 }
 
-transaction DutchAuctionItemSold extends ItemSold {
+transaction AcceptDutchAuctionBid {
+  --> DutchAuctionBid bid
+
+}
+
+/*transaction DutchAuctionItemSold extends ItemSold {
   --> DutchAuction auction
   --> DutchAuctionBid winningBid
-}
+}*/
 
 transaction StopDutchAuction extends StopAuction {
   --> DutchAuction auction
+}
+
+event DutchAuctionStatusUpdate {
+    o Double currentprice
+  --> DutchAuction auction
+}
+
+event DutchAuctionStopEvent {
+  --> DutchAuction auction
+  --> DutchAuctionBid winnerBid
 }

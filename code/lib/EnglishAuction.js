@@ -59,7 +59,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
                 return updateAssets( auction );
             }
             else{
-                throw new Error ("Your Bid Should Be Grater than Current Max Bid.");
+                throw new Error ("Your Bid Should Be Greater than Current Max Bid.");
             }
            
         }    
@@ -88,6 +88,8 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     }
 
 }
+
+function 
 
 /**Invoked start the auction
  * @param {IN.AC.IIITB.EnglishAuction.StartEnglishAuction} startAuction
