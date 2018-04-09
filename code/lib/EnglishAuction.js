@@ -89,7 +89,6 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
 
 }
 
-function 
 
 /**Invoked start the auction
  * @param {IN.AC.IIITB.EnglishAuction.StartEnglishAuction} startAuction
