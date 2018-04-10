@@ -17,11 +17,11 @@ function onDutchAuctionStart( startAuction ) {
 
     if( auction.status == "FINISHED" ){
         console.log("Auction is Already Over");
-        return "Auction is Already Over...!";
+        throw new Error("Auction is Already Over...!");
     }
     else if( auction.status == "IN_PROGRESS" ){
         console.log("Auction is Already Running");
-        return "Auction is Already Running...!";
+        throw new Error( "Auction is Already Running...!");
     }
 
     auction.status = "IN_PROGRESS";
@@ -69,10 +69,10 @@ function onDutchAuctionAccept( acceptTransaction ) {
     if( auction.status == "CREATED" ){
         throw new Error("Auction Has Not Started Yet..!");
     }
-    else if( auction.status == "FINISHED" ){
+    if( auction.status == "FINISHED" ){
         throw new Error("This Auction is Over..!");
     }
- 
+   
     var now = acceptTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
        timeoutTime.setMinutes( timeoutTime.getMinutes() + 10 );
@@ -90,16 +90,22 @@ function onDutchAuctionAccept( acceptTransaction ) {
           throw new Error(" bid not accepted !!! auction has finished");
      }
         
-    
+    else
+    {
     //  bid accepted and item is sold   
     
     console.log("bid recieved !! ");
-    
+     bid.bidValue= auction.currentprice;
+              
+        auction.lastBidTimestamp = placeBidTransaction.timestamp;
+        if( !auction.bids ){ // if bids array is not initialized
+        auction.bids = [];
+         }
               auction.lastBidTimestamp = now;
-              auction.currentMaxBid.bidValue = bidValue;
-              auction.bids.push( bid );
+            auction.bids.push ( bid );
               auctionItem.status = "SOLD";
-              auction.winnerBid = bidValue;
+              auction.winnerBid = bid;
+             // auction.winnerBid = bidValue;
               auction.status = "FINISHED";
               
            
@@ -118,11 +124,12 @@ function onDutchAuctionAccept( acceptTransaction ) {
                   var factory = getFactory();
                   var stopAuctionEvent = factory.newEvent( NS , 'DutchAuctionStopEvent');
                   stopAuctionEvent.auction = auction;
-                  stopAuctionEvent.winnerBid = auction.currentMaxBid;
+                  stopAuctionEvent.winnerBid = auction.winnerBid;
                   return emit( stopAuctionEvent );
       
               });
 
+            }
         }
     
     
