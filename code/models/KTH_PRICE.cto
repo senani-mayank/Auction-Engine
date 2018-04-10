@@ -1,27 +1,29 @@
 
 /* *
- * Contains Kth Price Elements
+ * Contains English Auction Elements
  */
  
-namespace IN.AC.IIITB.KTH_PRICE
+namespace IN.AC.IIITB.Kth_Price
+
 import IN.AC.IIITB.*
 
 /**
-  Kth price Auction Assets
+  English Auction Assets
  */
 
-asset KTH_PRICE extends Auction {
-  --> KTH_PRICEItem auctionItem
-  --> KTH_PRICEBid[] bids
-  --> KTH_PRICEBid currentMaxBid optional
-  --> KTH_PRICEBid winnerBid //bid contains bidder name also
+asset Kth_Price extends Auction {
+  --> Kth_PriceItem auctionItem
+  --> Kth_PriceBid[] bids optional
+  --> Kth_PriceBid currentMaxBid optional
+  --> Kth_PriceBid winnerBid optional //bid contains bidder name also
 }
 
-asset KTH_PRICEBid extends Bid {
-  --> KTH_PRICE auction
+asset Kth_PriceBid extends Bid {
+  o String bidValue
+  --> Kth_Price auction
 }
 
-asset KTH_PRICEItem extends AuctionItem {
+asset Kth_PriceItem extends AuctionItem {
 
  }
 
@@ -35,19 +37,31 @@ asset KTH_PRICEItem extends AuctionItem {
   Transactions
  */
 
-transaction StartKTH_PRICE {
-  --> KTH_PRICE auction
+transaction StartKth_Price {
+  --> Kth_Price auction
 }
 
-transaction PlaceKTH_PRICEAuctionBid {
-  --> KTH_PRICEBid bid
+transaction PlaceKth_PriceBid {
+  --> Kth_PriceBid bid
 }
 
-transaction KTH_PRICEItemSold extends ItemSold {
-  --> KTH_PRICE auction
-  --> KTH_PRICEBid winnerBid
+transaction Kth_PriceItemSold extends ItemSold {
+  --> Kth_Price auction
+  --> Kth_PriceBid winnerBid
 }
 
-transaction StopKTH_PRICE extends StopAuction {
-  --> KTH_PRICE auction
+transaction StopKth_Price extends StopAuction {
+  --> Kth_Price auction
+}
+
+event Kth_PriceBidUpdate {
+  --> Kth_PriceBid bid
+  o String bidValue
+  --> Kth_PriceBid[] bids
+  --> Kth_Price auction
+}
+
+event Kth_PriceStopEvent {
+  --> Kth_Price auction
+  --> Kth_PriceBid winnerBid
 }
