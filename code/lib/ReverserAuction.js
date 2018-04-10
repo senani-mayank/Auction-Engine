@@ -49,7 +49,8 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
         else{
 
             if(  ( !auction.currentMinBid ) ||  ( auction.currentMinBid.bidValue > bidValue ) ){
-                auction.currentMinBid.bidValue = bidValue;
+
+                auction["currentMinBid"] = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
                 auction.bids.push( bid );
                 return updateAssets( auction );

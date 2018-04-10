@@ -93,7 +93,7 @@ var reverseAuctionPostTemplate = {
   "auctioneer": {}
 };
 
-var englishAuctionBidTemplate = {
+var EnglishAuctionBidTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuctionBid",
   "bidValue": "string",
   "auction": {},
@@ -101,13 +101,29 @@ var englishAuctionBidTemplate = {
   "bidder": {}
 };
 
-
-var englishAuctionPlaceBidTemplate = {
+var EnglishAuctionPlaceBidTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid",
   "bid": {},
   //"transactionId": "string",
   //"timestamp": "2018-04-01T05:54:25.687Z"
 };
+
+
+var ReverseAuctionBidTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.ReverseAuctionBid",
+  "bidValue": "string",
+  "auction": {},
+  "bidId": "string",
+  "bidder": {}
+};
+
+var ReverseAuctionPlaceBidTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.PlaceReverseAuctionBid",
+  "bid": {},
+  //"transactionId": "string",
+  //"timestamp": "2018-04-01T05:54:25.687Z"
+};
+
 
 var startEnglishAuctionTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.StartEnglishAuction",
@@ -116,6 +132,16 @@ var startEnglishAuctionTemplate = {
 
 var stopEnglishAuctionTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.StopEnglishAuction",
+  "auction": {}
+};
+
+var startReverseAuctionTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.StartReverseAuction",
+  "auction": {}
+};
+
+var stopReverseAuctionTemplate = {
+  "$class": "IN.AC.IIITB.ReverseAuction.StopReverseAuction",
   "auction": {}
 };
 
