@@ -154,7 +154,7 @@ function stopReverseAuction( stopAuction ) {
 
     auction.status = "FINISHED";   
     auction.auctionEndTime = stopAuction.timestamp;
-    auction.winnerBid = auctionin;
+    auction.winnerBid = auction.currentMinBid;
 
     return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
             .then(function ( reverseAuctionItemRegistry ) {
@@ -171,7 +171,7 @@ function stopReverseAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'ReverseAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auctionin;
+                stopAuctionEvent.winnerBid = auction.currentMinBid;
                 return emit( stopAuctionEvent );
     
             });
