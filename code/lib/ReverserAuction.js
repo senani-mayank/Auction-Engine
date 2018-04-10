@@ -145,7 +145,7 @@ function stopReverseAuction( stopAuction ) {
         throw new Error ( "Auction is Not Started Yet...!" );
     }
 
-    if( !auction.currentMaxBid ){
+    if( !auction.currentMinBid ){
         auctionItem.status = "UNSOLD"; 
     }
     else{
@@ -154,7 +154,7 @@ function stopReverseAuction( stopAuction ) {
 
     auction.status = "FINISHED";   
     auction.auctionEndTime = stopAuction.timestamp;
-    auction.winnerBid = auction.currentMaxBid;
+    auction.winnerBid = auctionin;
 
     return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
             .then(function ( reverseAuctionItemRegistry ) {
@@ -171,7 +171,7 @@ function stopReverseAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'ReverseAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auction.currentMaxBid;
+                stopAuctionEvent.winnerBid = auctionin;
                 return emit( stopAuctionEvent );
     
             });
