@@ -52,6 +52,9 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
 
                 auction["currentMinBid"] = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
+                if( !auction.bids ){ // if bids array is not initialized
+                    auction.bids = [];
+                }                
                 auction.bids.push( bid );
                 return updateAssets( auction );
             }
