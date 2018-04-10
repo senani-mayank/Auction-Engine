@@ -211,11 +211,13 @@ function CurrentStatus ( currentstatus ) {
     }
   // the logic i want to give to dutch auction
 
-    var starttime = new Date( auction.auctionStartTime);
-    var currenttime= new Date(currentstatus.timestamp);
-    var diff = getminutes(currenttime -starttime);
+    var starttime = new Date ( auction.auctionStartTime);
+    var currenttime= new Date ( currentstatus.timestamp);
+   var diff = currenttime.getTime() - starttime.getTime(); 
+diff = parseInt(diff/60000);  // this is a time in milliseconds
+  if(diff>=10) throw new Error("Timeout");
     
-    var currentprice = (10-diff)* auction.basePrice;
+    var currentprice = (10 - diff ) * auction.auctionItem.basePrice;
     auction.currentprice = currentprice;
 
     //logic end 
