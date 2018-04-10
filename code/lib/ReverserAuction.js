@@ -78,8 +78,8 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
 
             var factory = getFactory();
             var bidPlaceEvent = factory.newEvent( NS , 'ReverseAuctionBidUpdate');
-            bidPlaceEvent.bidValue = auction.currentMaxBid.bidValue;
-            bidPlaceEvent.bid = auction.currentMaxBid;
+            bidPlaceEvent.bidValue = auction.currentMinBid.bidValue;
+            bidPlaceEvent.bid = auction.currentMinBid;
             bidPlaceEvent.bids = auction.bids;  
             bidPlaceEvent.auction = auction;          
             return emit( bidPlaceEvent );
