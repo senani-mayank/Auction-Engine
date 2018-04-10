@@ -74,9 +74,9 @@ function onDutchAuctionAccept( acceptTransaction ) {
     }
  
     var now = acceptTransaction.timestamp;
-    /* var timeoutTime = new Date( auction.auctionStartTime) ;
+    var timeoutTime = new Date( auction.auctionStartTime) ;
        timeoutTime.setMinutes( timeoutTime.getMinutes() + 10 );
-    */
+
      
     if( auction.lastBidTimestamp ){
         console.log("your bid has not accepted !!! someone placed a early bid");

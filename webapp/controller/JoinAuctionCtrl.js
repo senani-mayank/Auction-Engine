@@ -152,6 +152,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
             if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "EnglishAuction" ) ){
                 $scope.winnerBid = data.winnerBid;
             }
+            else if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "ReverseAuction" ) ){
+                $scope.winnerBid = data.winnerBid;
+            }            
         }
 
         $scope.$apply();
