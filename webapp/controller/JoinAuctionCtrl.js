@@ -67,7 +67,11 @@ function ($scope, $state, dataFactory, $rootScope ) {
             var templateP =  EnglishAuctionPlaceBidTemplate;
             if( $scope.selectedAuctionType.name == "ReverseAuction" ){
                 templateP = ReverseAuctionPlaceBidTemplate;            
-            }            
+            }          
+            else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+                templateP = DutchAuctionPlaceBidTemplate
+                placeBidType = "Accept" + bidType;
+            }  
             var data = JSON.parse(JSON.stringify( templateP ));
             data.bid = "resource:" + bid["$class"] + "#" + bid.bidId;
 

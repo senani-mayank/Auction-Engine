@@ -136,7 +136,7 @@ var ReverseAuctionPlaceBidTemplate = {
 };
 
 var DutchAuctionPlaceBidTemplate = {
-  "$class": "IN.AC.IIITB.DutchAuction.PlaceDutchAuctionBid",
+  "$class": "IN.AC.IIITB.DutchAuction.AcceptDutchAuctionBid",
   "bid": {},
 };
 
