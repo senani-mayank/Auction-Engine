@@ -243,4 +243,3 @@ diff = parseInt(diff/60000);  // this is a time in milliseconds
             });
 
 }//end currentstatusDutch
-
