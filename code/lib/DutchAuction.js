@@ -98,11 +98,11 @@ function onDutchAuctionAccept( acceptTransaction ) {
      bid.bidValue= auction.currentprice;
               
         auction.lastBidTimestamp = placeBidTransaction.timestamp;
-        if( !auction.bids ){ // if bids array is not initialized
-        auction.bids = [];
-         }
+              if( !auction.bids ){ // if bids array is not initialized
+                auction.bids = [];
+              }
               auction.lastBidTimestamp = now;
-            auction.bids.push ( bid );
+              auction.bids.push ( bid );
               auctionItem.status = "SOLD";
               auction.winnerBid = bid;
              // auction.winnerBid = bidValue;
@@ -159,7 +159,7 @@ function stopDutchAuction( stopAuction ) {
         throw new Error ( "Auction is Not Started Yet...!" );
     }
 
-    if( !auction.currentMaxBid ){
+    if( !auction.winnerBid ){
         auctionItem.status = "UNSOLD"; 
     }
     else{
@@ -168,7 +168,6 @@ function stopDutchAuction( stopAuction ) {
 
     auction.status = "FINISHED";   
     auction.auctionEndTime = stopAuction.timestamp;
-    auction.winnerBid = auction.currentMaxBid;
 
     return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
             .then(function ( DutchAuctionItemRegistry ) {
@@ -185,7 +184,7 @@ function stopDutchAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'DutchAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auction.currentMaxBid;
+                stopAuctionEvent.winnerBid = auction.winnerBid;
                 return emit( stopAuctionEvent );
     
             });

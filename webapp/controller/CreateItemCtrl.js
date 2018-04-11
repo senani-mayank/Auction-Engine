@@ -46,6 +46,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( $scope.selectedAuctionType.name == "ReverseAuction" ){
                 data = JSON.parse( JSON.stringify( reverseItemPostTemplate ) );              
             }
+            else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+                data = JSON.parse( JSON.stringify( dutchItemPostTemplate ) );              
+            }            
             
             data.auctionItemId = $scope.item.itemId;
             data.basePrice = $scope.item.basePrice;

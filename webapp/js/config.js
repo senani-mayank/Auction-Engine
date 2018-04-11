@@ -38,7 +38,7 @@ var itemPostTemplate = {
   "name": "string",
   "description": "string"
 };
-
+//auction item
 var englishItemPostTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuctionItem",
   "auctionItemId": "string",
@@ -57,42 +57,47 @@ var reverseItemPostTemplate = {
   "owner" : ""  
 };
 
+var dutchItemPostTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.DutchAuctionItem",
+  "auctionItemId": "string",
+  "basePrice": 0,
+  "status": "CREATED",
+  "item": {},
+  "owner" : ""  
+};
+//auction
 var englishAuctionPostTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuction",
   "auctionItem": {},
-  //"bids": [
-  //  {}
-  //],
-  //"currentMaxBid": {},
-  //"winnerBid": {},
   "auctionId": "string",
   "status": "CREATED",
   "type": "ENGLISH",
   "description": "string",
-  //"lastBidTimestamp": "2018-03-31T12:25:07.176Z",
-  //"auctionStartTime": "2018-03-31T12:25:07.176Z",
-  //"auctionEndTime": "2018-03-31T12:25:07.176Z",
   "auctioneer": {}
 };
 
 var reverseAuctionPostTemplate = {
   "$class": "IN.AC.IIITB.ReverseAuction.ReverseAuction",
   "auctionItem": {},
-  //"bids": [
-  //  {}
-  //],
-  //"currentMaxBid": {},
-  //"winnerBid": {},
   "auctionId": "string",
   "status": "CREATED",
   "type": "REVERSE",
   "description": "string",
-  //"lastBidTimestamp": "2018-03-31T12:25:07.176Z",
-  //"auctionStartTime": "2018-03-31T12:25:07.176Z",
-  //"auctionEndTime": "2018-03-31T12:25:07.176Z",
   "auctioneer": {}
 };
 
+var dutchAuctionPostTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.DutchAuction",
+  "auctionItem": {},
+  "currentprice": 0,
+  "auctionId": "string",
+  "status": "CREATED",
+  "type": "DUTCH",
+  "description": "string",
+  "auctioneer": {}
+}
+
+//bid template
 var EnglishAuctionBidTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuctionBid",
   "bidValue": "string",
@@ -100,14 +105,6 @@ var EnglishAuctionBidTemplate = {
   "bidId": "string",
   "bidder": {}
 };
-
-var EnglishAuctionPlaceBidTemplate = {
-  "$class": "IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid",
-  "bid": {},
-  //"transactionId": "string",
-  //"timestamp": "2018-04-01T05:54:25.687Z"
-};
-
 
 var ReverseAuctionBidTemplate = {
   "$class": "IN.AC.IIITB.ReverseAuction.ReverseAuctionBid",
@@ -117,21 +114,34 @@ var ReverseAuctionBidTemplate = {
   "bidder": {}
 };
 
+var DutchAuctionBidTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.DutchAuctionBid",
+  "bidValue": 0,//same as current price
+  "auction": {},
+  "bidId": "string",
+  "bidder": {}
+}
+
+//bid post template
+
+var EnglishAuctionPlaceBidTemplate = {
+  "$class": "IN.AC.IIITB.EnglishAuction.PlaceEnglishAuctionBid",
+  "bid": {},
+};
+
 var ReverseAuctionPlaceBidTemplate = {
   "$class": "IN.AC.IIITB.ReverseAuction.PlaceReverseAuctionBid",
   "bid": {},
-  //"transactionId": "string",
-  //"timestamp": "2018-04-01T05:54:25.687Z"
 };
 
+var DutchAuctionPlaceBidTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.PlaceDutchAuctionBid",
+  "bid": {},
+};
 
+//start auction template
 var startEnglishAuctionTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.StartEnglishAuction",
-  "auction": {}
-};
-
-var stopEnglishAuctionTemplate = {
-  "$class": "IN.AC.IIITB.EnglishAuction.StopEnglishAuction",
   "auction": {}
 };
 
@@ -140,8 +150,25 @@ var startReverseAuctionTemplate = {
   "auction": {}
 };
 
+var startDutchAuctionTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.StartDutchAuction",
+  "auction": {}
+};
+
+//stop english template
+var stopEnglishAuctionTemplate = {
+  "$class": "IN.AC.IIITB.EnglishAuction.StopEnglishAuction",
+  "auction": {}
+};
+
+
 var stopReverseAuctionTemplate = {
   "$class": "IN.AC.IIITB.ReverseAuction.StopReverseAuction",
+  "auction": {}
+};
+
+var stopDutchAuctionTemplate = {
+  "$class": "IN.AC.IIITB.DutchAuction.StopDutchAuction",
   "auction": {}
 };
 
