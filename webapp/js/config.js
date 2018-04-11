@@ -1,4 +1,4 @@
-var ip = "54.200.172.41";
+var ip = "34.217.79.112";
 var port = 3000;
 var baseUrl = "http://" + ip + ":" + port + "/api";
 var webSocketUrl = "ws:" + ip + ":" + port;
