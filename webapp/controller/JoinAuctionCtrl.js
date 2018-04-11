@@ -31,6 +31,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
         if( $scope.selectedAuctionType.name == "ReverseAuction" ){
              template = ReverseAuctionBidTemplate;            
         }
+        else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+            template = ReverseAuctionBidTemplate;
+        }
         var data = JSON.parse(JSON.stringify( template ));
         
         if( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ){
@@ -39,6 +42,14 @@ function ($scope, $state, dataFactory, $rootScope ) {
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
             data.bidValue = bidValue;
             data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+        }
+        else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+            bidType = bidType + "Bid";
+            data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
+            data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
+            data.bidValue = bidValue;
+            data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+            
         }
 
         var createBidRes = dataFactory.postResource( bidType, data );//create bid
@@ -120,6 +131,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
         if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
             template = startReverseAuctionTemplate;
         }
+        else if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
+            template = startDutchAuctionTemplate;
+        }
+
         var data = JSON.parse(JSON.stringify( template ));
         var url = "start" + $scope.selectedAuctionTypeA.name;
         data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;
@@ -137,9 +152,13 @@ function ($scope, $state, dataFactory, $rootScope ) {
     function stopAuction( auction ){
 
         var template = stopEnglishAuctionTemplate;
-        if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
-            template = stopReverseAuctionTemplate;
+        if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
+            template = stopDutchAuctionTemplate;
         }
+        else if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
+            template = stopReverseAuctionTemplate;
+        }     
+        
         var data = JSON.parse(JSON.stringify( template ));
         var url = "stop" + $scope.selectedAuctionTypeA.name;
         data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;

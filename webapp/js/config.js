@@ -1,8 +1,9 @@
+var NS = "IN.AC.IIITB";
+
 var ip = "34.217.79.112";
 var port = 3000;
-var baseUrl = "http://" + ip + ":" + port + "/api";
+var baseUrl = "http://" + ip + ":" + port + "/api" ;
 var webSocketUrl = "ws:" + ip + ":" + port;
-var NS = "IN.AC.IIITB";
 
 var auctionTypes = [ 
                     { name : "<-- Select Auction Type -->", auctionTypeId : "at0" },
