@@ -32,7 +32,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
              template = ReverseAuctionBidTemplate;            
         }
         else if( $scope.selectedAuctionType.name == "DutchAuction" ){
-            template = ReverseAuctionBidTemplate;
+            template = DutchAuctionBidTemplate;
         }
         var data = JSON.parse(JSON.stringify( template ));
         
