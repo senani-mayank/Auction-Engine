@@ -49,8 +49,12 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
         else{
 
             if(  ( !auction.currentMinBid ) ||  ( auction.currentMinBid.bidValue > bidValue ) ){
-                auction.currentMinBid.bidValue = bidValue;
+
+                auction["currentMinBid"] = bid;
                 auction.lastBidTimestamp = placeBidTransaction.timestamp;
+                if( !auction.bids ){ // if bids array is not initialized
+                    auction.bids = [];
+                }                
                 auction.bids.push( bid );
                 return updateAssets( auction );
             }
@@ -74,8 +78,8 @@ function onReverseAuctionBidPlaced( placeBidTransaction ) {
 
             var factory = getFactory();
             var bidPlaceEvent = factory.newEvent( NS , 'ReverseAuctionBidUpdate');
-            bidPlaceEvent.bidValue = auction.currentMaxBid.bidValue;
-            bidPlaceEvent.bid = auction.currentMaxBid;
+            bidPlaceEvent.bidValue = auction.currentMinBid.bidValue;
+            bidPlaceEvent.bid = auction.currentMinBid;
             bidPlaceEvent.bids = auction.bids;  
             bidPlaceEvent.auction = auction;          
             return emit( bidPlaceEvent );
@@ -141,7 +145,7 @@ function stopReverseAuction( stopAuction ) {
         throw new Error ( "Auction is Not Started Yet...!" );
     }
 
-    if( !auction.currentMaxBid ){
+    if( !auction.currentMinBid ){
         auctionItem.status = "UNSOLD"; 
     }
     else{
@@ -150,7 +154,7 @@ function stopReverseAuction( stopAuction ) {
 
     auction.status = "FINISHED";   
     auction.auctionEndTime = stopAuction.timestamp;
-    auction.winnerBid = auction.currentMaxBid;
+    auction.winnerBid = auction.currentMinBid;
 
     return  getAssetRegistry( NS + '.ReverseAuctionItem' )//update auctionItem status
             .then(function ( reverseAuctionItemRegistry ) {
@@ -167,7 +171,7 @@ function stopReverseAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'ReverseAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auction.currentMaxBid;
+                stopAuctionEvent.winnerBid = auction.currentMinBid;
                 return emit( stopAuctionEvent );
     
             });

@@ -13,8 +13,10 @@
 asset DutchAuction extends Auction {
   --> DutchAuctionItem auctionItem
     //   o Double itemquantity
-    o Double currentprice
-  --> DutchAuctionBid[] bids
+    o Double currentprice optional
+  --> DutchAuctionBid[] bids optional
+  --> DutchAuctionBid winnerBid optional
+
 }
 
 asset DutchAuctionBid extends Bid {

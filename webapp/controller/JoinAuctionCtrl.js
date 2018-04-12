@@ -6,7 +6,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
     var loggedInUser = dataFactory.getLoggedInUser();
     $scope.auctionTypes = dataFactory.getAuctionTypes();
     $scope.bids = [];
+    $scope.bidsA = [];    
     $scope.winnerBid = "NA";
+    $scope.winnerBidA = "NA";
+    
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
     //bidder part
@@ -24,16 +27,30 @@ function ($scope, $state, dataFactory, $rootScope ) {
         var bidType = $scope.selectedAuctionType.name;
         var bidder = {};
         var bidId = {};
-        var data = JSON.parse(JSON.stringify(englishAuctionBidTemplate));
+        var template = EnglishAuctionBidTemplate;
+        if( $scope.selectedAuctionType.name == "ReverseAuction" ){
+             template = ReverseAuctionBidTemplate;            
+        }
+        else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+            template = DutchAuctionBidTemplate;
+        }
+        var data = JSON.parse(JSON.stringify( template ));
         
-        if( $scope.selectedAuctionType.name == "EnglishAuction" ){
+        if( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ){
             bidType = bidType + "Bid";
             data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
             data.bidValue = bidValue;
-            data.auction = "resource:" + $scope.selectedAuction["$class"] + "#" + $scope.selectedAuction.auctionId;
+            data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
         }
-
+        else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+            bidType = bidType + "Bid";
+            data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
+            data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
+            data.bidValue = bidValue;
+            data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+            
+        }
 
         var createBidRes = dataFactory.postResource( bidType, data );//create bid
         createBidRes.then(function successCallback(response) {
@@ -46,9 +63,16 @@ function ($scope, $state, dataFactory, $rootScope ) {
         
         function submitBid( auction, bid ){//submit bid after it is created
 
-            //var transactionId = bid.bidId + "t";
             var placeBidType = "Place" + bidType;//create full name of url
-            var data = JSON.parse(JSON.stringify(englishAuctionPlaceBidTemplate));
+            var templateP =  EnglishAuctionPlaceBidTemplate;
+            if( $scope.selectedAuctionType.name == "ReverseAuction" ){
+                templateP = ReverseAuctionPlaceBidTemplate;            
+            }          
+            else if( $scope.selectedAuctionType.name == "DutchAuction" ){
+                templateP = DutchAuctionPlaceBidTemplate
+                placeBidType = "Accept" + bidType;
+            }  
+            var data = JSON.parse(JSON.stringify( templateP ));
             data.bid = "resource:" + bid["$class"] + "#" + bid.bidId;
 
             var placeBidRes = dataFactory.postResource( placeBidType, data );//place bid after creating
@@ -107,13 +131,21 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
     function startAuction( auction ){
 
-        var data = JSON.parse(JSON.stringify(startEnglishAuctionTemplate));
+        var template = startEnglishAuctionTemplate;
+        if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
+            template = startReverseAuctionTemplate;
+        }
+        else if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
+            template = startDutchAuctionTemplate;
+        }
+
+        var data = JSON.parse(JSON.stringify( template ));
         var url = "start" + $scope.selectedAuctionTypeA.name;
         data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;
 
-        var res = dataFactory.postResource( url, data );//get auctions list
+        var res = dataFactory.postResource( url, data );//start auction
         res.then(function successCallback(response) {
-            alert("engish auction started");
+            alert("auction started");
             console.log("started auction", response);
         }, function errorCallback(response) {
             $rootScope.showError(response);            
@@ -123,13 +155,21 @@ function ($scope, $state, dataFactory, $rootScope ) {
     
     function stopAuction( auction ){
 
-        var data = JSON.parse(JSON.stringify(stopEnglishAuctionTemplate));
+        var template = stopEnglishAuctionTemplate;
+        if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
+            template = stopDutchAuctionTemplate;
+        }
+        else if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
+            template = stopReverseAuctionTemplate;
+        }     
+        
+        var data = JSON.parse(JSON.stringify( template ));
         var url = "stop" + $scope.selectedAuctionTypeA.name;
         data.auction = "resource:" + $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;
 
         var res = dataFactory.postResource( url, data );//get auctions list
         res.then(function successCallback(response) {
-            alert("engish auction stopped");
+            alert(" auction stopped");
             console.log("stopped auction", response);
         }, function errorCallback(response) {
             $rootScope.showError(response);            
@@ -141,20 +181,42 @@ function ($scope, $state, dataFactory, $rootScope ) {
     function onEventReceived( data ){
 
         data = JSON.parse(data);
-        var currentAuctionUri = "resource:" +  $scope.selectedAuction["$class"] + "#" + $scope.selectedAuction.auctionId;
-        if( data["$class"] == (  $scope.selectedAuction["$class"]  + "BidUpdate") ){
-            if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "EnglishAuction" ) ){
-                $scope.currentMaxBid = data.bidValue;
-                $scope.bids = data.bids;
-            }
-        }
-        else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
-            if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "EnglishAuction" ) ){
-                $scope.winnerBid = data.winnerBid;
-            }
-            else if( ( currentAuctionUri == data.auction ) && ( $scope.selectedAuctionType.name == "ReverseAuction" ) ){
-                $scope.winnerBid = data.winnerBid;
+        var currentAuctionUri = undefined;
+        var currentAuctionUriA = undefined;
+
+        if( $scope.selectedAuction ){//bidder
+            currentAuctionUri = "resource:" +  $scope.selectedAuction["$class"] + "#" + $scope.selectedAuction.auctionId;  
+            //bid update         
+            if( data["$class"] == (  $scope.selectedAuction["$class"]  + "BidUpdate") ){//on bidder side
+                if( ( currentAuctionUri == data.auction ) &&  ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ) ){
+                    $scope.currentMaxBid = data.bidValue;
+                    $scope.bids = data.bids;
+                }
+            }//stop auction
+            else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
+                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ) ){
+                    $scope.winnerBid = data.winnerBid;
+                }
+             
             }            
+        }
+
+        if( $scope.selectedAuctionA ){//auctioneer
+
+            currentAuctionUriA = "resource:" +  $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;            
+            if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "BidUpdate") ){
+                if( ( currentAuctionUriA == data.auction ) &&  ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) ) ){
+                    $scope.currentMaxBidA = data.bidValue;
+                    $scope.bidsA = data.bids;
+                }
+            } //stop auction
+            else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
+                if( ( currentAuctionUriA == data.auction ) && ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) ) ){
+                    $scope.winnerBidA = data.winnerBid;
+                }
+             
+            }                 
+
         }
 
         $scope.$apply();
