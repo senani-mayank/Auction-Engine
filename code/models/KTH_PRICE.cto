@@ -1,29 +1,31 @@
 
 /* *
- * Contains English Auction Elements
+ * Contains KthPrice Auction Elements
  */
  
-namespace IN.AC.IIITB.Kth_Price
+namespace IN.AC.IIITB.KthPriceAuction
 
 import IN.AC.IIITB.*
 
 /**
-  English Auction Assets
+  KthPrice Auction Assets
  */
 
-asset Kth_Price extends Auction {
-  --> Kth_PriceItem auctionItem
-  --> Kth_PriceBid[] bids optional
-  --> Kth_PriceBid currentMaxBid optional
-  --> Kth_PriceBid winnerBid optional //bid contains bidder name also
+asset KthPriceAuction extends Auction {
+  --> KthPriceAuctionItem auctionItem
+  --> KthPriceAuctionBid[] bids optional
+  --> KthPriceAuctionBid currentMaxBid optional
+  --> KthPriceAuctionBid winnerBid optional //bid contains bidder name also
+  
+  o Integer k
 }
 
-asset Kth_PriceBid extends Bid {
-  o String bidValue
-  --> Kth_Price auction
+asset KthPriceAuctionBid extends Bid {
+  o Double bidValue
+  --> KthPriceAuction auction
 }
 
-asset Kth_PriceItem extends AuctionItem {
+asset KthPriceAuctionItem extends AuctionItem {
 
  }
 
@@ -37,31 +39,31 @@ asset Kth_PriceItem extends AuctionItem {
   Transactions
  */
 
-transaction StartKth_Price {
-  --> Kth_Price auction
+transaction StartKthPriceAuction {
+  --> KthPriceAuction auction
 }
 
-transaction PlaceKth_PriceBid {
-  --> Kth_PriceBid bid
+transaction PlaceKthPriceAuctionBid {
+  --> KthPriceAuctionBid bid
 }
 
-transaction Kth_PriceItemSold extends ItemSold {
-  --> Kth_Price auction
-  --> Kth_PriceBid winnerBid
+transaction KthPriceAuctionItemSold extends ItemSold {
+  --> KthPriceAuction auction
+  --> KthPriceAuctionBid winnerBid
 }
 
-transaction StopKth_Price extends StopAuction {
-  --> Kth_Price auction
+transaction StopKthPriceAuction extends StopAuction {
+  --> KthPriceAuction auction
 }
 
-event Kth_PriceBidUpdate {
-  --> Kth_PriceBid bid
-  o String bidValue
-  --> Kth_PriceBid[] bids
-  --> Kth_Price auction
+event KthPriceAuctionBidUpdate {
+  //--> KthPriceAuctionBid bid
+  //o String bidValue
+  --> KthPriceAuctionBid[] bids
+  --> KthPriceAuction auction
 }
 
-event Kth_PriceStopEvent {
-  --> Kth_Price auction
-  --> Kth_PriceBid winnerBid
+event KthPriceAuctionStopEvent {
+  --> KthPriceAuction auction
+  //--> KthPriceAuctionBid winnerBid
 }
