@@ -16,6 +16,14 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="write description" ng-model="auctionDescription" required="required">
             </div>
+
+            <div ng-if="selectedAuctionType.name == 'KthPriceAuction'" >
+                <h4 class="text-left">K</h4>   
+                <div class="form-group" >
+                    <input type="number" ng-model="selectedItem.k" min="1" max="5" class="form-control" placeholder="write K value" required="required">
+                </div>   
+            </div>  
+
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block mt">Create Auction</button>
             </div>

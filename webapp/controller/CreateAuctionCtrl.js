@@ -6,6 +6,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
     var auctionTypes = dataFactory.getAuctionTypes();
     $scope.selectedAuctionType = auctionTypes[0];
     $scope.selectedItem = {};
+    $scope.selectedItem["k"] = 1;//for kth price auction
 
     $scope.items = [];
 
@@ -38,6 +39,16 @@ function ($scope, $state, dataFactory, $rootScope ) {
             data.auctioneer = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
 
         }        
+        else if( $scope.selectedAuctionType.name == "KthPriceAuction" ){
+
+            data = JSON.parse(JSON.stringify( KthPriceAuctionPostTemplate ) );
+            data.auctionItem = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.auctionItemId;
+            data.description = $scope.auctionDescription;
+            data.auctionId = $scope.auctionId;
+            data.auctioneer = "resource:" + NS + ".Auctioneer" + "#" + loggedInUser.userId;
+            data.k = $scope.selectedItem["k"];
+
+        }         
 
 
         var res = dataFactory.postResource( $scope.selectedAuctionType.name, data );

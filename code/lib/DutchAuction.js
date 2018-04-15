@@ -11,7 +11,7 @@ var DutchAuctiontimeoutInterval = 1000;
  * @transaction
  */
 function onDutchAuctionStart( startAuction ) {
-    chaluHua();
+    
     var NS = "IN.AC.IIITB.DutchAuction";
     var auction = startAuction.auction;
 
@@ -45,21 +45,6 @@ function onDutchAuctionStart( startAuction ) {
                 console.log("Auction Updated Successfully.!");
                 return DutchAuctionRegistry.update( auction );
             });
-    
-
-    function chaluHua(){
-        var c = 0;
-        var eobj = setInterval( function(){
-
-                var factory = getFactory();
-                var faltuEvent = factory.newEvent( NS , 'faltuEvent');
-                faltuEvent.msg = "dfdfdfdfdf";
-                emit( stopAuctionEvent );
-                if( (++c) == 5 ){
-                    clearInterval(c);
-                }            
-            },3000 );
-    }
             
 
 }//end startDutchAuction
@@ -111,7 +96,7 @@ function onDutchAuctionAccept( acceptTransaction ) {
     console.log("bid recieved !! ");
      bid.bidValue= auction.currentprice;
               
-        auction.lastBidTimestamp = placeBidTransaction.timestamp;
+        auction.lastBidTimestamp = acceptTransaction.timestamp;
               if( !auction.bids ){ // if bids array is not initialized
                 auction.bids = [];
               }
@@ -198,7 +183,7 @@ function stopDutchAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'DutchAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auction.winnerBid;
+                //stopAuctionEvent.winnerBid = ( auction.winnerBid ) ?   :  ;
                 return emit( stopAuctionEvent );
     
             });

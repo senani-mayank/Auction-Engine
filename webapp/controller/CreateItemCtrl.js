@@ -49,7 +49,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( $scope.selectedAuctionType.name == "DutchAuction" ){
                 data = JSON.parse( JSON.stringify( dutchItemPostTemplate ) );              
             }            
-            
+            else if( $scope.selectedAuctionType.name == "KthPriceAuction" ){
+                data = JSON.parse( JSON.stringify( KthPriceItemPostTemplate ) );              
+            }   
+
             data.auctionItemId = $scope.item.itemId;
             data.basePrice = $scope.item.basePrice;
             data.item = "resource:" + $scope.selectedItem["$class"] + "#" + $scope.selectedItem.itemId;
