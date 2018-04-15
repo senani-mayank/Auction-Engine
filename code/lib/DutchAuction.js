@@ -11,7 +11,7 @@ var DutchAuctiontimeoutInterval = 1000;
  * @transaction
  */
 function onDutchAuctionStart( startAuction ) {
-    chaluHua();
+    
     var NS = "IN.AC.IIITB.DutchAuction";
     var auction = startAuction.auction;
 
@@ -45,21 +45,6 @@ function onDutchAuctionStart( startAuction ) {
                 console.log("Auction Updated Successfully.!");
                 return DutchAuctionRegistry.update( auction );
             });
-    
-
-    function chaluHua(){
-        var c = 0;
-        var eobj = setInterval( function(){
-
-                var factory = getFactory();
-                var faltuEvent = factory.newEvent( NS , 'faltuEvent');
-                faltuEvent.msg = "dfdfdfdfdf";
-                emit( stopAuctionEvent );
-                if( (++c) == 5 ){
-                    clearInterval(c);
-                }            
-            },3000 );
-    }
             
 
 }//end startDutchAuction
