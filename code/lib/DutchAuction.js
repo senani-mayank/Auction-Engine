@@ -11,7 +11,7 @@ var DutchAuctiontimeoutInterval = 1000;
  * @transaction
  */
 function onDutchAuctionStart( startAuction ) {
-  
+    chaluHua();
     var NS = "IN.AC.IIITB.DutchAuction";
     var auction = startAuction.auction;
 
@@ -32,7 +32,7 @@ function onDutchAuctionStart( startAuction ) {
     auction.auctionItem.status = "AUCTIONING";
 
     //emit event 
-    chaluHua();
+    
    return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
             .then(function ( DutchAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
