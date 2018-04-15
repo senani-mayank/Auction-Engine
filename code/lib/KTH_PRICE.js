@@ -277,6 +277,8 @@ function stopKthPriceAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'KthPriceAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
+                stopAuctionEvent.AmountToPay = AmountToPay;
+                stopAuctionEvent.winnerBid = auction.winnerBid;
        console.log("s");
            //     stopAuctionEvent.winnerBid = auction.currentMaxBid;
        console.log("s");         
