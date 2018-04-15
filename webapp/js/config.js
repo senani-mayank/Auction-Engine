@@ -66,6 +66,17 @@ var dutchItemPostTemplate = {
   "item": {},
   "owner" : ""  
 };
+
+
+var KthPriceItemPostTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.KthPriceAuctionItem",
+  "auctionItemId": "string",
+  "basePrice": 0,
+  "status": "CREATED",
+  "item": {},
+  "owner" : ""
+};
+
 //auction
 var englishAuctionPostTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuction",
@@ -98,6 +109,17 @@ var dutchAuctionPostTemplate = {
   "auctioneer": {}
 }
 
+var KthPriceAuctionPostTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.KthPriceAuction",
+  "auctionItem": {},
+  "k": 0,
+  "auctionId": "string",
+  "status": "CREATED",
+  "type": "KTH_PRICE",
+  "description": "string",
+  "auctioneer": {}
+};
+
 //bid template
 var EnglishAuctionBidTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.EnglishAuctionBid",
@@ -123,6 +145,14 @@ var DutchAuctionBidTemplate = {
   "bidder": {}
 }
 
+var KthPriceAuctionBidTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.KthPriceAuctionBid",
+  "bidValue": "string",
+  "auction": {},
+  "bidId": "string",
+  "bidder": {}
+};
+
 //bid post template
 
 var EnglishAuctionPlaceBidTemplate = {
@@ -140,6 +170,12 @@ var DutchAuctionPlaceBidTemplate = {
   "bid": {},
 };
 
+var KthPriceAuctionPlaceBidTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.PlaceKthPriceAuctionBid",
+  "bid": {},
+};
+
+
 //start auction template
 var startEnglishAuctionTemplate = {
   "$class": "IN.AC.IIITB.EnglishAuction.StartEnglishAuction",
@@ -153,6 +189,11 @@ var startReverseAuctionTemplate = {
 
 var startDutchAuctionTemplate = {
   "$class": "IN.AC.IIITB.DutchAuction.StartDutchAuction",
+  "auction": {}
+};
+
+var startKthPriceAuctionTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.StartKthPriceAuction",
   "auction": {}
 };
 
@@ -173,6 +214,12 @@ var stopDutchAuctionTemplate = {
   "auction": {}
 };
 
+var stopKthPriceAuctionTemplate = {
+  "$class": "IN.AC.IIITB.KthPriceAuction.StopKthPriceAuction",
+  "auction": {}
+};
+
+//get auction status
 var GetCurrentStatusDutchTemplate  = {
   "$class": "IN.AC.IIITB.DutchAuction.GetCurrentStatusDutch",
   "auction": {}
