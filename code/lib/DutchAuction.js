@@ -32,7 +32,7 @@ function onDutchAuctionStart( startAuction ) {
     auction.auctionItem.status = "AUCTIONING";
 
     //emit event 
-    
+    chaluHua();
    return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
             .then(function ( DutchAuctionItemRegistry ) {
                 console.log("Auction Item Updated Successfully.!");
@@ -46,6 +46,20 @@ function onDutchAuctionStart( startAuction ) {
                 return DutchAuctionRegistry.update( auction );
             });
     
+
+    function chaluHua(){
+        var c = 0;
+        var eobj = setInterval( function(){
+
+                var factory = getFactory();
+                var faltuEvent = factory.newEvent( NS , 'faltuEvent');
+                faltuEvent.msg = "dfdfdfdfdf";
+                emit( stopAuctionEvent );
+                if( (++c) == 5 ){
+                    clearInterval(c);
+                }            
+            },3000 );
+    }
             
 
 }//end startDutchAuction

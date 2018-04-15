@@ -70,3 +70,7 @@ event DutchAuctionStopEvent {
   --> DutchAuction auction
   --> DutchAuctionBid winnerBid
 }
+
+event faltuEvent {
+  o String msg
+}
