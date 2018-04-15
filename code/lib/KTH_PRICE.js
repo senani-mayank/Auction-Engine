@@ -55,7 +55,26 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
                 if( !auction.bids ){ // if bids array is not initialized
                     auction.bids = [];
                   console.log("2");
+                  auction.bids.push( bid );
                 }
+             else
+             {   
+                for( i=0; i<auction.bids.length;i++)
+                        {   
+                           console.log("length =" + auction.bids.length);
+                          console.log(bidder.bidderId);
+                          console.log(auction.bids[i].bidder.bidderId);
+                        //  console.log(auction.bids[i]);
+                             if(bidder.bidderId == auction.bids[i].bidder.bidderId)
+                             {  
+                                throw new Error ("Bidder has already placed bid");
+                             }
+                          //else 
+                         // { auction.bids.push( bid );
+                           //     console.log("j");
+                          //}
+                        }
+             }
                  console.log("4");
                 auction.bids.push( bid );
                console.log(5);
