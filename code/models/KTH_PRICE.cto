@@ -14,7 +14,6 @@ import IN.AC.IIITB.*
 asset KthPriceAuction extends Auction {
   --> KthPriceAuctionItem auctionItem
   --> KthPriceAuctionBid[] bids optional
-  Concepts
   --> KthPriceAuctionBid currentMaxBid optional
   --> KthPriceAuctionBid winnerBid optional //bid contains bidder name also
   
@@ -32,6 +31,7 @@ asset KthPriceAuctionItem extends AuctionItem {
 
 
 /**
+  Concepts
  */
 
 
@@ -66,5 +66,5 @@ event KthPriceAuctionBidUpdate {
 event KthPriceAuctionStopEvent {
   --> KthPriceAuction auction
   o Double AmountToPay
-  --> KthPriceAuctionBid winnerBid
+  //--> KthPriceAuctionBid winnerBid
 }
