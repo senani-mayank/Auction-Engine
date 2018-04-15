@@ -47,7 +47,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
             bidType = bidType + "Bid";
             data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
-            data.bidValue = ( $scope.currentMaxBid ) ? $scope.currentMaxBid : 767 ;
+            data.bidValue = ( $scope.currentMaxBid != "NA" ) ? $scope.currentMaxBid : 767 ;
             data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
             
         }
@@ -219,7 +219,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 }
             }//stop auction
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
-                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ) ){
+                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" )  ) ){
                     $scope.winnerBid = data.winnerBid;
                 }             
             }               //update current dutch price 
@@ -239,7 +239,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 }
             } //stop auction
             else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
-                if( ( currentAuctionUriA == data.auction ) && ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) ) ){
+                if( ( currentAuctionUriA == data.auction ) && ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" ) ) ){
                     $scope.winnerBidA = data.winnerBid;
                 }
              
