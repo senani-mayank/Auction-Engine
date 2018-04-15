@@ -66,5 +66,5 @@ event KthPriceAuctionBidUpdate {
 event KthPriceAuctionStopEvent {
   --> KthPriceAuction auction
   o Double AmountToPay
-  //--> KthPriceAuctionBid winnerBid
+  --> KthPriceAuctionBid winnerBid
 }
