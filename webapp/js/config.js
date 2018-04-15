@@ -173,5 +173,11 @@ var stopDutchAuctionTemplate = {
   "auction": {}
 };
 
+var GetCurrentStatusDutchTemplate  = {
+  "$class": "IN.AC.IIITB.DutchAuction.GetCurrentStatusDutch",
+  "auction": {}
+}
+
+
 dummyUser = {  userId : 34, biddingId : 343, auctioneerId : 234   };
 dummyAuctions = [ { "name" : "auction1", "auctionId" : "1" }, { "name" : "auction2", "auctionId" : "2" }, { "name" : "auction3", "auctionId" : "3" } ];

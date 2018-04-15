@@ -96,7 +96,7 @@ function onDutchAuctionAccept( acceptTransaction ) {
     console.log("bid recieved !! ");
      bid.bidValue= auction.currentprice;
               
-        auction.lastBidTimestamp = placeBidTransaction.timestamp;
+        auction.lastBidTimestamp = acceptTransaction.timestamp;
               if( !auction.bids ){ // if bids array is not initialized
                 auction.bids = [];
               }
@@ -183,7 +183,7 @@ function stopDutchAuction( stopAuction ) {
                 var factory = getFactory();
                 var stopAuctionEvent = factory.newEvent( NS , 'DutchAuctionStopEvent');
                 stopAuctionEvent.auction = auction;
-                stopAuctionEvent.winnerBid = auction.winnerBid;
+                //stopAuctionEvent.winnerBid = ( auction.winnerBid ) ?   :  ;
                 return emit( stopAuctionEvent );
     
             });

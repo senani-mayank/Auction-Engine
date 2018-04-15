@@ -47,7 +47,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
             bidType = bidType + "Bid";
             data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
-            data.bidValue = bidValue;
+            data.bidValue = ( $scope.currentMaxBid ) ? $scope.currentMaxBid : 767 ;
             data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
             
         }
@@ -131,6 +131,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
     function startAuction( auction ){
 
+        auction = $scope.selectedAuctionA;
         var template = startEnglishAuctionTemplate;
         if( $scope.selectedAuctionTypeA.name == "ReverseAuction" ){
             template = startReverseAuctionTemplate;
@@ -147,9 +148,33 @@ function ($scope, $state, dataFactory, $rootScope ) {
         res.then(function successCallback(response) {
             alert("auction started");
             console.log("started auction", response);
+            if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
+                updateDutchStatus( auction );
+            }
         }, function errorCallback(response) {
             $rootScope.showError(response);            
         });
+
+        //contineously fetch dutch auction status
+        function updateDutchStatus( auction ){
+
+            var inter = setInterval(function(){
+                
+                var template = GetCurrentStatusDutchTemplate;                
+                var data = JSON.parse(JSON.stringify( template ));
+                data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+                var url =  "GetCurrentStatusDutch";
+                var res = dataFactory.postResource( url, data );//start auction
+                res.then(function successCallback(response) {
+                    console.log("GetCurrentStatusDutch called");
+                }, function errorCallback(response) {
+                    clearTimeout( inter );
+                    $rootScope.showError(response);            
+                });     
+
+            }, 10000);
+
+        }
 
     }   
     
@@ -196,9 +221,12 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
                 if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) ) ){
                     $scope.winnerBid = data.winnerBid;
-                }
-             
-            }            
+                }             
+            }               //update current dutch price 
+            else if( data["$class"] == (  NS + "." + $scope.selectedAuctionType.name + ".DutchAuctionStatusUpdate" ) ){
+                $scope.currentMaxBid = data.currentprice;
+            }           
+
         }
 
         if( $scope.selectedAuctionA ){//auctioneer
@@ -215,7 +243,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                     $scope.winnerBidA = data.winnerBid;
                 }
              
-            }                 
+            }           
 
         }
 
