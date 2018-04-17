@@ -29,9 +29,14 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     //check if auction should be closed
     var now = placeBidTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
+    var auctionTimeoutTime = new Date( auction.auctionStartTime) ;
+    auctionTimeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );
     timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
-
-    if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
+    
+    if(  now >= auctionTimeoutTime ){//no bid & times up
+        throw new Error("Auction Time is UP.");
+    }
+   else if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
         throw new Error("no bid placed and auction time is up, item unsold");
     }
     else {
