@@ -119,7 +119,8 @@ function onEnglishAuctionStart( startAuction ) {
     auction.auctionStartTime = startAuction.timestamp;
     auction.auctionItem.status = "AUCTIONING";
     var endTime = new Date( startAuction.timestamp );
-    auction.auctionEndTime = endTime.setMinutes( endTime.getMinutes() + 20 );//set auction end time to 20 minutes
+    endTime.setMinutes( endTime.getMinutes() + 20 );
+    auction.auctionEndTime = endTime.getTime();//set auction end time to 20 minutes
 
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistry ) {
