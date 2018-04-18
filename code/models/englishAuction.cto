@@ -65,3 +65,9 @@ event EnglishAuctionStopEvent {
   --> EnglishAuction auction
   --> EnglishAuctionBid winnerBid
 }
+
+event EnglishAuctionStart {
+  --> EnglishAuction auction
+}
+
+

@@ -118,6 +118,8 @@ function onEnglishAuctionStart( startAuction ) {
     auction.status = "IN_PROGRESS";
     auction.auctionStartTime = startAuction.timestamp;
     auction.auctionItem.status = "AUCTIONING";
+    var endTime = new Date( startAuction.timestamp );
+    auction.auctionEndTime = endTime.setMinutes( endTime.getMinutes() + 20 );//set auction end time to 20 minutes
 
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistry ) {
@@ -128,7 +130,15 @@ function onEnglishAuctionStart( startAuction ) {
             })
             .then(function( englishAuctionRegistry ){
                 return englishAuctionRegistry.update( auction );
-            });             ;
+            })
+            .then(function ( ) {//emt event about start auction
+
+                var factory = getFactory();
+                var startAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStart');
+                startAuctionEvent.auction = auction;          
+                return emit( startAuctionEvent );
+    
+            });   
 
 }//end startEnglishAuction
 

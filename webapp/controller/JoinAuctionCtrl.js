@@ -159,6 +159,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
         res.then(function successCallback(response) {
             alert("auction started");
             console.log("started auction", response);
+            $scope.auctionEndTimeA = response.auctionEndTime; //updates auction end time
             if( $scope.selectedAuctionTypeA.name == "DutchAuction" ){
                 updateDutchStatus( auction );
             }
@@ -230,6 +231,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 if( ( currentAuctionUri == data.auction ) &&  ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionType.name == "KthPriceAuction" ) ) ){
                     $scope.currentMaxBid = data.bidValue;
                     $scope.bids = data.bids;
+                    $scope.auctionEndTime = data.auction.auctionEndTime;                    
                 }
             }//stop auction
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
@@ -240,9 +242,11 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( data["$class"] == (  NS + "." + $scope.selectedAuctionType.name + ".DutchAuctionStatusUpdate" ) ){
                 $scope.currentMaxBid = data.currentprice;
             }           
-
+            else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "Start") ){
+                $scope.auctionEndTime = data.auction.auctionEndTime;//set end time of bidder
+            } 
         }
-
+        
         if( $scope.selectedAuctionA ){//auctioneer
 
             currentAuctionUriA = "resource:" +  $scope.selectedAuctionA["$class"] + "#" + $scope.selectedAuctionA.auctionId;            
@@ -250,6 +254,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 if( ( currentAuctionUriA == data.auction ) &&  ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "KthPriceAuction" ) ) ){
                     $scope.currentMaxBidA = data.bidValue;
                     $scope.bidsA = data.bids;
+                    $scope.auctionEndTimeA = data.auction.auctionEndTime;
                 }
             } //stop auction
             else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
@@ -257,7 +262,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
                     $scope.winnerBidA = data.winnerBid;
                 }
              
-            }           
+            }
+            else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "Start") ){
+                $scope.auctionEndTimeA = data.auction.auctionEndTime;//set end time of auctioneer
+            }                        
 
         }
 
