@@ -74,12 +74,13 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
                            //     console.log("j");
                           //}
                         }
+                        console.log("4");
+                        auction.bids.push( bid );
+                       console.log(5);
+                        return updateAssets( auction );
+                    console.log(6);
              }
-                 console.log("4");
-                auction.bids.push( bid );
-               console.log(5);
-                return updateAssets( auction );
-            console.log(6);
+                
             }
             else{
                 if( !auction.bids ){ // if bids array is not initialized
