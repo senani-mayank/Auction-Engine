@@ -30,13 +30,13 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     var now = placeBidTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
     var auctionTimeoutTime = new Date( auction.auctionStartTime) ;
-    auctionTimeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );//20 minutes whole auction time
+   /// auctionTimeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );//20 minutes whole auction time
     timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
     
-    if(  now >= auctionTimeoutTime ){//no bid & times up
+    /*if(  now >= auctionTimeoutTime ){//no bid & times up
         throw new Error("Auction Time is UP.");
     }
-   else if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
+   else*/ if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
         throw new Error("no bid placed and auction time is up, item unsold");
     }
     else {
@@ -61,6 +61,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
                     auction.bids = [];
                 }
                 auction.bids.push( bid );
+                //auction.auctionEndTime = new Date( timeoutTime.toISOString() );
                 return updateAssets( auction );
             }
             else{
@@ -85,7 +86,8 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             bidPlaceEvent.bidValue = auction.currentMaxBid.bidValue;
             bidPlaceEvent.bid = auction.currentMaxBid;
             bidPlaceEvent.bids = auction.bids;  
-            bidPlaceEvent.auction = auction;          
+            bidPlaceEvent.auction = auction;   
+            bidPlaceEvent.auctionEndTime = auction.auctionEndTime.toISOString();       
             return emit( bidPlaceEvent );
 
         });        
@@ -120,7 +122,7 @@ function onEnglishAuctionStart( startAuction ) {
     auction.auctionItem.status = "AUCTIONING";
     
     var endTime = new Date( startAuction.timestamp );
-    endTime.setMinutes( endTime.getMinutes() + 20 );
+    endTime.setMinutes( endTime.getMinutes() + 2 );
     endTime = new Date ( endTime.toISOString() );//set auction end time to 20 minutes
     auction.auctionEndTime = endTime;
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status

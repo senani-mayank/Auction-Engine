@@ -59,6 +59,7 @@ event EnglishAuctionBidUpdate {
   o String bidValue
   --> EnglishAuctionBid[] bids
   --> EnglishAuction auction
+  o String auctionEndTime
 }
 
 event EnglishAuctionStopEvent {

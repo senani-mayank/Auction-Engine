@@ -54,7 +54,10 @@ app.controller('indexCtrl', ["$scope", "$state", "$rootScope", function( $scope,
               ws.onclose = function()
               { 
                  // websocket is closed.
-                 alert("Connection is closed..."); 
+                // alert("Connection is closed...");
+                setTimeout(function(){
+                    openWebSocket();
+                }, 10000); 
               };
                    
               window.onbeforeunload = function(event) {
