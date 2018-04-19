@@ -138,7 +138,7 @@ function onEnglishAuctionStart( startAuction ) {
                 var factory = getFactory();
                 var startAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStart');
                 startAuctionEvent.auction = auction;
-                startAuctionEvent.auctionEndTime = endTime;
+                startAuctionEvent.auctionEndTime = endTime.toISOString();
                 return emit( startAuctionEvent );
     
             });   
