@@ -118,8 +118,8 @@ function onEnglishAuctionStart( startAuction ) {
     auction.status = "IN_PROGRESS";
     auction.auctionStartTime = startAuction.timestamp;
     auction.auctionItem.status = "AUCTIONING";
-    var endTime = new DateTime( startAuction.timestamp );
-  
+    
+    var endTime = new Date( startAuction.timestamp );
     endTime.setMinutes( endTime.getMinutes() + 20 );
     auction.auctionEndTime = endTime.toISOString();//set auction end time to 20 minutes
 
