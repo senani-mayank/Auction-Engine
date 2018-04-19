@@ -121,8 +121,8 @@ function onEnglishAuctionStart( startAuction ) {
     
     var endTime = new Date( startAuction.timestamp );
     endTime.setMinutes( endTime.getMinutes() + 20 );
-    auction.auctionEndTime = new Date ( endTime.toISOString() );//set auction end time to 20 minutes
-
+    endTime = new Date ( endTime.toISOString() );//set auction end time to 20 minutes
+    auction.auctionEndTime = endTime;
     return  getAssetRegistry( NS + '.EnglishAuctionItem' )//update auctionItem status
             .then(function ( englishAuctionItemRegistry ) {
                 return englishAuctionItemRegistry.update( auction.auctionItem );
@@ -138,7 +138,7 @@ function onEnglishAuctionStart( startAuction ) {
                 var factory = getFactory();
                 var startAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStart');
                 startAuctionEvent.auction = auction;
-                startAuctionEvent.auctionEndTime = auction.auctionEndTime;
+                startAuctionEvent.auctionEndTime = endTime;
                 return emit( startAuctionEvent );
     
             });   
