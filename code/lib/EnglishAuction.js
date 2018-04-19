@@ -137,11 +137,8 @@ function onEnglishAuctionStart( startAuction ) {
 
                 var factory = getFactory();
                 var startAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStart');
-                // Get the serializer.
-                var serializer = getSerializer();
-                // Serialize a vehicle.
-                var json =  serializer.toJSON( auction ) ;                
-                startAuctionEvent.auction = JSON.stringify( json );          
+                startAuctionEvent.auction = auction;
+                startAuctionEvent.auctionEndTime = auction.auctionEndTime;
                 return emit( startAuctionEvent );
     
             });   

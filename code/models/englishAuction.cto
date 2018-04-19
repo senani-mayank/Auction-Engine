@@ -67,7 +67,8 @@ event EnglishAuctionStopEvent {
 }
 
 event EnglishAuctionStart {
-  o String auction
+  --> EnglishAuction auction
+  o DateTime auctionEndTime
 }
 
 
