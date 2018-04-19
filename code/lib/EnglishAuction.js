@@ -137,7 +137,7 @@ function onEnglishAuctionStart( startAuction ) {
 
                 var factory = getFactory();
                 var startAuctionEvent = factory.newEvent( NS , 'EnglishAuctionStart');
-                startAuctionEvent.auction = auction;          
+                startAuctionEvent.auction = JSON.stringify(auction);          
                 return emit( startAuctionEvent );
     
             });   
