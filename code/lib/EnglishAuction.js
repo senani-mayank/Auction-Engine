@@ -30,7 +30,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     var now = placeBidTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
     var auctionTimeoutTime = new Date( auction.auctionStartTime) ;
-    auctionTimeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );
+    auctionTimeoutTime.setMinutes( timeoutTime.getMinutes() + 20 );//20 minutes whole auction time
     timeoutTime.setMinutes( timeoutTime.getMinutes() + 2 );
     
     if(  now >= auctionTimeoutTime ){//no bid & times up
