@@ -56,6 +56,7 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
                     auction.bids = [];
                   console.log("2");
                   auction.bids.push( bid );
+                  return updateAssets( auction );
                 }
              else
              {   
@@ -87,6 +88,7 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
                     auction.bids = [];
                   console.log("l");
                   auction.bids.push(bid);
+                  return updateAssets( auction );
                 }
                 else {
                         for( i=0; i<auction.bids.length;i++)
