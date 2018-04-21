@@ -20,6 +20,7 @@ asset EnglishAuction extends Auction {
 
 asset EnglishAuctionBid extends Bid {
   o Double bidValue
+ // --> EnglishAuction auction
 }
 
 asset EnglishAuctionItem extends AuctionItem {
