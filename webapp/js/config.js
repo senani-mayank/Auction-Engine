@@ -1,6 +1,6 @@
 var NS = "IN.AC.IIITB";
 
-var ip = "34.217.45.54";
+var ip = "52.140.97.39";
 var port = 3000;
 var baseUrl = "http://" + ip + ":" + port + "/api" ;
 var webSocketUrl = "ws:" + ip + ":" + port;

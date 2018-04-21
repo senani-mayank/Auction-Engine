@@ -19,7 +19,7 @@ asset EnglishAuction extends Auction {
 }
 
 asset EnglishAuctionBid extends Bid {
-  o String bidValue
+  o Double bidValue
   --> EnglishAuction auction
 }
 

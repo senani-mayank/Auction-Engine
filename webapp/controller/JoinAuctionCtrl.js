@@ -236,7 +236,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
             }//stop auction
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
                 if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" ) || ( $scope.selectedAuctionTypeA.name == "KthPriceAuction" )  ) ){
-                    $scope.winnerBid = data.winnerBid;
+                  //  $scope.winnerBid = data.winnerBid;
+                    populateWinnerBid( data.winnerBid, 'b' );
+
                 }             
             }               //update current dutch price 
             else if( data["$class"] == (  NS + "." + $scope.selectedAuctionType.name + ".DutchAuctionStatusUpdate" ) ){
@@ -259,7 +261,8 @@ function ($scope, $state, dataFactory, $rootScope ) {
             } //stop auction
             else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
                 if( ( currentAuctionUriA == data.auction ) && ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" ) || ( $scope.selectedAuctionTypeA.name == "KthPriceAuction" )  ) ){
-                    $scope.winnerBidA = data.winnerBid;
+                   // $scope.winnerBidA = data.winnerBid;
+                    populateWinnerBid( data.winnerBid, 'a' );
                 }
              
             }
@@ -271,6 +274,32 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
         $scope.$apply();
         
+    }
+
+    function populateWinnerBid( bid, role ){
+
+        var resource;
+        var resourceId = bid.split("#")[1];
+        if( role == 'a' ){
+            resource = $scope.selectedAuctionTypeA.name + "Bid";
+        }
+        else if( role == 'b' ){
+            resource = $scope.selectedAuctionType.name + "Bid";
+        }
+
+       var res = dataFactory.getResourceById( resource, resourceId );
+       res.then(function successCallback(response) {
+           console.log( "winner bid", response );
+            if( role == 'a' ){
+                $scope.winnerBidA = response.data;
+            }
+            else if( role == 'b' ){
+                $scope.winnerBid = response.data;
+            }            
+        }, function errorCallback(response) {
+            $rootScope.showError(response);            
+        });
+
     }
 
     $rootScope.onEventReceived = onEventReceived;
