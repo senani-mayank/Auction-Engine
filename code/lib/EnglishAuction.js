@@ -15,7 +15,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
     var NS = "IN.AC.IIITB.EnglishAuction";
     var bid = placeBidTransaction.bid;
     var bidder = bid.bidder;
-    var auction = bid.auction;
+    var auction = placeBidTransaction.auction;
     var auctionItem = auction.auctionItem;
     var bidValue = bid.bidValue;
 
@@ -87,7 +87,7 @@ function onEnglishAuctionBidPlaced( placeBidTransaction ) {
             bidPlaceEvent.bid = auction.currentMaxBid;
             bidPlaceEvent.bids = auction.bids;  
             bidPlaceEvent.auction = auction;   
-            bidPlaceEvent.auctionEndTime = auction.auctionEndTime.toISOString();       
+            //bidPlaceEvent.auctionEndTime = auction.auctionEndTime.toISOString();       
             return emit( bidPlaceEvent );
 
         });        

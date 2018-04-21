@@ -43,6 +43,7 @@ transaction StartEnglishAuction {
 
 transaction PlaceEnglishAuctionBid {
   --> EnglishAuctionBid bid
+  --> EnglishAuction auction  
 }
 
 transaction EnglishAuctionItemSold extends ItemSold {
@@ -69,7 +70,7 @@ event EnglishAuctionStopEvent {
 
 event EnglishAuctionStart {
   --> EnglishAuction auction
-  o String auctionEndTime
+  //o String auctionEndTime
 }
 
 
