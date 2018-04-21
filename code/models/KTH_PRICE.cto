@@ -22,7 +22,7 @@ asset KthPriceAuction extends Auction {
 
 asset KthPriceAuctionBid extends Bid {
   o Double bidValue
-  --> KthPriceAuction auction
+ // --> KthPriceAuction auction
 }
 
 asset KthPriceAuctionItem extends AuctionItem {
@@ -45,6 +45,7 @@ transaction StartKthPriceAuction {
 
 transaction PlaceKthPriceAuctionBid {
   --> KthPriceAuctionBid bid
+  --> KthPriceAuction auction
 }
 
 transaction KthPriceAuctionItemSold extends ItemSold {

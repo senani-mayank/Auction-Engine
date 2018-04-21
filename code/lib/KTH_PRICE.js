@@ -15,7 +15,7 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
     var NS = "IN.AC.IIITB.KthPriceAuction";
     var bid = placeBidTransaction.bid;
     var bidder = bid.bidder;
-    var auction = bid.auction;
+    var auction = placeBidTransaction.auction;
     var auctionItem = auction.auctionItem;
     var bidValue = bid.bidValue;
   console.log(bidder.bidderId);

@@ -62,7 +62,7 @@ function onDutchAuctionAccept( acceptTransaction ) {
     var bid = acceptTransaction.bid; 
     //  var itemcount = bid.itemcount;
     var bidder = bid.bidder;
-    var auction = bid.auction;
+    var auction = acceptTransaction.auction;
     var auctionItem = auction.auctionItem;
     var bidValue = bid.bidValue;
     if( auction.status == "CREATED" ){

@@ -21,7 +21,7 @@ asset DutchAuction extends Auction {
 
 asset DutchAuctionBid extends Bid {
       o Double bidValue
-  --> DutchAuction auction
+  //--> DutchAuction auction
     //  o Double itemcount
 }
 
@@ -44,11 +44,12 @@ transaction StartDutchAuction {
 }
 
 transaction GetCurrentStatusDutch{
-  -->DutchAuction auction
+  --> DutchAuction auction
 }
 
 transaction AcceptDutchAuctionBid {
   --> DutchAuctionBid bid
+  --> DutchAuction auction
 
 }
 

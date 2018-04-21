@@ -19,8 +19,8 @@ asset ReverseAuction extends Auction {
 }
 
 asset ReverseAuctionBid extends Bid {
-  o String bidValue
-  --> ReverseAuction auction
+  o Double bidValue
+ // --> ReverseAuction auction
 }
 
 asset ReverseAuctionItem extends AuctionItem {
@@ -43,6 +43,7 @@ transaction StartReverseAuction {
 
 transaction PlaceReverseAuctionBid {
   --> ReverseAuctionBid bid
+  --> ReverseAuction auction  
 }
 
 transaction ReverseAuctionItemSold extends ItemSold {
@@ -56,7 +57,7 @@ transaction StopReverseAuction extends StopAuction {
 
 event ReverseAuctionBidUpdate {
   --> ReverseAuctionBid bid
-  o String bidValue
+  o Double bidValue
   --> ReverseAuctionBid[] bids
   --> ReverseAuction auction
 }
