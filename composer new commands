@@ -1,0 +1,63 @@
+    
+
+// refreshing the machine network//
+//step 1 //
+
+    docker kill $(docker ps -q)
+    docker rm $(docker ps -aq)
+    docker rmi $(docker images dev-* -q)
+
+//step 2 //
+  
+   cd ~/fabric-tools (go to fabric tools)
+   
+   ./startFabric.sh
+    ./createPeerAdminCard.sh ( check the script command)
+
+// go to project 
+
+// step 3 //
+
+   1. create bna 
+    
+   composer archive create -t dir -n .
+
+2.  install network 
+   
+   composer network install -a nameofbna  -c PeerAdmin@hlfv1 
+
+3.  start Network 
+   
+   composer network start -n networkname  -V versionno. -A admin -S adminpw -c PeerAdmin@hlfv1  (networkame and versionno. from package.json)
+
+4. import card 
+   
+   composer card import -f admin@auction_network.card (or whatever card is created)
+
+5. now run rest server
+    
+   composer-rest-server -c admin@auction_network   -n never -w true 
+
+6. composer playground -p portno.
+
+7. webapp from webapp folder and run :    http-server -p portno.
+
+
+//end for this
+
+
+//to Upgrade network 
+
+
+1. first change version no. in package.json file
+
+2. install network (use command same as above) 
+
+3. upgrade network
+
+   composer network upgrade -n networkname -V currentversion -c PeerAdmin@hlfv1  
+
+4. if needed import the card again 
+
+!!!!!!!DONE !!!!!   
+
