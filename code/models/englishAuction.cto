@@ -56,7 +56,7 @@ transaction StopEnglishAuction extends StopAuction {
 
 event EnglishAuctionBidUpdate {
   --> EnglishAuctionBid bid
-  o String bidValue
+  o Double bidValue
   --> EnglishAuctionBid[] bids
   --> EnglishAuction auction
   o String auctionEndTime
