@@ -45,14 +45,16 @@ function ($scope, $state, dataFactory, $rootScope ) {
             data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
             data.bidValue = bidValue;
-            data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+           // data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+           data.auction = undefined;
         }
         else if( $scope.selectedAuctionType.name == "DutchAuction" ){
             bidType = bidType + "Bid";
             data.bidder = "resource:" + NS + ".Bidder" + "#" +  loggedInUser.userId;
             data.bidId = auction.auctionId + loggedInUser.userId + new Date().getTime();
             data.bidValue = ( $scope.currentMaxBid != "NA" ) ? $scope.currentMaxBid : 767 ;
-            data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+            //data.auction = "resource:" + auction["$class"] + "#" + auction.auctionId;
+            data.auction = undefined;            
             
         }   
 
@@ -79,8 +81,9 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( $scope.selectedAuctionType.name == "KthPriceAuction" ){
                 templateP = KthPriceAuctionPlaceBidTemplate;
             }             
-            
             var data = JSON.parse(JSON.stringify( templateP ));
+
+            data["auction"] = "resource:" + auction["$class"] + "#" + auction.auctionId;
             data.bid = "resource:" + bid["$class"] + "#" + bid.bidId;
 
             var placeBidRes = dataFactory.postResource( placeBidType, data );//place bid after creating
