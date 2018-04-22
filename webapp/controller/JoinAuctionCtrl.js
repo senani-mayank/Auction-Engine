@@ -238,12 +238,14 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 }
             }//stop auction
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
-                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionType.name == "DutchAuction" ) || ( $scope.selectedAuctionType.name == "KthPriceAuction" )  ) ){
-                  //  $scope.winnerBid = data.winnerBid;
-                    populateWinnerBid( data.winnerBid, 'b' );
-
-                }             
-            }               //update current dutch price 
+                if(  currentAuctionUri == data.auction  ){
+                   if(  $scope.selectedAuctionType.name == "KthPriceAuction" ){
+                        $scope.amountToPay = data.amountToPay;
+                   }
+                   populateWinnerBid( data.winnerBid, 'b' );
+                }
+             
+            }            //update current dutch price 
             else if( data["$class"] == (  NS + "." + $scope.selectedAuctionType.name + ".DutchAuctionStatusUpdate" ) ){
                 $scope.currentMaxBid = data.currentprice;
             }           
@@ -263,9 +265,11 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 }
             } //stop auction
             else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
-                if( ( currentAuctionUriA == data.auction ) && ( ( $scope.selectedAuctionTypeA.name == "EnglishAuction" ) || ( $scope.selectedAuctionTypeA.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" ) || ( $scope.selectedAuctionTypeA.name == "KthPriceAuction" )  ) ){
-                   // $scope.winnerBidA = data.winnerBid;
-                    populateWinnerBid( data.winnerBid, 'a' );
+                if(  currentAuctionUriA == data.auction  ){
+                   if(  $scope.selectedAuctionTypeA.name == "KthPriceAuction" ){
+                        $scope.amountToPayA = data.amountToPay;
+                   }
+                   populateWinnerBid( data.winnerBid, 'a' );
                 }
              
             }
@@ -280,6 +284,15 @@ function ($scope, $state, dataFactory, $rootScope ) {
     }
 
     function populateWinnerBid( bid, role ){
+
+        if( !bid ){
+            if( role == "a" ){
+                $scope.winnerBidA = "NA";
+            }
+            else if( role == "b" ){
+                $scope.winnerBid = "NA";
+            }
+        }
 
         var resource;
         var resourceId = bid.split("#")[1];
