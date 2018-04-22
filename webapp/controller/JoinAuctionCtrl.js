@@ -240,7 +240,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
                 if(  currentAuctionUri == data.auction  ){
                    if(  $scope.selectedAuctionType.name == "KthPriceAuction" ){
-                        $scope.amountToPay = data.amountToPay;
+                        $scope.amountToPay = data.AmountToPay;
                    }
                    populateWinnerBid( data.winnerBid, 'b' );
                 }
@@ -267,7 +267,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
             else if( data["$class"] == (  $scope.selectedAuctionA["$class"]  + "StopEvent") ){
                 if(  currentAuctionUriA == data.auction  ){
                    if(  $scope.selectedAuctionTypeA.name == "KthPriceAuction" ){
-                        $scope.amountToPayA = data.amountToPay;
+                        $scope.amountToPayA = data.AmountToPay;
                    }
                    populateWinnerBid( data.winnerBid, 'a' );
                 }
