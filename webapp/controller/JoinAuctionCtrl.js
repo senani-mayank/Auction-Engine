@@ -238,7 +238,7 @@ function ($scope, $state, dataFactory, $rootScope ) {
                 }
             }//stop auction
             else if( data["$class"] == (  $scope.selectedAuction["$class"]  + "StopEvent") ){
-                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionTypeA.name == "DutchAuction" ) || ( $scope.selectedAuctionTypeA.name == "KthPriceAuction" )  ) ){
+                if( ( currentAuctionUri == data.auction ) && ( ( $scope.selectedAuctionType.name == "EnglishAuction" ) || ( $scope.selectedAuctionType.name == "ReverseAuction" ) || ( $scope.selectedAuctionType.name == "DutchAuction" ) || ( $scope.selectedAuctionType.name == "KthPriceAuction" )  ) ){
                   //  $scope.winnerBid = data.winnerBid;
                     populateWinnerBid( data.winnerBid, 'b' );
 
