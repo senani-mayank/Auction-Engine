@@ -50,7 +50,7 @@ transaction PlaceKthPriceAuctionBid {
 
 transaction KthPriceAuctionItemSold extends ItemSold {
   --> KthPriceAuction auction
-  --> KthPriceAuctionBid winnerBid
+  --> KthPriceAuctionBid winnerBid optional
 }
 
 transaction StopKthPriceAuction extends StopAuction {
@@ -67,5 +67,5 @@ event KthPriceAuctionBidUpdate {
 event KthPriceAuctionStopEvent {
   --> KthPriceAuction auction
   o Double AmountToPay
-  --> KthPriceAuctionBid winnerBid
+  --> KthPriceAuctionBid winnerBid optional
 }
