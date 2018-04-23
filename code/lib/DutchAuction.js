@@ -97,7 +97,7 @@ function onDutchAuctionAccept( acceptTransaction ) {
      bid.bidValue = auction.currentprice;
      
      const registry= getAssetRegistry( NS + '.DutchAuctionBid' );
-     await registry.update(bid);
+         registry.update(bid);
               
         auction.lastBidTimestamp = acceptTransaction.timestamp;
               if( !auction.bids ){ // if bids array is not initialized
