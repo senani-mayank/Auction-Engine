@@ -9,6 +9,8 @@ function ($scope, $state, dataFactory, $rootScope ) {
     $scope.bidsA = [];    
     $scope.winnerBid = "NA";
     $scope.winnerBidA = "NA";
+    $scope.amountToPayA = "NA";
+    $scope.amountToPay = "NA";        
     
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
@@ -297,10 +299,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
         var resource;
         var resourceId = bid.split("#")[1];
         if( role == 'a' ){
-            resource = $scope.selectedAuctionTypeA.name + "Bid";
+            resource = $scope.selectedAuctionTypeA.name + "Bid";            
         }
         else if( role == 'b' ){
-            resource = $scope.selectedAuctionType.name + "Bid";
+            resource = $scope.selectedAuctionType.name + "Bid";            
         }
 
        var res = dataFactory.getResourceById( resource, resourceId );
@@ -308,9 +310,13 @@ function ($scope, $state, dataFactory, $rootScope ) {
            console.log( "winner bid", response );
             if( role == 'a' ){
                 $scope.winnerBidA = response.data;
+                $scope.amountToPayA = response.bidValue;
+                alert( "Auctioneer auction Stop : Item sold at Value :- " + response.bidValue );
             }
             else if( role == 'b' ){
                 $scope.winnerBid = response.data;
+                $scope.amountToPay = response.bidValue;
+                alert( "Bidder auction Stop : Item sold at Value :- " + response.bidValue );                
             }            
         }, function errorCallback(response) {
             $rootScope.showError(response);            
