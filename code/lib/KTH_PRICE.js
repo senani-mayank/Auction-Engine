@@ -29,7 +29,7 @@ function onKthPriceAuctionBidPlaced( placeBidTransaction ) {
     //check if auction should be closed
     var now = placeBidTransaction.timestamp;
     var timeoutTime = new Date( auction.auctionStartTime) ;
-    timeoutTime.setMinutes( timeoutTime.getMinutes() + 100);
+    timeoutTime.setMinutes( timeoutTime.getMinutes() + 10);
 
     if( ( !auction.lastBidTimestamp ) && ( now >= timeoutTime ) ){//no bid & times up
         throw new Error("no bid placed and auction time is up, item unsold");
@@ -210,6 +210,39 @@ function stopKthPriceAuction( stopAuction ) {
         auctionItem.status = "SOLD"; 
        console.log("sam");
     }
+     if(auction.status == "IN_PROGRESS" && auctionItem.status == "UNSOLD")
+     {   AmountToPay = 0;
+        console.log("amounttopay="  + AmountToPay);
+    auction.status = "FINISHED";   
+    console.log("x");
+    auction.auctionEndTime = stopAuction.timestamp;
+    auction.winnerBid = auction.currentMaxBid;
+    console.log("x");
+       return  getAssetRegistry( NS + '.KthPriceAuctionItem' )//update auctionItem status
+            .then(function ( KthPriceAuctionItemRegistry ) {
+                return KthPriceAuctionItemRegistry.update( auctionItem );
+            })
+            .then(function(){
+                return getAssetRegistry( NS + '.KthPriceAuction' );
+            })
+           .then(function( KthPriceAuctionRegistry ){
+                return KthPriceAuctionRegistry.update( auction );
+            })
+            .then(function ( ) {//emt event about update asset
+
+                var factory = getFactory();
+                var stopAuctionEvent = factory.newEvent( NS , 'KthPriceAuctionStopEvent');
+                stopAuctionEvent.auction = auction;
+                stopAuctionEvent.AmountToPay = AmountToPay;
+                stopAuctionEvent.winnerBid = auction.winnerBid;
+       console.log("s");
+           //     stopAuctionEvent.winnerBid = auction.currentMaxBid;
+       console.log("s");         
+      return emit( stopAuctionEvent );
+         console.log("s");
+       });
+  
+     }
      var n = auction.bids.length;
   console.log("x");
      var k = auction.k;
@@ -346,4 +379,3 @@ function onItemSold( itemSold ) {
             });
             
 }//end startKthPriceAuction
-
