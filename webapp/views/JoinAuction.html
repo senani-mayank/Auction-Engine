@@ -56,13 +56,15 @@
 <div class="col-md-5 col-xs-12">
     <div class="row">
         <div class="login-form">
-            <h3>Bidder</h3>            
-            <ul>
-                <li ng-repeat="bid in bids" >{{bid}}</li>
-            </ul>     
-            <h5>Description = {{ selectedAuction ? selectedAuction.description : "NA" }}</h5>
-            <h5>Winner Bid = {{winnerBid}}</h5>
-            <h5>Amount To Pay = {{amountToPay}}</h5>            
+            <h3 >Bidder</h3>        
+            <div>    
+                <ul>
+                    <li ng-repeat="bid in bids" >{{bid}}</li>
+                </ul>     
+                <h5>Description = {{ selectedAuction ? selectedAuction.description : "NA" }}</h5>
+                <h5>Winner Bid = {{winnerBid}}</h5>
+                <h5>Amount To Pay = {{amountToPay}}</h5>     
+            </div>      
         </div>
     </div>
     <div class="row">
