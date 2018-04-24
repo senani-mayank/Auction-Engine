@@ -94,9 +94,9 @@ function onDutchAuctionAccept( acceptTransaction ) {
     //  bid accepted and item is sold   
     
     console.log("bid recieved !! ");
-     bid.bidValue= auction.currentprice;
+     bid.bidValue = auction.currentprice;
               
-        auction.lastBidTimestamp = acceptTransaction.timestamp;
+    auction.lastBidTimestamp = acceptTransaction.timestamp;
               if( !auction.bids ){ // if bids array is not initialized
                 auction.bids = [];
               }
@@ -106,12 +106,19 @@ function onDutchAuctionAccept( acceptTransaction ) {
               auction.winnerBid = bid;
              // auction.winnerBid = bidValue;
               auction.status = "FINISHED";
+             
+
               
-           
               return  getAssetRegistry( NS + '.DutchAuctionItem' )//update auctionItem status
               .then(function ( DutchAuctionItemRegistry ) {
                   return DutchAuctionItemRegistry.update( auctionItem );
               })
+              .then(function(){
+                return getAssetRegistry( NS + '.DutchAuctionBid' );
+            })
+           .then(function( DutchAuctionBidRegistry ){
+                return DutchAuctionBidRegistry.update( bid);
+            })
               .then(function(){
                   return getAssetRegistry( NS + '.DutchAuction' );
               })

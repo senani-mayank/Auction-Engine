@@ -193,6 +193,7 @@ function stopKthPriceAuction( stopAuction ) {
     var auction = stopAuction.auction;
     var auctionItem = auction.auctionItem;    
   // var bidValue = stopAuction.b.bidValue;
+   var AmountToPay;
     if( auction.status == "FINISHED" ){
         throw new Error ( "Auction is ALready Over...!");
     }
@@ -243,26 +244,66 @@ function stopKthPriceAuction( stopAuction ) {
        });
   
      }
+     else
+     {
      var n = auction.bids.length;
   console.log("x");
      var k = auction.k;
   console.log("k=" + k );
-    //  auction.bids.sort();
+    
     var bidvalue = [];
  
-   for( i=0; i<auction.bids.length;i++)
+   for( i=0; i<n;i++)
    {
       bidvalue[i] = auction.bids[i].bidValue ;
-     //console.log("yahooo=" + bidvalue[i]);
-   }
-  bidvalue.sort();
-  var AmountToPay = 0;
-  for( i=0; i<auction.bids.length;i++)
-   {
-     
      console.log("yahooo=" + bidvalue[i]);
    }
-  var ctr=0;
+  bidvalue.sort();
+  var bidval = [];
+         var j=0;
+  for( i=0; i<n-1;i++)
+   {
+       if(bidvalue[i]!=bidvalue[i+1])
+      bidval[j++] = bidvalue[i] ;
+     console.log("yahooo=" + bidval[j]);
+   }
+       bidval[j] = bidvalue[i];
+   if(k>bidval.length)
+   {  
+     if(bidval.length == 1)
+     { AmountToPay = bidval[0];
+      console.log("SAM2" + bidval[0] + " "+ AmountToPay);
+     }
+    else if(bidval[0] > bidval[1])
+    {
+      console.log("SAM1" + bidval[0]);
+      AmountToPay = bidval[bidval.length-1];
+    }
+    else 
+    {
+       console.log("else part " + bidvalue[0]);
+       AmountToPay = bidvalue[0];
+    }
+   }
+     else
+     {
+       if(bidval[0] > bidval[1])
+    {
+      AmountToPay = bidval[k-1];
+    }
+    else 
+    {
+        AmountToPay = bidval[bidval.length-k];
+    }
+        
+     }
+ 
+  for( i=0; i<auction.bids.length;i++)
+   {
+      console.log("yahooo=" + bidvalue[i]);
+   }
+        console.log("SAM2" + bidval[0] + " "+ AmountToPay);
+/* var ctr=0;
   if(auction.bids.length>=2)
   {
   if(bidvalue[0]>bidvalue[1])
@@ -307,8 +348,9 @@ function stopKthPriceAuction( stopAuction ) {
         AmountToPay = bidvalue[auction.bids.length-1];
     }
     }
-   
-  }
+
+  }*/
+
   console.log("amounttopay="  + AmountToPay);
     auction.status = "FINISHED";   
     console.log("x");
@@ -341,7 +383,7 @@ function stopKthPriceAuction( stopAuction ) {
          console.log("s");
     
             });
-
+        }
 
 }//end startKthPriceAuction
 
