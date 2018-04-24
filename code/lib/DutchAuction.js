@@ -95,11 +95,8 @@ function onDutchAuctionAccept( acceptTransaction ) {
     
     console.log("bid recieved !! ");
      bid.bidValue = auction.currentprice;
-     
-     const registry= getAssetRegistry( NS + '.DutchAuctionBid' );
-         registry.update(bid);
               
-        auction.lastBidTimestamp = acceptTransaction.timestamp;
+    auction.lastBidTimestamp = acceptTransaction.timestamp;
               if( !auction.bids ){ // if bids array is not initialized
                 auction.bids = [];
               }
@@ -116,6 +113,12 @@ function onDutchAuctionAccept( acceptTransaction ) {
               .then(function ( DutchAuctionItemRegistry ) {
                   return DutchAuctionItemRegistry.update( auctionItem );
               })
+              .then(function(){
+                return getAssetRegistry( NS + '.DutchAuctionBid' );
+            })
+           .then(function( DutchAuctionBidRegistry ){
+                return DutchAuctionBidRegistry.update( bid);
+            })
               .then(function(){
                   return getAssetRegistry( NS + '.DutchAuction' );
               })
