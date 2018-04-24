@@ -1,5 +1,21 @@
+<div class="col-md-4 col-xs-12">
+    <div class="row">
+        <div class="login-form">
+            <h3>Auctioneer</h3>                        
+            <ul>
+                <li ng-repeat="abid in bidsA" >{{abid}}</li>
+            </ul>     
+            <h5>Description = {{ selectedAuctionA ? selectedAuctionA.description : "NA" }}</h5>            
+            <h5>Winner = {{ getResourceId(winnerBidA.bidder) }}</h5>
+            <h5>Winner Bid Id = {{  getResourceId( winnerBidA.bidId ) }}</h5>
+            <h5>Amount To Pay = {{amountToPayA}}</h5>            
+        </div>
+    </div>
+</div>
 
-<div class="col-md-7 col-xs-12">
+
+
+<div class="col-md-4 col-xs-12">
     <div class="login-form">
             <form ng-submit="onBidSubmit( selectedAuction, bidValue )" >
                 <div class="form-group">
@@ -53,7 +69,7 @@
     </div>
 </div>
 
-<div class="col-md-5 col-xs-12">
+<div class="col-md-4 col-xs-12">
     <div class="row">
         <div class="login-form">
             <h3 >Bidder</h3>        
@@ -61,21 +77,11 @@
                 <ul>
                     <li ng-repeat="bid in bids" >{{bid}}</li>
                 </ul>     
-                <h5>Description = {{ selectedAuction ? selectedAuction.description : "NA" }}</h5>
-                <h5>Winner Bid = {{winnerBid}}</h5>
-                <h5>Amount To Pay = {{amountToPay}}</h5>     
+                <h5>Description = {{ selectedAuction ? selectedAuction.description : "NA" }}</h5>            
+                <h5>Winner = {{ getResourceId(winnerBid.bidder) }}</h5>
+                <h5>Winner Bid Id = {{  getResourceId( winnerBid.bidId ) }}</h5>
+                <h5>Amount To Pay = {{amountToPay}}</h5>  
             </div>      
-        </div>
-    </div>
-    <div class="row">
-        <div class="login-form">
-            <h3>Auctioneer</h3>                        
-            <ul>
-                <li ng-repeat="abid in bidsA" >{{abid}}</li>
-            </ul>     
-            <h5>Description = {{ selectedAuctionA ? selectedAuctionA.description : "NA" }}</h5>            
-            <h5>Winner Bid = {{winnerBidA}}</h5>
-            <h5>Amount To Pay = {{amountToPayA}}</h5>            
         </div>
     </div>
 </div>

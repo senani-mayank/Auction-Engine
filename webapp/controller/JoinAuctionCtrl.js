@@ -4,13 +4,17 @@ app.controller('joinAuctionCtrl', ['$scope', '$state', 'dataFactory', "$rootScop
 function ($scope, $state, dataFactory, $rootScope ) {
 
     var loggedInUser = dataFactory.getLoggedInUser();
+       
     $scope.auctionTypes = dataFactory.getAuctionTypes();
-    $scope.bids = [];
-    $scope.bidsA = [];    
-    $scope.winnerBid = "NA";
-    $scope.winnerBidA = "NA";
-    $scope.amountToPayA = "NA";
-    $scope.amountToPay = "NA";        
+    function resetData(){
+        
+        $scope.bids = [];
+        $scope.bidsA = [];    
+        $scope.winnerBid = "NA";$scope.auctionTypes = dataFactory.getAuctionTypes();
+        $scope.winnerBidA = "NA";
+        $scope.amountToPayA = "NA";
+        $scope.amountToPay = "NA";
+    }
     
     //var bidCounter = new Date().getTime();//to generate unique bid ids
 
@@ -102,12 +106,19 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
         var auctionType = $scope.selectedAuctionType.name;
         var auctioneerUri = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
-        var query = { "where" : { "auctioneer" : { "neq" : auctioneerUri } } };
+        var query = { 
+                    "where" : { 
+                                "auctioneer" : { "neq" : auctioneerUri },
+                                "status" : { "neq" : "FINISHED" }  
+                        }
+    
+                    };
 
         var url = auctionType  + "?filter=" + JSON.stringify(query);
 
         var res = dataFactory.getAllResource( url );//get auctions list
         res.then(function successCallback(response) {
+            resetData();
             $scope.auctions = response.data;
         }, function errorCallback(response) {
             $rootScope.showError(response);
@@ -120,11 +131,21 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
         var auctionType = $scope.selectedAuctionTypeA.name;
         var auctioneerUri = "resource:" + NS + ".Auctioneer" + "%23" + loggedInUser.userId;
-        var query = { "where" : { "auctioneer" :  auctioneerUri  } };
+
+        var query = { 
+            "where" : { 
+                        "auctioneer" :  auctioneerUri ,
+                        "status" : { "neq" : "FINISHED" }  
+                }
+
+            };
+
         var url = auctionType  + "?filter=" + JSON.stringify(query);
         var res = dataFactory.getAllResource( url );//get auctions list
         res.then(function successCallback(response) {
+            resetData();
             $scope.auctioneerAuctions = response.data;
+
         }, function errorCallback(response) {
             $rootScope.showError(response);
         });
@@ -330,6 +351,21 @@ function ($scope, $state, dataFactory, $rootScope ) {
 
     }
 
+    function getResourceId( resource ){//fetch resource name from uri
+        if( resource ){
+            var split = resource.split("#");
+            if( split.length > 1 ){
+                return split[1];
+            }
+            else{
+                return split[0];
+            }
+        }
+        else{
+            return "NA";
+        }
+    }
+
     $rootScope.onEventReceived = onEventReceived;
 
     $scope.currentMaxBid = "NA";
@@ -341,7 +377,10 @@ function ($scope, $state, dataFactory, $rootScope ) {
     $scope.onAuctioneerAuctionTypeChange = onAuctioneerAuctionTypeChange;
     $scope.startAuction = startAuction;
     $scope.stopAuction = stopAuction;
+    $scope.getResourceId = getResourceId;
+    $scope.resetData = resetData();
 
     changeRole("bidder");
+    resetData();
     
 }]);
