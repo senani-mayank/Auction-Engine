@@ -15,8 +15,8 @@
                                 <td ng-bind = "auction.auctionId" ></td>
                                 <td ng-bind = "auction.type" ></td>
                                 <td ng-bind = "auction.description" ></td>
-                                <td >{{ auction.startDate ? auction.startDate : "NA" }}</td>
-                                <td >{{ auction.endDate ? auction.endtDate : "NA" }}</td>
+                                <td >{{ auction.auctionStartTime ? auction.auctionStartTime : "NA" }}</td>
+                                <td >{{ auction.auctionEndTime ? auction.auctionEndTime : "NA" }}</td>
                                 <td ng-bind = "auction.status" ></td>
                                 <td >{{ auction.auctionItem.split("#")[1] }}</td>
                                 <td >{{ auction.winnerBid ? auction.winnerBid.split("#")[1] : "NA" }}</td>
