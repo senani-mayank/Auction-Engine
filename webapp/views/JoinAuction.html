@@ -3,7 +3,7 @@
         <div class="login-form">
             <h3>Auctioneer</h3>                        
             <ul>
-                <li ng-repeat="abid in bidsA" >{{abid}}</li>
+                <li ng-repeat="abid in bidsA" >Bid {{ $index + 1 }} : {{ getResourceId( abid ) }}</li>
             </ul>     
             <h5>Description = {{ selectedAuctionA ? selectedAuctionA.description : "NA" }}</h5>            
             <h5>Winner = {{ getResourceId(winnerBidA.bidder) }}</h5>
@@ -75,7 +75,7 @@
             <h3 >Bidder</h3>        
             <div>    
                 <ul>
-                    <li ng-repeat="bid in bids" >{{bid}}</li>
+                    <li ng-repeat="bid in bids" >Bid {{ $index + 1 }} : {{ getResourceId( bid ) }}</li>
                 </ul>     
                 <h5>Description = {{ selectedAuction ? selectedAuction.description : "NA" }}</h5>            
                 <h5>Winner = {{ getResourceId(winnerBid.bidder) }}</h5>
